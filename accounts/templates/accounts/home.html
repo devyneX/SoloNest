@@ -1,4 +1,38 @@
-{% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% extends 'base.html' %} 
+{% load static %}
+{% block title %}Login{% endblock %} 
+{% block content%}
 
+
+<main class="bg-purple-200 flex justify-around">
+  <div class="main py-40 pl-9">
+    <div class="text-4xl font-bold">
+      Live Life Unleashed: Your Ultimate Bachelor Pad!
+    </div>
+    <p class="py-3 w-3/4 font-medium">
+      Welcome to SoloNest, where style and comfort come together to create the
+      ultimate bachelor pad experience. Discover SoloNest, the epitome of modern
+      living for bachelors who crave sophistication and convenience. Live life
+      on your own terms at SoloNest, a bachelor pad designed to fulfill your
+      desires and ignite your passions.
+    </p>
+    <div class="my-4">
+      <button
+        class="bg-blue-700 px-3 py-2 rounded-2xl mx-2 text-white hover:text-white hover:bg-purple-900 hover:border-black hover:border-2"
+      >
+        <a href="signup.html">Register</a>
+      </button>
+      <button
+        class="bg-blue-700 px-3 py-2 rounded-2xl text-white hover:text-white hover:bg-purple-900 hover:border-black hover:border-2"
+      >
+        <a href="login.html">Log In</a>
+      </button>
+    </div>
+  </div>
+  <div class="flex items-center">
+    <img class="w-96 mr-96 px-3" src="{% static 'img/home_logo.png' %}" alt="" />
+  </div>
+</main>
+
+{% endblock %}
