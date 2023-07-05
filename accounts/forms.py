@@ -42,6 +42,35 @@ class TenantSignUpForm(UserCreationForm):
         )
 
 
+# class TenantUpdateForm(forms.ModelForm):
+#     phone_no = forms.CharField(max_length=11)
+#     blood_group = forms.CharField(max_length=3)
+#     emergency_contact = forms.CharField(max_length=11)
+#     meal_default = forms.BooleanField(required=False)
+
+#     class Meta:
+#         model = User
+#         fields = (
+#             "first_name",
+#             "last_name",
+#             "username",
+#             "email",
+#             "phone_no",
+#             "blood_group",
+#             "emergency_contact",
+#             "meal_default",
+#         )
+
+#     def save(self, *args, **kwargs):
+#         user = super().save(*args, **kwargs)
+#         tenant = Tenant.objects.get(user=user)
+#         tenant.phone_no = self.cleaned_data["phone_no"]
+#         tenant.blood_group = self.cleaned_data["blood_group"]
+#         tenant.emergency_contact = self.cleaned_data["emergency_contact"]
+#         tenant.meal_default = self.cleaned_data["meal_default"]
+#         tenant.save()
+
+
 class RoomRequestForm(forms.ModelForm):
     class Meta:
         model = RoomRequest
@@ -60,7 +89,7 @@ class RoomRequestForm(forms.ModelForm):
             "email": forms.EmailInput(attrs={"placeholder": "Email"}),
             "single": forms.CheckboxInput(attrs={"label": "Single"}),
             "ac": forms.CheckboxInput(attrs={"label": "AC"}),
-            "balcony": forms.CheckboxInput(attrs={"label": "Balcony"}),
+            "balcony": forms.CheckboxInput(),
             "attached_bathroom": forms.CheckboxInput(
                 attrs={"label": "Attached Bathroom"}
             ),

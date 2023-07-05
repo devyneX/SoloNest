@@ -13,7 +13,6 @@ def add_label_class(field, css):
     return field.label_tag(attrs={"class": css})
 
 
-# @register.filter
+# @register.filter(name="add_error_class")
 # def add_error_class(field, css):
-#     pass
-# return field.as_widget(attrs={"class": css})
+#     return field.errors.as_ul(attrs={"class": css})
