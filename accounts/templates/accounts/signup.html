@@ -8,10 +8,10 @@
   <section class="bg-purple-200 min-h-screen flex items-center justify-center">
     <!-- login container -->
     <div
-      class="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center"
+      class="bg-gray-100 flex rounded-2xl shadow-lg max-w-3xl p-5 items-center mt-14 mb-14"
     >
       <!-- form -->
-      <div class="md:w-1/2 px-8 md:px-16">
+      <div class="md:w-0.1 px-9 md:px-16">
         <h2 class="font-bold text-2xl text-[#002D74]">Sign Up</h2>
         <p class="text-xs mt-4 text-[#002D74]">
           If you are not a member, easily Sign Up
@@ -19,16 +19,19 @@
 
         {% comment %} TODO: style please, Swapnil Senpai {% endcomment %}
 
-        <form method="POST" class="flex flex-col gap-4">
+        <form method="POST" class="flex flex-col gap-2">
           {% csrf_token %}
           {% for field in form %}
-          {{ field.label_tag }}
-          {{ field | add_input_class:"p-2 mt-8 rounded-xl border" }}
-
+          
           {% if field.field.widget.input_type == "checkbox" %}
-          {{ field.label_tag }} 
+          <div class="flex items-center">
+          {{ field | add_input_class:"p-2 rounded-xl border" }}
+          {{ field | add_label_class:"" }}
+          </div>
+          {% else %}
+          {{ field | add_label_class:"" }}
+          {{ field | add_input_class:"p-2 rounded-xl border" }}
           {% endif %}
-
           {{ field.errors }}
 
           {% endfor %}
@@ -50,7 +53,7 @@
             name="email"
             placeholder="Email"
           />
-          <div class="relative">
+          < class="relative">
             <input
               class="p-2 rounded-xl border w-full"
               type="password"
@@ -58,15 +61,15 @@
               placeholder="New Password"
             /> {% endcomment %}
               
-          </div>
           <button
             class="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300"
           >
             Sign Up
           </button>
         </form>
+      </div>
 
-        <div class="mt-6 grid grid-cols-3 items-center text-gray-400">
+        {% comment %} <div class="mt-6 grid grid-cols-3 items-center text-gray-400">
           <hr class="border-gray-400" />
           <p class="text-center text-sm">OR</p>
           <hr class="border-gray-400" />
@@ -81,13 +84,13 @@
           >
             <a href="login.html">Login</a>
           </button>
-        </div>
+        </div> 
       </div>
-
+      {% endcomment %}
       <!-- image -->
-      {% comment %} <div class="md:block hidden w-1/2">
+      <div class="md:block hidden w-1/2">
         <img class="rounded-3xl" src="{% static 'img/login_signup.png'%}" />
-      </div> {% endcomment %}
+      </div>
     </div>
   </section>
 </main>

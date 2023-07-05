@@ -47,7 +47,7 @@ class RoomRequestView(CreateView):
 
 class TenantSignUpView(View):
     def get(self, request, pk):
-        req = RoomRequest.objects.get(pk)
+        req = RoomRequest.objects.get(pk=pk)
         if req and req.approved:
             form = TenantSignUpForm()
             return render(request, "accounts/signup.html", {"form": form})
@@ -55,7 +55,7 @@ class TenantSignUpView(View):
             return render(request, "accounts/room_request.html")
 
     def post(self, request, pk):
-        req = RoomRequest.objects.get(pk)
+        req = RoomRequest.objects.get(pk=pk)
         if req and req.approved:
             form = TenantSignUpForm(request.POST)
             if form.is_valid():
