@@ -19,6 +19,7 @@ def home(request):
     return render(request, "accounts/home.html")
 
 
+
 # class TenantLoginView(FormView):
 #     template_name = "accounts/login.html"
 #     form_class = TenantLogInForm
