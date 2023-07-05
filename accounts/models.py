@@ -1,6 +1,5 @@
 from django.db import models
-
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -26,13 +25,23 @@ from django.db import models
 #         return super().save(*args, **kwargs)
 
 
-# class Tenant(User):
-#     room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
-#     phone_no = models.CharField(max_length=11)
-#     blood_group = models.CharField(max_length=3)
-#     emergency_contact = models.CharField(max_length=11)
-#     meal_default = models.BooleanField(default=True)
+class Tenant(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    # room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
+    phone_no = models.CharField(max_length=11)
+    blood_group = models.CharField(max_length=3)
+    emergency_contact = models.CharField(max_length=11)
+    meal_default = models.BooleanField(default=True)
 
 
-# class RequestRoom(models.Model):
-#     pass
+class RoomRequest(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    single = models.BooleanField()
+    ac = models.BooleanField()
+    balcony = models.BooleanField()
+    attached_bathroom = models.BooleanField()
+    approved = models.BooleanField(default=False)
+    # assigned_room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
+    sign_up_link = models.CharField(max_length=100, null=True)
