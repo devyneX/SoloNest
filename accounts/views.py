@@ -19,6 +19,7 @@ def home(request):
     return render(request, "accounts/home.html")
 
 
+
 # class TenantLoginView(FormView):
 #     template_name = "accounts/login.html"
 #     form_class = TenantLogInForm
@@ -45,16 +46,16 @@ class RoomRequestView(CreateView):
 
 
 class TenantSignUpView(View):
-    def get(self, request, id):
-        req = RoomRequest.objects.get(id=id)
+    def get(self, request, pk):
+        req = RoomRequest.objects.get(pk)
         if req and req.approved:
             form = TenantSignUpForm()
             return render(request, "accounts/signup.html", {"form": form})
         else:
             return render(request, "accounts/room_request.html")
 
-    def post(self, request, id):
-        req = RoomRequest.objects.get(id=id)
+    def post(self, request, pk):
+        req = RoomRequest.objects.get(pk)
         if req and req.approved:
             form = TenantSignUpForm(request.POST)
             if form.is_valid():
