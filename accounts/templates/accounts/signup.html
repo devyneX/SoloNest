@@ -25,11 +25,11 @@
           
           {% if field.field.widget.input_type == "checkbox" %}
           <div class="flex items-center">
-          {{ field | add_input_class:"p-2 rounded-xl border" }}
-          {{ field | add_label_class:"" }}
+          {{ field | add_input_class:"p-2 mt-5 rounded-xl border" }}
+          {{ field | add_label_class:"mt-5" }}
           </div>
           {% else %}
-          {{ field | add_label_class:"" }}
+          {{ field | add_label_class:"mt-5" }}
           {{ field | add_input_class:"p-2 rounded-xl border" }}
           {% endif %}
           {{ field.errors }}
@@ -62,7 +62,7 @@
             /> {% endcomment %}
               
           <button
-            class="bg-[#002D74] rounded-xl text-white py-2 hover:scale-105 duration-300"
+            class="bg-[#002D74] mt-5 rounded-xl text-white py-2 hover:scale-105 duration-300"
           >
             Sign Up
           </button>

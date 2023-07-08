@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from django.urls import reverse
 from .models import *
@@ -17,7 +17,6 @@ from django.core.mail import send_mail
 
 def home(request):
     return render(request, "accounts/home.html")
-
 
 
 # class TenantLoginView(FormView):
@@ -60,7 +59,7 @@ class TenantSignUpView(View):
             form = TenantSignUpForm(request.POST)
             if form.is_valid():
                 form.save()
-                return render(request, "accounts/signup.html", {"form": form})
+                return redirect("home")
             else:
                 return render(request, "accounts/signup.html", {"form": form})
         else:
@@ -69,4 +68,3 @@ class TenantSignUpView(View):
 
 class TenantLoginView(LoginView):
     template_name = "accounts/login.html"
-    success_url = "/"
