@@ -1,0 +1,4 @@
+django
+psycopg
+psycopg-binary
+django-tailwind
