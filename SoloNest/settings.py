@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,16 +85,12 @@ WSGI_APPLICATION = "SoloNest.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "SoloNest",
-        "USER": "postgres",
-        "PASSWORD": "admin",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "NAME": str(os.getenv("DB_NAME")),
+        "USER": str(os.getenv("DB_USER")),
+        "PASSWORD": str(os.getenv("DB_PASS")),
+        "HOST": str(os.environ.get("DB_HOST")),
+        "PORT": str(os.getenv("DB_PORT")),
     }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
 }
 
 
@@ -144,10 +144,11 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+# tailwind settings
 
 TAILWIND_APP_NAME = "theme"
 
-NPM_BIN_PATH = r"/usr/local/bin/npm"
+NPM_BIN_PATH = str(os.getenv("NPM_PATH"))
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -159,5 +160,5 @@ INTERNAL_IPS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Authentication
-LOGIN_REDIRECT_URL = "home"
-LOGOUT_REDIRECT_URL = "home"
+# LOGIN_REDIRECT_URL = "home"
+# LOGOUT_REDIRECT_URL = "home"
