@@ -21,12 +21,12 @@
       <button
         class="bg-blue-700 px-3 py-2 rounded-2xl mx-2 text-white hover:text-white hover:bg-purple-900 hover:border-black hover:border-2"
       >
-        <a href="{% url "room_request" %}">Book</a>
+        <a href="{% url "signup" %}">Sign Up</a>
       </button>
       <button
         class="bg-blue-700 px-3 py-2 rounded-2xl text-white hover:text-white hover:bg-purple-900 hover:border-black hover:border-2"
       >
-        <a href="{% url "tenant_login" %}">Log In</a>
+        {% comment %} <a href="{% url "login" %}">Log In</a> {% endcomment %}
       </button>
     </div>
   </div>

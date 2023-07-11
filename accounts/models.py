@@ -11,13 +11,13 @@ class User(AbstractUser):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    birth_date = models.DateField()
-    nid = models.CharField(max_length=13)
-    birth_certificate = models.CharField(max_length=13)
+    birth_date = models.DateField(null=True)
+    nid = models.CharField(max_length=13, null=True)
+    birth_certificate = models.CharField(max_length=13, null=True)
     # TODO: add passport size picture
     # TODO: add nid picture
     # TODO: add birth_certificate picture
-    phone_no = models.CharField(max_length=11)
+    phone_no = models.CharField(max_length=11, null=True)
     blood_group_choices = [
         ("a+", "A+ve"),
         ("a-", "A-ve"),
@@ -28,5 +28,5 @@ class Profile(models.Model):
         ("o+", "O+ve"),
         ("o-", "O-ve"),
     ]
-    blood_group = models.CharField(max_length=5, choices=blood_group_choices)
-    emergency_contact = models.CharField(max_length=11)
+    blood_group = models.CharField(max_length=5, choices=blood_group_choices, null=True)
+    emergency_contact = models.CharField(max_length=11, null=True)
