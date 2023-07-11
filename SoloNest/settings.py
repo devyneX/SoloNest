@@ -140,9 +140,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+STATICFILES_DIRS = []
 
 # tailwind settings
 
@@ -160,5 +158,4 @@ INTERNAL_IPS = [
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Authentication
-# LOGIN_REDIRECT_URL = "home"
-# LOGOUT_REDIRECT_URL = "home"
+AUTH_USER_MODEL = "accounts.User"
