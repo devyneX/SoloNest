@@ -5,8 +5,14 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 urlpatterns = [
     path("", views.home, name="home"),
     path("signup/", views.UserSignupView.as_view(), name="signup"),
-    # path("update-user", views.UserUpdateView.as_view(), name="update_user"),
-    # path("change-password", views.UserPasswordChangeView.as_view(), name="change_password"),
+    path("update-user/", views.UserUpdateView.as_view(), name="update_user"),
+    path(
+        "change-password/",
+        PasswordChangeView.as_view(
+            template_name="accounts/paasword_change.html", success_url="/"
+        ),
+        name="change_password",
+    ),
     path(
         "login/",
         LoginView.as_view(

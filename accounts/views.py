@@ -45,17 +45,20 @@ class UserSignupView(View):
 
 
 class UserUpdateView(View):
-    pass
+    def get(self, request):
+        if request.user.is_authenticated:
+            form = forms.UserUpdateForm(instance=request.user)
+            return render(request, "accounts/update_user.html", {"form": form})
+        else:
+            return redirect("login")
 
-
-class UserPasswordChangeView(View):
-    pass
-
-
-class UserLoginView(LoginView):
-    pass
-    # template_name = "accounts/login.html"
-    # redirect_authenticated_user = True
-
-    # def get_success_url(self):
-    #     return reverse_lazy("home")
+    def post(self, request):
+        if request.user.is_authenticated:
+            form = forms.UserUpdateForm(request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                return redirect("home")
+            else:
+                return render(request, "accounts/update_user.html", {"form": form})
+        else:
+            return redirect("login")
