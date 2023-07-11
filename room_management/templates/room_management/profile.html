@@ -3,19 +3,25 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-    <h1>Profile</h1>
-    <p>Name: {{ profile.user.first_name }} {{ profile.user.last_name }}</p>
-    <p>Birth Date: {{ profile.birth_date }}</p>
-    <p>NID: {{ profile.nid }}</p>
-    <p>Birth Certificate: {{ profile.birth_certificate }}</p>
-    <p>Phone: {{ profile.phone_no }}</p>
-    <P>Blood Group: {{ profile.blood_group }}</P>
-    <p>Emergency Contact: {{ profile.emergency_contact }}</p>
-    <a href="{% url 'profile_update' %}">Update Profile</a>
-    <a href="{% url 'update_user' %}">Update Account Info</a>
-    <a href="{% url 'change_password' %}">Change Password</a>
-    <br>
-    <a href="{% url 'room_request' %}">Request Room</a>
-    <br>
-    <a href="{% url "room_request_list" %}">Room Request List</a>
+<div class='flex items-center justify-center bg-purple-300'>
+    <div class='w-2/5 bg-gray-100 shadow-md rounded-xl mb-10 mt-32'>
+        <div class='flex items-center justify-center pt-10 pb-10 flex-col'>
+            <img src="{{ profile.profile_pic.url }}" alt="Profile Picture" class="rounded-full h-32 w-32">
+            <h1 class="text-3xl font-normal text-gray-900 dark:text-gray-600">Profile</h1>
+            <p class="tracking-widest text-gray-500 md:text-lg dark:text-gray-600 p-2">Name: {{ profile.user.first_name }} {{ profile.user.last_name }}</p>
+            <p class="tracking-widest text-gray-500 md:text-lg dark:text-gray-600 p-2">Birth Date: {{ profile.birth_date }}</p>
+            <p class="tracking-widest text-gray-500 md:text-lg dark:text-gray-600 p-2">NID: {{ profile.nid }}</p>
+            <p class="tracking-widest text-gray-500 md:text-lg dark:text-gray-600 p-2">Birth Certificate: {{ profile.birth_certificate }}</p>
+            <p class="tracking-widest text-gray-500 md:text-lg dark:text-gray-600 p-2">Phone: {{ profile.phone_no }}</p>
+            <P class="tracking-widest text-gray-500 md:text-lg dark:text-gray-600 p-2">Blood Group: {{ profile.blood_group }}</P>
+            <p class="tracking-widest text-gray-500 md:text-lg dark:text-gray-600 p-2">Emergency Contact: {{ profile.emergency_contact }}</p>
+            <button type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-3 mt-3"><a href="{% url 'profile_update' %}">Update Profile</a></button>
+            <button type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-3"><a href="{% url 'update_user' %}">Update Account Info</a></button>
+            <button type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-3"><a href="{% url 'change_password' %}">Change Password</a></button>
+            <button type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-3"><a href="{% url 'room_request' %}">Request Room</a></button>
+    
+            <button type="button" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-3"><a href="{% url "room_request_list" %}">Room Request List</a></button>
+        </div>
+    </div>
+</div>
 {% endblock %}

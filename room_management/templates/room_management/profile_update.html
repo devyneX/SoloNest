@@ -3,11 +3,18 @@
 {% block title %}Update Profile{% endblock %}
 
 {% block content %}
-    <h1>Update Profile</h1>
-    <form method="POST">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <button type="submit">Update</button>
-    </form>
+<div class='flex items-center justify-center bg-purple-300'>
+    <div class='w-2/5 bg-gray-100 shadow-md rounded-xl mb-10 mt-32'>
+        <div class='flex items-center justify-center pt-10 pb-10 flex-col'>
+
+        <h1 class="text-3xl font-normal text-gray-900 dark:text-gray-600 py-8">Update Profile</h1>
+            <form method="POST">
+                {{ form.as_p }}
+                {% csrf_token %}
+                <button type="submit" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-40 mr-40 mt-10 mb-3">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
 ```
