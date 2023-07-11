@@ -17,8 +17,6 @@
           If you are already a member, easily log in
         </p>
 
-        {% comment %} TODO: bhai {% endcomment %}
-
         <form method="POST" class="flex flex-col gap-2">
           {% csrf_token %}
           {% for field in form %}
@@ -56,9 +54,9 @@
 
         
 
-        <div class="mt-5 text-xs border-b border-[#002D74] py-4 text-[#002D74]">
+        {% comment %} <div class="mt-5 text-xs border-b border-[#002D74] py-4 text-[#002D74]">
           <a href="#">Forgot your password?</a>
-        </div>
+        </div> {% endcomment %}
 
         <div
           class="mt-3 text-xs flex justify-between items-center text-[#002D74]"
@@ -67,7 +65,7 @@
           <button
             class="py-2 px-5 bg-white border rounded-xl hover:scale-110 duration-300"
           >
-            <a href="signup.html">Register</a>
+            <a href="{% url "signup" %}">Sign Up</a>
           </button>
         </div>
       </div>
