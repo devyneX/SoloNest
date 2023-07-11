@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "theme",
     "django_browser_reload",
     "accounts",
+    "room_management",
 ]
 
 MIDDLEWARE = [

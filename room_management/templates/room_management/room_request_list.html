@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Room Requests List{% endblock %}
+
+{% block content %}
+    <h1>Room Request Details</h1>
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>Room Type</th>
+            <th>AC/Non-AC</th>
+            <th>Balcony</th>
+            <th>Attached Bathroom</th>
+            <th>Status</th>
+        </tr>
+        {% for room_request in room_requests %}
+        <tr>
+            <td>{{ room_request.get_room_type_display }}</td>
+            <td>{{ room_request.get_ac_display }}</td>
+            {% if room_request.balcony %}
+            <td>Yes</td>
+            {% else %}
+            <td>No</td>
+            {% endif %}
+            {% if room_request.attached_bathroom %}
+            <td>Yes</td>
+            {% else %}
+            <td>No</td>
+            {% endif %}
+            <td>{{ room_request.get_status_display }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

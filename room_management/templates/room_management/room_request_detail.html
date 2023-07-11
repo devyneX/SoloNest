@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Room Request Details{% endblock %}
+
+{% block content %}
+    <h1>Room Request Details</h1>
+    <p>Room Type: {{ room_request.get_room_type_display }}</p>
+    <p>AC: {{ room_request.get_ac_display }}</p>
+    {% if room_request.balcony %}
+    <p>Balcony: Yes</p>
+    {% else %}
+    <p>Balcony: No</p>
+    {% endif %}
+    {% if room_request.attached_bathroom %}
+    <p>Attached Bathroom: Yes</p>
+    {% else %}
+    <p>Attached Bathroom: No</p>
+    {% endif %}
+    <p>Status: {{ room_request.get_status_display }}</p>
+    <a href="{% url 'room_request_list' %}">Back to list</a>
+    <a href="{% url 'room_request_update' room_request.pk %}">Update</a>
+    <a href="{% url 'room_request_delete' room_request.pk %}">Delete</a>
+{% endblock %}
