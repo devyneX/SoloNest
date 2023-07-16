@@ -3,7 +3,10 @@
 {% block title %}Room Request Details{% endblock %}
 
 {% block content %}
-    <h1>Room Request Details</h1>
+<div class='min-h-screen flex justify-center bg-purple-300'>
+    <div class='w-2/5 bg-gray-100 shadow-md rounded-xl mb-10 mt-32 py-20'>
+        <div class='flex items-center justify-center pt-10 pb-10 flex-col'>
+    <h1 class="text-5xl font-normal text-gray-900 dark:text-gray-600 py-8">Room Request Details</h1>
     <p>Room Type: {{ room_request.get_room_type_display }}</p>
     <p>AC: {{ room_request.get_ac_display }}</p>
     {% if room_request.balcony %}
@@ -17,7 +20,10 @@
     <p>Attached Bathroom: No</p>
     {% endif %}
     <p>Status: {{ room_request.get_status_display }}</p>
-    <a href="{% url 'room_request_list' %}">Back to list</a>
-    <a href="{% url 'room_request_update' room_request.pk %}">Update</a>
-    <a href="{% url 'room_request_delete' room_request.pk %}">Delete</a>
+    <button type="submit" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-40 mr-40 mt-5 mb-3"><a href="{% url 'room_request_list' %}">Back to list</a></button>
+    <button type="submit" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-40 mr-40 mt-2 mb-3"><a href="{% url 'room_request_update' room_request.pk %}">Update</a></button>
+    <button type="submit" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-40 mr-40 mt-2 mb-3"><a href="{% url 'room_request_delete' room_request.pk %}">Delete</a></button>
+    </div>
+    </div>
+</div>
 {% endblock %}

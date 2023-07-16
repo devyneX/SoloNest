@@ -21,7 +21,7 @@ class UserSignupView(View):
 
     def post(self, request):
         if request.user.is_authenticated:
-            return redirect("home")
+            return redirect("profile")
 
         else:
             form = forms.UserSignupForm(request.POST)
@@ -34,7 +34,7 @@ class UserSignupView(View):
                 )
                 if user is not None:
                     login(request, user)
-                    return redirect("home")
+                    return redirect("profile")
                 else:
                     return redirect("login")
 

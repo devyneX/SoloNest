@@ -50,8 +50,7 @@ class RoomRequestView(LoginRequiredMixin, CreateView):
             form.instance.user = self.request.user
             return super().form_valid(form)
         else:
-            print("here")
-            return redirect("room_request")
+            return redirect("profile_update")
 
     def get_success_url(self):
         return reverse_lazy("room_request_detail", kwargs={"pk": self.object.pk})
