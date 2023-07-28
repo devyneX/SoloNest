@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Manager Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Manager Dashboard</h1>
+    <p>Welcome {{ user.username }}</p>
+    <p><a href="{% url 'manager_user_list' %}">Users</a></p>
+    <p><a href="{% url 'manager_tenant_list' %}">Tenants</a></p>
+    <p><a href="{% url 'manager_room_list' %}">Rooms</a></p>
+    <p><a href="{% url 'manager_room_request_list' %}">Room Requests</a></p>
+    <p><a href="{% url 'manager_meal_list' %}">Today's Meal List</a></p>
+    
+{% endblock %}

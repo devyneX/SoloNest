@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Room Requests{% endblock %}
+
+{% block content %}
+    <h1>Room Requests</h1>
+    <ul>
+        {% for room_request, no_of_available_rooms in room_requests %}
+            <li><a href="{% url "manager_room_request_detail" room_request.pk %}">{{ room_request.user.first_name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

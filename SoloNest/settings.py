@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     "tailwind",
     "theme",
     "django_browser_reload",
+    "main",
     "accounts",
-    "room_management",
+    "tenant_app",
+    "manager_app",
 ]
 
 MIDDLEWARE = [
@@ -161,5 +163,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Authentication
 AUTH_USER_MODEL = "accounts.User"
 LOGIN_URL = "/login"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/profile"
 LOGOUT_REDIRECT_URL = "/login"

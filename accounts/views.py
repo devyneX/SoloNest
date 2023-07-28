@@ -1,19 +1,18 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.views.generic import TemplateView
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
 from . import models
 from . import forms
 
 
 # Create your views here.
-def home(request):
-    return render(request, "accounts/home.html")
-
-
 class UserSignupView(View):
     def get(self, request):
         if request.user.is_authenticated:
-            return redirect("home")
+            return redirect("main:home")
 
         else:
             form = forms.UserSignupForm()
@@ -21,7 +20,7 @@ class UserSignupView(View):
 
     def post(self, request):
         if request.user.is_authenticated:
-            return redirect("profile")
+            return redirect("tenant:profile")
 
         else:
             form = forms.UserSignupForm(request.POST)
@@ -34,9 +33,9 @@ class UserSignupView(View):
                 )
                 if user is not None:
                     login(request, user)
-                    return redirect("profile")
+                    return redirect("tenant:profile")
                 else:
-                    return redirect("login")
+                    return redirect("accounts:login")
 
             else:
                 return render(request, "accounts/signup.html", {"form": form})
@@ -48,15 +47,28 @@ class UserUpdateView(View):
             form = forms.UserUpdateForm(instance=request.user)
             return render(request, "accounts/update_user.html", {"form": form})
         else:
-            return redirect("login")
+            return redirect("accounts:login")
 
     def post(self, request):
         if request.user.is_authenticated:
             form = forms.UserUpdateForm(request.POST, instance=request.user)
             if form.is_valid():
                 form.save()
-                return redirect("home")
+                return redirect("main:home")
             else:
                 return render(request, "accounts/update_user.html", {"form": form})
         else:
-            return redirect("login")
+            return redirect("accounts:login")
+
+
+class UserLoginView(LoginView):
+    template_name = "accounts/login.html"
+    redirect_authenticated_user = True
+
+    def get_success_url(self):
+        if self.request.user.is_superuser:
+            return reverse_lazy("admin:index")
+        elif self.request.user.is_manager:
+            return reverse_lazy("manager:manager_dashboard")
+        else:
+            return reverse_lazy("tenant:profile")

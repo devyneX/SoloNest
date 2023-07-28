@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title %}Today's Meal List{% endblock %}
+
+{% block content %}
+{% for meal in meals %}
+    <p>{{ meal.tenant.firstname }}-{{ meal.meal_time }}-{{ meal.get_amount }}</p>
+{% endfor %}
+{% endblock %}
