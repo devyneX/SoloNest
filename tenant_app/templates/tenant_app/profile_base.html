@@ -7,9 +7,9 @@
                 <li class="sidebar-links" onclick="location.href=`{% url 'tenant:profile' %}`">Profile</li>
                 {% if request.user.is_tenant %}
                 <li class="sidebar-links" onclick="location.href=`{% url 'tenant:monthly_meal_list' %}`">Meal</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:cleaning_requests' %}`">Cleaning</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:rapair_requests' %}`">Repair</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:laundry_requests' %}`">Laundry</li>
+                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:cleaning_request_list' %}`">Cleaning</li>
+                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:repair_request_list' %}`">Repair</li>
+                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:laundry_request_list' %}`">Laundry</li>
                 <li class="sidebar-links" onclick="location.href=`{% url 'tenant:profile' %}`">Missing Laundry</li>
                 {% else %}
                 <li class="sidebar-links" onclick="location.href=`{% url 'tenant:room_request_list' %}`">Room Request</li>

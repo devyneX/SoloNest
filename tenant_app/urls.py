@@ -66,6 +66,27 @@ urlpatterns = [
         views.CleaningRequestDeleteView.as_view(),
         name="cleaning_delete",
     ),
+    path("request-repair", views.RepairRequestView.as_view(), name="repair_request"),
+    path(
+        "repair-requests/",
+        views.RepairRequestListView.as_view(),
+        name="repair_request_list",
+    ),
+    path(
+        "repair-requests/<int:pk>/",
+        views.RepairRequestDetailView.as_view(),
+        name="repair_request_detail",
+    ),
+    path(
+        "repair-requests/<int:pk>/update/",
+        views.RepairRequestUpdateView.as_view(),
+        name="repair_request_update",
+    ),
+    path(
+        "repair-requests/<int:pk>/delete/",
+        views.RepairRequestDeleteView.as_view(),
+        name="repair_delete",
+    ),
     path(
         "request-laundry/", views.LaundryRequestView.as_view(), name="laundry_request"
     ),

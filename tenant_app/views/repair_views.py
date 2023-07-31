@@ -15,7 +15,9 @@ import datetime
 class RepairRequestView(TenantRequiredMixin, CreateView):
     model = models.RepairRequest
     template_name = "tenant_app/repair_request.html"
-    fields = ["repair_time"]
+    # TODO:: make this a textarea widget
+    # NOTE: You can create a form for this and use it here
+    fields = ["description"]
 
     def form_valid(self, form):
         form.instance.tenant = self.request.user.tenant

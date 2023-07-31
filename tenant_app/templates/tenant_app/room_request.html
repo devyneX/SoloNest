@@ -1,12 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'form_base.html' %}
 
 {% block title %}Request Room{% endblock %}
 
-{% block content %}
-    <h1>Request Room</h1>
-    <form action="" method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-{% endblock %}
+{% block form_title %}Request Room{% endblock %}
+

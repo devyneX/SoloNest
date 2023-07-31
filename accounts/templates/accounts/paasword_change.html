@@ -1,22 +1,9 @@
-{% extends "base.html" %}
-{% load form_tags %}
+{% extends "form_base.html" %}
+
 {% block title %}Change Password{% endblock %}
 
-{% block content %}
-<div class='flex items-center justify-center bg-purple-300'>
-    <div class='w-2/5 bg-gray-100 shadow-md rounded-xl mb-10 mt-10'>
-        <div class='flex items-center justify-center p-20 flex-col'>
-    <h2 class="text-3xl font-normal text-gray-900 dark:text-gray-600 py-8">Change Password</h2>
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-        {{ field | add_label_class:"flex items-center justify-center mt-3 pr-50" }}
-        {{ field | add_input_class:"flex justify-center rounded-xl border pr-52 w-max" }}
-        {{ field.errors }}
-        {% endfor %}
-        <button class="flex justify-items-center m-10 px-20">Change Password</button>
-    </form> 
-    </div>
-    </div>
-</div>
+{% block form_title %}Change Password{% endblock %}
+
+{% block form_buttons %}
+    <button type="submit">Change Password</button>
 {% endblock %}

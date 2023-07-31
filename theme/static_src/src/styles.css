@@ -19,8 +19,8 @@ button, button[type="submit"], input[type="submit"], input[type="reset"] {
     @apply bg-sky-800 px-3 py-2 rounded-lg mx-2 text-white hover:bg-cyan-700;
 }
 
-input {
-    @apply flex justify-center rounded-xl border;
+[type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
+    @apply w-full rounded-xl border;
 }
 .sidebar-links {
     @apply w-11/12 m-2 pl-10 p-4 rounded-lg text-white;

@@ -62,7 +62,7 @@ class MealRequestForm(forms.ModelForm):
 class CleaningRequestForm(forms.ModelForm):
     class Meta:
         model = models.CleaningRequest
-        exclude = ["tenant"]
+        exclude = ["tenant", "status"]
         widgets = {
             "date": forms.DateInput(attrs={"type": "date", "required": True}),
             "cleaning_slot": forms.Select(
