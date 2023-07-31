@@ -11,10 +11,10 @@
         {% csrf_token %}
         {% for field in form %}
         {{ field | add_label_class:"flex items-center justify-center mt-3 pr-50" }}
-        {{ field | add_input_class:"p-auto rounded-xl border m-5 w-96 pr-50" }}
+        {{ field | add_input_class:"flex justify-center rounded-xl border pr-52 w-max" }}
         {{ field.errors }}
         {% endfor %}
-        <button type="submit" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-10 py-2.5 text-center ml-40 mr-40 mt-10 mb-3">Change Password</button>
+        <button class="flex justify-items-center m-10 px-20">Change Password</button>
     </form> 
     </div>
     </div>

@@ -12,12 +12,14 @@
         {% csrf_token %}
         {% for field in form %}
         {{ field | add_label_class:"flex items-center justify-center mt-3 pr-50" }}
-        {{ field | add_input_class:"p-auto rounded-xl border m-5 w-96" }}
+        {{ field | add_input_class:"flex justify-center rounded-xl border pr-52 w-full" }}
         {{ field.errors }}
         {% endfor %}
-        <button type="submit" class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center ml-40 mr-40 mt-10 mb-3">Update</button>
-    </form>
-            <button class="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-10 py-2.5 text-center ml-36 mr-40 mt-5 mb-3" ><a href="{% url 'accounts:change_password' %}">Change Password</a></button>
+        <button class="flex justify-items-center mt-5 mx-32  px-20">Update</button>
+    </form> 
+    
+        
+            <button class="flex justify-items-center m-5 px-20"><a href="{% url 'accounts:change_password' %}">Change Password</a></button>
         </div>
     </div>
 </div>
