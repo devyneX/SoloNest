@@ -1,4 +1,4 @@
-from tenant_app import models
+from tenant_app import models, forms
 from django.views.generic import (
     CreateView,
     ListView,
@@ -15,9 +15,10 @@ import datetime
 class CleaningRequestView(TenantRequiredMixin, CreateView):
     model = models.CleaningRequest
     template_name = "tenant_app/cleaning_request.html"
-    fields = ["cleaning_time", "date"]
+    form_class = forms.CleaningRequestForm
 
     def form_valid(self, form):
+        # TODO: ensure only one request per day for the same room
         form.instance.tenant = self.request.user.tenant
         return super().form_valid(form)
 
@@ -30,12 +31,12 @@ class CleaningRequestView(TenantRequiredMixin, CreateView):
 class CleaningRequestListView(TenantRequiredMixin, ListView):
     model = models.CleaningRequest
     template_name = "tenant_app/cleaning_request_list.html"
-    context_object_name = "cleanings"
+    context_object_name = "cleaning_requests"
 
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(
-            tenant=self.request.user.tenant, date__month=datetime.date.today().month
+            tenant__room=self.tenant.room, date__month=datetime.date.today().month
         )
         return queryset
 
@@ -45,10 +46,11 @@ class CleaningRequestListView(TenantRequiredMixin, ListView):
         return context
 
 
+# NOTE: might not need this view
 class CleaningRequestDetailView(TenantRequiredMixin, DetailView):
     model = models.CleaningRequest
     template_name = "tenant_app/cleaning_request_detail.html"
-    context_object_name = "cleaning"
+    context_object_name = "cleaning_request"
 
     def get(self, request, *args, **kwargs):
         if request.user.tenant.pk != self.get_object().tenant.pk:
@@ -60,7 +62,7 @@ class CleaningRequestUpdateView(TenantRequiredMixin, UpdateView):
     model = models.CleaningRequest
     template_name = "tenant_app/cleaning_request.html"
     fields = ["cleaning_time", "date"]
-    context_object_name = "cleaning"
+    context_object_name = "cleaning_request"
 
     def get(self, request, *args, **kwargs):
         if request.user.tenant.pk != self.get_object().tenant.pk:
@@ -81,7 +83,7 @@ class CleaningRequestUpdateView(TenantRequiredMixin, UpdateView):
 class CleaningRequestDeleteView(TenantRequiredMixin, DeleteView):
     model = models.CleaningRequest
     template_name = "tenant_app/cleaning_request_delete.html"
-    context_object_name = "cleaning"
+    context_object_name = "cleaning_request"
 
     def get(self, request, *args, **kwargs):
         if request.user.tenant.pk != self.get_object().tenant.pk:

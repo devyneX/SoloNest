@@ -9,72 +9,53 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
     {% tailwind_css %}
+    <script src="https://kit.fontawesome.com/6ffb1047c7.js" crossorigin="anonymous"></script>
   </head>
 
-  <body class="bg-gray-50 font-serif leading-normal tracking-normal w-full">
-    {% comment %} <nav class="bg-purple-900 text-white font-medium flex justify-between">
-      <span class="text-xl flex items-center mx-3 font-extrabold">SoloNest</span>
-      <img
-        src="{% static 'img/logo.png' %}"
-        class="h-12 pt-3 mr-auto rounded-3xl"
-        alt="SoloNest logo"
-      />
-      <ul class="px-28 py-4 flex space-x-11 justify-end">
-        <li class="cursor-pointer hover:underline">
-          Home
-        </li>
-        <li class="cursor-pointer hover:underline">About</li>
-        <li class="cursor-pointer hover:underline">Packages</li>
-        <li class="cursor-pointer hover:underline">Facilities</li>
-        <li class="cursor-pointer hover:underline">Contact Us</li>
-      </ul>
-    </nav> {% endcomment %}
-  <nav class="bg-white dark:bg-purple-900 w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-      <a href="#" class="flex items-center">
-          <img src="{% static 'img/logo.png' %}" class="h-8 mr-3 rounded-3xl" alt="SoloNest Logo">
-          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">SoloNest</span>
-      </a>
-      <div class="flex md:order-2">
-          {% if not request.user.is_authenticated %}
-          <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><a href="{% url "accounts:signup" %}">Sign Up</a></button>
-          <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-5"><a href="{% url "accounts:login" %}">Log In</a></button>
-          {% else %}
-          <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-5"><a href="{% url "accounts:logout" %}">Log Out</a></button>
-          {% endif %}
-          <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-blue-500 rounded-lg md:hidden hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-100 dark:hover:bg-blue-700 dark:focus:ring-blue-600" aria-controls="navbar-sticky" aria-expanded="false">
-            <span class="sr-only">Open main menu</span>
-            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-            </svg>
-        </button>
+  <body class="bg-fuchsia-100 font-serif leading-normal tracking-normal w-screen min-h-screen">
+  <nav class="bg-gray-950 border border-gray-800 w-full z-20">
+      <div class="max-w-screen mx-5 flex flex-wrap items-center justify-between p-2">
+        <div class="flex flex-row gap-8">
+          <a href="{% url 'main:home' %}" class="flex items-center">
+            <img src="{% static 'img/logo.png' %}" class="h-8 mr-3 rounded-3xl" alt="SoloNest Logo">
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">SoloNest</span>
+          </a>
+          <div class="hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+            <ul class="flex flex-row gap-2 p-2 font-medium">
+              <li class="p-2 text-white rounded-lg hover:bg-gray-500 md:hover:bg-gray-500">Home</li>
+              <li class="p-2 text-white rounded-lg hover:bg-gray-500 md:hover:bg-gray-500">About</li>
+              <li class="p-2 text-white rounded-lg hover:bg-gray-500 md:hover:bg-gray-500">Services<li>
+              <li class="p-2 text-white rounded-lg hover:bg-gray-500 md:hover:bg-gray-500">Contact<li>
+            </ul>
+          </div>
+        </div>
         
-      </div>
-      <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-        <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-purple-900 md:dark:bg-purple-900 dark:border-gray-700">
-          <li>
-            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Home</a>
-          </li>
-          <li>
-            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
-          </li>
-          <li>
-            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</a>
-          </li>
-          <li>
-            <a href="#" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-          </li>
-        </ul>
+        <div class="flex md:order-2">
+            {% if not request.user.is_authenticated %}
+            <button class=""><a href="{% url 'accounts:signup' %}">Sign Up</a></button>
+            <button class=""><a href="{% url 'accounts:login' %}">Log In</a></button>
+            {% else %}
+            <button class=""><a href="{% url 'accounts:logout' %}">Log Out</a></button>
+            {% endif %}
+            <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-blue-500 rounded-lg md:hidden hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-100 dark:hover:bg-blue-700 dark:focus:ring-blue-600" aria-controls="navbar-sticky" aria-expanded="false">
+              <span class="sr-only">Open main menu</span>
+              <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+              </svg>
+            </button>
+          
+        </div>
+        
       </div>
     </nav>
 
-  <div class="min-h-screen">
-  {% block content %} 
-	
-	{% endblock %}
-  </div>
-    <footer class="bg-white dark:bg-purple-900 ">
-      <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+    <div class="mb-auto">
+    {% block content %} 
+    
+    {% endblock %}
+    </div>
+    <footer class="bg-gray-950 border border-gray-800">
+      <div class="w-full p-4 py-6 lg:py-8">
         <div class="md:flex md:justify-between">
           <div class="mb-6 md:mb-0">
             <a href="#" class="flex items-center">

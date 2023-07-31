@@ -1,12 +1,11 @@
-
 {% extends 'base.html' %} 
 {% load static %}
-{% block title %}Login{% endblock %} 
+{% block title %}Home{% endblock %} 
 {% block content%}
 
 
-<main class="bg-purple-300 flex justify-around h-screen">
-  <div class="main py-40 pl-9">
+<div class="flex flex-row justify-around">
+  <div class="py-40 pl-9">
     <div class="text-4xl font-bold">
       Live Life Unleashed: Your Ultimate Bachelor Pad!
     </div>
@@ -20,14 +19,14 @@
     {% if not request.user.is_authenticated %}
     <div class="my-4">
       <button
-        class="bg-blue-700 px-3 py-2 rounded-2xl mx-2 text-white hover:text-white hover:bg-purple-900 hover:border-black hover:border-2"
+        class=""
       >
-        <a href="{% url "accounts:signup" %}">Sign Up</a>
+        <a href="{% url 'accounts:signup' %}">Sign Up</a>
       </button>
       <button
-        class="bg-blue-700 px-3 py-2 rounded-2xl text-white hover:text-white hover:bg-purple-900 hover:border-black hover:border-2"
+        class=""
       >
-        <a href="{% url "accounts:login" %}">Log In</a>
+        <a href="{% url 'accounts:login' %}">Log In</a>
       </button>
     </div>
     {% endif %}
@@ -35,6 +34,6 @@
   <div class="flex items-center">
     <img class="w-96 mr-96 px-3" src="{% static 'img/home_logo.png' %}" alt="" />
   </div>
-</main>
+</div>
 
 {% endblock %}

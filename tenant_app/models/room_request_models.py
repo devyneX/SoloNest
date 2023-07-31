@@ -5,6 +5,13 @@ from accounts.models import *
 class Branch(models.Model):
     address = models.CharField(max_length=100)
     phone_no = models.CharField(max_length=11)
+    meal_price = models.IntegerField(default=60)
+    single_room_base_rent = models.IntegerField(default=8000)
+    double_room_base_rent = models.IntegerField(default=5000)
+    ac_rent_addition = models.IntegerField(default=500)
+    balcony_rent_addition = models.IntegerField(default=500)
+    attached_bathroom_rent_addition = models.IntegerField(default=1000)
+    cleaning_slot_limit = models.IntegerField(default=5)
 
 
 class Room(models.Model):
@@ -18,10 +25,17 @@ class Room(models.Model):
     attached_bathroom = models.BooleanField()
 
     def calculate_rent(self):
-        rent = 5000 if self.room_type == "single" else 8000
-        rent += 500 if self.ac else 0
-        rent += 500 if self.balcony else 0
-        rent += 1000 if self.attached_bathroom else 0
+        if self.room_type == "single":
+            rent = self.branch.single_room_base_rent
+        else:
+            rent = self.branch.double_room_base_rent
+
+        rent += self.branch.ac_rent_addition if self.ac else 0
+        rent += self.branch.balcony_rent_addition if self.balcony else 0
+        rent += (
+            self.branch.attached_bathroom_rent_addition if self.attached_bathroom else 0
+        )
+
         return rent
 
 

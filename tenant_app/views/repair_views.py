@@ -15,7 +15,7 @@ import datetime
 class RepairRequestView(TenantRequiredMixin, CreateView):
     model = models.RepairRequest
     template_name = "tenant_app/repair_request.html"
-    fields = ["repair_time", "date"]
+    fields = ["repair_time"]
 
     def form_valid(self, form):
         form.instance.tenant = self.request.user.tenant

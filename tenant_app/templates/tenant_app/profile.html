@@ -1,1 +1,76 @@
-{% extends "profile_base.html" %}
+{% extends "tenant_app/profile_base.html" %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block profile_content %}
+<div class="flex justify-center items-start">
+    <div class="w-5/6 mt-10 p-10 rounded-lg shadow-lg shadow-gray-900 flex flex-col justify-center">
+        <div class="flex flex-row justify-between items-start">
+            <div class="p-8">
+                <p class="capitalize text-6xl text-ellipsis hover:underline hover:text-sky-500">{{ user.first_name }} {{ user.last_name }}</p>
+                <p class="text-3xl text-ellipsis underline text-sky-500">@{{ user.username }}</p>
+                <div class="mt-10 flex flex-row justify-start items-center gap-2">
+                    <i class="fa-solid fa-envelope"></i>
+                    <p class="text-2xl">{{ user.email }}</p>
+                </div>
+                <div class="flex flex-row justify-start items-center gap-2">
+                    <i class="fa-solid fa-phone"></i>
+                    {% if user.profile.phone_no %}
+                    <p class="2xl">{{ user.profile.phone_no }}</p>
+                    {% else %}
+                    <p class="2xl">N/A</p>
+                    {% endif %}
+                </div>
+                
+            </div>
+            <div>
+                <img src="{% static 'img/dummy.jpg' %}" alt="">
+            </div>
+        </div>
+        <div class="p-10 flex flex-row justify-between flex-wrap">
+            <div class="flex flex-col justify-center">
+                <p class="mt-5">NID</p>
+                {% if user.profile.nid %}
+                <p class="text-2xl">{{ user.profile.nid }}</p>
+                {% else %}
+                <p class="text-2xl">N/A</p>
+                {% endif %}
+            </div>
+            
+            <div class="flex flex-col justify-center">
+                <p class="mt-5">Birth Certificate</p>
+                {% if user.profile.birth_certificate %}
+                <p class="text-2xl">{{ user.profile.birth_certificate }}</p>
+                {% else %}
+                <p class="text-2xl">N/A</p>
+                {% endif %}
+            </div>
+            
+            <div class="flex flex-col justify-center flex-wrap">
+                <p class="mt-5">Blood Group</p>
+                {% if user.profile.blood_group %}
+                <p class="text-2xl">{{ user.profile.blood_group }}</p>
+                {% else %}
+                <p class="text-2xl">N/A</p>
+                {% endif %}
+            </div>
+            
+            <div class="flex flex-col justify-center">
+                <p class="mt-5">Emergency Contact</p>
+                {% if user.profile.emergency_contact %}
+                <p class="text-2xl">{{ user.profile.emergency_contact }}</p>
+                {% else %}
+                <p class="text-2xl">N/A</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="mt-10 flex flex-row justify-around">
+            <button onclick="location.href=`{% url 'accounts:update_user' %}`">Update Account</button>
+            <button onclick="location.href=`{% url 'accounts:change_password' %}`">Change Password</button>
+            <button onclick="location.href=`{% url 'tenant:profile_update' %}`">Update Profile</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

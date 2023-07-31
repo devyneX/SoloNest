@@ -7,13 +7,15 @@ from tenant_app import forms
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
         user = request.user
-        return render(request, "tenant_app/profile.html", {"profile": user.profile})
+        return render(request, "tenant_app/profile.html", {"user": user})
 
 
 class ProfileUpdateView(LoginRequiredMixin, View):
     def get(self, request):
-        user = request.user
-        form = forms.ProfileUpdateForm(instance=user.profile)
+        if request.user.is_tenant:
+            form = forms.TenantProfileUpdateForm(instance=request.user.profile)
+        else:
+            form = forms.ProfileUpdateForm(instance=request.user.profile)
         return render(request, "tenant_app/profile_update.html", {"form": form})
 
     def post(self, request):

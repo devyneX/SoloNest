@@ -4,7 +4,10 @@ from .room_request_models import Tenant
 
 class CleaningSlots(models.Model):
     time = models.TimeField()
-    duration = models.DurationField()
+    duration = models.DurationField(default=3)
+
+    def __str__(self):
+        return f"{self.time} - {self.time + self.duration}"
 
 
 class CleaningRequest(models.Model):
