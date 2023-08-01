@@ -1,12 +1,38 @@
-{% extends "base.html" %}
+{% extends "manager_app/manager_dashboard.html" %}
 
 {% block title %}Room Requests{% endblock %}
 
-{% block content %}
-    <h1>Room Requests</h1>
-    <ul>
-        {% for room_request, no_of_available_rooms in room_requests %}
-            <li><a href="{% url "manager:room_request_detail" room_request.pk %}">{{ room_request.user.first_name }}</a></li>
+{% block manager_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Room Requests</h1>
+    <table>
+        <tr>
+            <th>User</th>
+            <th>Room Type</th>
+            <th>AC</th>
+            <th>Balcony</th>
+            <th>Attached Bathroom</th>
+            <th>#Available Rooms</th>
+        </tr>
+        {% for room_request, available_rooms in room_requests %}
+        <tr onclick="location.href=`{% url 'manager:room_request_detail' room_request.pk %}`">
+            <td>{{ room_request.user.first_name }} {{ room_request.user.last_name }}</td>
+            <td class="text-center">{{ room_request.get_room_type_display }}</td>
+            <td class="text-center">{{ room_request.get_ac_display }}</td>
+            {% if room_request.balcony %}
+            <td class="text-center"><i class="fa-solid fa-square-check fa-lg"></i></td>
+            {% else %}
+            <td class="text-center"><i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></td>
+            {% endif %}
+            {% if room_request.attached_bathroom %}
+            <td class="text-center"><i class="fa-solid fa-square-check fa-lg"></i></td>
+            {% else %}
+            <td class="text-center"><i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></td>
+            {% endif %}
+            <td class="text-center">{{ available_rooms }}</td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
+</div>
+    
 {% endblock %}

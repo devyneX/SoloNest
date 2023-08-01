@@ -1,12 +1,32 @@
-{% extends 'base.html' %}
+{% extends "manager_app/manager_dashboard.html" %}
 
 {% block title %}Users{% endblock %}
 
-{% block content %}
-    <h1>Users</h1>
-    <ul>
+{% block manager_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Users</h1>
+    <table>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Tenant?</th>
+        </tr>
         {% for user in users %}
-            <li>{{ user.username }}</li>
+        <tr onclick="location.href=`{% url 'manager:user_detail' user.pk %}`">
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td class="text-center">{{ user.username }}</td>
+            <td class="text-center">{{ user.email }}</td>
+            {% if user.is_tenant %}
+            <td class="text-center"><i class="fa-solid fa-square-check fa-lg"></i></td>
+            {% else %}
+            <td class="text-center"><i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></td>
+            {% endif %}
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
+</div>
+    
 {% endblock %}

@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="flex flex-row">
-        <div class="bg-gray-950 w-72 min-h-screen z-0">
+        <div class="bg-gray-800 border-gray-700 w-72 min-h-screen z-0">
             <ul class="w-full">
                 <li class="sidebar-links" onclick="location.href=`{% url 'tenant:profile' %}`">Profile</li>
                 {% if request.user.is_tenant %}
@@ -16,7 +16,7 @@
                 {% endif %}
             </ul>
         </div>
-        <div class="w-full">
+        <div class="w-full flex justify-center items-start">
             {% block profile_content %}{% endblock %}
         </div>
     </div>

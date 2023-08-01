@@ -20,8 +20,29 @@ button, button[type="submit"], input[type="submit"], input[type="reset"] {
 }
 
 [type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
-    @apply w-full rounded-xl border;
+    @apply w-full rounded-xl border bg-gray-700;
 }
+
+table {
+    @apply bg-slate-800 text-white border-collapse border border-slate-500;
+}
+
+td, th  {
+    @apply border border-slate-600;
+}
+
+th {
+    @apply bg-slate-700;
+}
+
+td {
+    @apply p-2;
+}
+
+tr:hover {
+    @apply bg-slate-400 text-black;
+}
+
 .sidebar-links {
     @apply w-11/12 m-2 pl-10 p-4 rounded-lg text-white;
 }

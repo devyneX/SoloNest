@@ -1,14 +1,40 @@
-{% extends "base.html" %}
+{% extends "manager_app/manager_dashboard.html" %}
 
-{%block title%}Room List{% endblock %}
+{% block title %}Rooms{% endblock %}
 
-{% block content %}
-    <h1>Room List</h1>
-    <ul>
+{% block manager_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Rooms</h1>
+    <table>
+        <tr>
+            <th>Room No</th>
+            <th>Room Type</th>
+            <th>AC</th>
+            <th>Balcony</th>
+            <th>Attached Bathroom</th>
+            <th>#Tenant/Capacity</th>
+            <th>Rent</th>
+        </tr>
         {% for room in rooms %}
-            <li><a href="">{{ room.room_no }}</a></li>
+        <tr onclick="location.href=`{% url 'manager:room_detail' room.pk %}`">
+            <td class="text-center">{{ room.room_no }}</td>
+            <td class="text-center">{{ room.get_room_type_display }}</td>
+            <td class="text-center">{{ room.get_ac_display }}</td>
+            {% if room.balcony %}
+            <td class="text-center"><i class="fa-solid fa-square-check fa-lg"></i></td>
+            {% else %}
+            <td class="text-center"><i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></td>
+            {% endif %}
+            {% if room.attached_bathroom %}
+            <td class="text-center"><i class="fa-solid fa-square-check fa-lg"></i></td>
+            {% else %}
+            <td class="text-center"><i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></td>
+            {% endif %}
+            <td class="text-center">{{ room.get_tenants_count }}/{{ room.room_type }}</td>
+            <td class="text-center">{{ room.calculate_rent }}</td>
+        </tr>
         {% endfor %}
-    </ul>
-    <a href="">Create Room</a>
-
+    </table>
+</div>
+    
 {% endblock %}

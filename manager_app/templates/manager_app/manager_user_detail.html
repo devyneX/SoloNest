@@ -1,0 +1,7 @@
+{% extends "manager_app/manager_dashboard.html" %}
+
+{% block title %}User{% endblock %}
+
+{% block manager_content %}
+{% include "tenant_app/profile_card.html" with user=user %}
+{% endblock %}
