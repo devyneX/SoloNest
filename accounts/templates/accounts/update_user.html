@@ -1,5 +1,4 @@
-{% extends "base.html" %}
-{% load form_tags %}
+{% extends "form_base.html" %}
 
 {% block title %}Update Account Info{% endblock %}
 
@@ -12,7 +11,7 @@
         {% csrf_token %}
         {% for field in form %}
         {{ field | add_label_class:"flex items-center justify-center mt-3 pr-50" }}
-        {{ field | add_input_class:"rounded-xl border pr-52 w-full" }}
+        {{ field | add_input_class:"flex justify-center rounded-xl border pr-52 w-full" }}
         {{ field.errors }}
         {% endfor %}
         <button class="flex justify-items-center mt-5 mx-32  px-20">Update</button>

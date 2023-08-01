@@ -14,7 +14,8 @@ from django.shortcuts import redirect
 class RoomRequestView(LoginRequiredMixin, CreateView):
     model = models.RoomRequest
     template_name = "tenant_app/room_request.html"
-    fields = ["room_type", "ac", "balcony", "attached_bathroom"]
+    # TODO: create a form for this
+    fields = ["branch", "room_type", "ac", "balcony", "attached_bathroom"]
 
     def form_valid(self, form):
         if self.request.user.profile.is_complete():

@@ -5,12 +5,16 @@ import datetime
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    error_css_class = "error"
+
     class Meta:
         model = models.Profile
         exclude = ["user"]
 
 
 class TenantProfileUpdateForm(forms.ModelForm):
+    error_css_class = "error"
+
     class Meta:
         model = models.Profile
         exclude = ["user"]
@@ -24,6 +28,8 @@ class TenantProfileUpdateForm(forms.ModelForm):
 
 
 class MealRequestForm(forms.ModelForm):
+    error_css_class = "error"
+
     class Meta:
         model = models.Meal
         exclude = ["tenant"]
@@ -60,9 +66,11 @@ class MealRequestForm(forms.ModelForm):
 
 
 class CleaningRequestForm(forms.ModelForm):
+    error_css_class = "error"
+
     class Meta:
         model = models.CleaningRequest
-        exclude = ["tenant"]
+        exclude = ["tenant", "status"]
         widgets = {
             "date": forms.DateInput(attrs={"type": "date", "required": True}),
             "cleaning_slot": forms.Select(
@@ -96,3 +104,14 @@ class CleaningRequestForm(forms.ModelForm):
             raise ValidationError("This cleaning slot is already full")
 
         return cleaned_data
+
+
+class RepairRequestForm(forms.ModelForm):
+    error_css_class = "error"
+
+    class Meta:
+        model = models.RepairRequest
+        fields = ["description"]
+        widgets = {
+            "description": forms.Textarea(attrs={"required": True}),
+        }

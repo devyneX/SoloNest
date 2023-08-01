@@ -1,8 +1,10 @@
 from django.db import models
+from django.db.models import F, Count
 from accounts.models import *
 
 
 class Branch(models.Model):
+    name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
     phone_no = models.CharField(max_length=11)
     meal_price = models.IntegerField(default=60)
@@ -15,10 +17,15 @@ class Branch(models.Model):
 
 
 class Room(models.Model):
-    branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
+    branch = models.ForeignKey(
+        Branch,
+        on_delete=models.CASCADE,
+        related_name="rooms",
+        related_query_name="room",
+    )
     room_no = models.CharField(max_length=10)
-    room_type_choices = [("single", "Single"), ("double", "Double")]
-    room_type = models.CharField(max_length=10, choices=room_type_choices)
+    room_type_choices = [(1, "Single"), (2, "Double")]
+    room_type = models.SmallIntegerField(choices=room_type_choices)
     ac_choices = [(False, "AC"), (True, "Non-AC")]
     ac = models.BooleanField(choices=ac_choices)
     balcony = models.BooleanField()
@@ -38,11 +45,25 @@ class Room(models.Model):
 
         return rent
 
+    def get_tenants_count(self):
+        return self.tenants.count()
+
 
 class RoomRequest(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    room_type_choices = [("single", "Single"), ("double", "Double")]
-    room_type = models.CharField(max_length=10, choices=room_type_choices)
+    branch = models.ForeignKey(
+        Branch,
+        on_delete=models.CASCADE,
+        related_name="room_requests",
+        related_query_name="room_request",
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="room_requests",
+        related_query_name="room_request",
+    )
+    room_type_choices = [(1, "Single"), (2, "Double")]
+    room_type = models.SmallIntegerField(choices=room_type_choices)
     ac_choices = [(False, "AC"), (True, "Non-AC")]
     ac = models.BooleanField(choices=ac_choices)
     balcony = models.BooleanField()
@@ -53,10 +74,35 @@ class RoomRequest(models.Model):
     status = models.SmallIntegerField(choices=status_choices, default=-1)
     rejection_reason = models.CharField(max_length=100, null=True)
 
+    def get_available_rooms(self):
+        # NOTE: might give error
+        rooms = (
+            Room.objects.filter(
+                branch=self.branch,
+                room_type=self.room_type,
+                ac=self.ac,
+                balcony=self.balcony,
+                attached_bathroom=self.attached_bathroom,
+            )
+            .annotate(tenant_count=Count("tenant"))
+            .filter(tenant_count__lt=F("room_type"))
+        )
+        return rooms
+
 
 class Tenant(models.Model):
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    room = models.ForeignKey(
+        Room,
+        on_delete=models.CASCADE,
+        related_name="tenants",
+        related_query_name="tenant",
+    )
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="tenant",
+        related_query_name="tenant",
+    )
     lunch_default = models.BooleanField(default=True)
     dinner_default = models.BooleanField(default=True)
 

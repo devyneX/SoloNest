@@ -7,7 +7,6 @@ from django.utils import timezone
 class Meal(models.Model):
     tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now)
-    # TODO: change the choices to lunch and dinner instead of 0 and 1 and refactor the code
     meal_times = [(0, "Lunch"), (1, "Dinner")]
     meal_time = models.SmallIntegerField(choices=meal_times)
     on = models.BooleanField(default=True)

@@ -2,5 +2,15 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "python.formatting.provider": "none"
+    "python.formatting.provider": "none",
+    "tailwindCSS.includeLanguages": {
+        "django-html": "html",
+        "css": "css",
+        "javascript": "javascript"
+    },
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "css.validate": false,
+    "editor.inlineSuggest.enabled": true
 }

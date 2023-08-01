@@ -1,11 +1,10 @@
-{% extends "base.html" %}
+{% extends "form_base.html" %}
 
 {% block title %}Room Request Approval{% endblock %}
 
-{% block content %}
-    <h1>Room Request Approval</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-    </form>
+{% block form_title %}Approve Room Request{% endblock %}
+
+
+{% block form_buttons %}
+<button type="submit">Approve</button>
 {% endblock %}

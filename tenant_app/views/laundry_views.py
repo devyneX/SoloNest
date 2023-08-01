@@ -16,7 +16,8 @@ import datetime
 class LaundryRequestView(TenantRequiredMixin, CreateView):
     model = models.LaundryRequest
     template_name = "tenant_app/laundry_request.html"
-    fields = ["laundry_time", "date"]
+    # TODO: create a form for this
+    fields = ["date"]
 
     def form_valid(self, form):
         form.instance.tenant = self.request.user.tenant

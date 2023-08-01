@@ -1,7 +1,31 @@
-{% extends "base.html" %}
+{% extends "manager_app/manager_dashboard.html" %}
 
-{% block title %}Room Request Details{% endblock %}
+{% block title %}Room Request{% endblock %}
 
-{% block content %}
-{% comment %} TODO: add fields {% endcomment %}
+{% block manager_content %}
+<div class="mt-10 flex flex-col gap-5">    
+    <h1 class="text-4xl text-center">Room Request</h1>
+    <ul class="">
+        <li class="text-2xl">{{ room_request.user.first_name }} {{ room_request.user.last_name }}</li>
+        <li class="text-xl text-cyan-600 underline">@{{ room_request.user.username }}</li>
+        <li class="mt-5 mb-2 text-lg">Room Preferences</li>
+        <li class="text-lg">Room Type: {{ room_request.get_room_type_display }}</li>
+        <li class="text-lg">AC: {{ room_request.get_ac_display }}</li>
+        {% if room_request.balcony %}
+        <li class="text-lg">Balcony: <i class="fa-solid fa-square-check fa-lg"></i></li>
+        {% else %}
+        <li class="text-lg">Balcony: <i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></li>
+        {% endif %}
+        {% if room_request.attached_bathroom %}
+        <li class="text-lg">Attached Bathroom: <i class="fa-solid fa-square-check fa-lg"></i></li>
+        {% else %}
+        <li class="text-lg">Attached Bathroom: <i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></li>
+        {% endif %}
+        <li class="text-lg">{{ available_rooms }}</li>
+    </ul>
+    <div>
+        <button onclick="location.href=`{% url 'manager:room_request_approve' room_request.pk %}`">Approve</button>
+        <button onclick="location.href=`{% url 'manager:room_request_reject' room_request.pk %}`">Reject</button>
+    </div>
+</div>
 {% endblock %}

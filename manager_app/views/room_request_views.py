@@ -1,6 +1,9 @@
 from .utils import ManagerRequiredMixin
-from django.views.generic import ListView, DetailView, FormView
+from django.views import View
+from django.views.generic import ListView, DetailView, UpdateView
 from manager_app import models, forms
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 
 
 class RoomRequestListView(ManagerRequiredMixin, ListView):
@@ -9,21 +12,17 @@ class RoomRequestListView(ManagerRequiredMixin, ListView):
     context_object_name = "room_requests"
 
     def get_queryset(self):
-        return self.model.objects.filter(status=-1)
+        return self.model.objects.filter(
+            branch=self.request.user.manager.branch, status=-1
+        )
 
     def get_context_data(self, **kwargs):
         room_requests = super().get_context_data(**kwargs)["room_requests"]
         context = {"room_requests": []}
         for room_request in room_requests:
-            no_of_available_rooms = models.Room.objects.filter(
-                room_type=room_request.room_type,
-                ac=room_request.ac,
-                balcony=room_request.balcony,
-                attached_bathroom=room_request.attached_bathroom,
-            ).count()
-            context["room_requests"].append((room_request, no_of_available_rooms))
-
-        print(context)
+            context["room_requests"].append(
+                (room_request, room_request.get_available_rooms().count())
+            )
         return context
 
 
@@ -34,36 +33,35 @@ class RoomRequestDetailView(ManagerRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        room_request = context["room_request"]
-        no_of_available_rooms = models.Room.objects.filter(
-            room_type=room_request.room_type,
-            ac=room_request.ac,
-            balcony=room_request.balcony,
-            attached_bathroom=room_request.attached_bathroom,
-        ).count()
-        context["no_of_available_rooms"] = no_of_available_rooms
+        context["no_of_available_rooms"] = (
+            context["room_request"].get_available_rooms().count()
+        )
         return context
 
 
-class RoomRequestApprovalView(ManagerRequiredMixin, FormView):
-    form = forms.RoomRequestApprovalForm
+class RoomRequestApprovalView(ManagerRequiredMixin, UpdateView):
+    model = models.RoomRequest
+    form_class = forms.RoomRequestApprovalForm
     template_name = "manager_app/manager_room_request_approval.html"
+    success_url = reverse_lazy("manager:room_request_list")
 
     def form_valid(self, form):
-        room_request = models.RoomRequest.objects.get(pk=self.kwargs["pk"])
-        room_request.status = 1
-        room_request.room = form.cleaned_data["room"]
-        room_request.save()
+        form.instance.status = 1
+        # TODO: change this after payment implementation
+        form.instance.user.is_tenant = True
+        form.instance.user.save()
+        models.Tenant.objects.create(
+            user=form.instance.user, room=form.cleaned_data["assigned_room"]
+        )
         return super().form_valid(form)
 
 
-class RoomRequestRejectionView(ManagerRequiredMixin, FormView):
-    form = forms.RoomRequestRejectionForm
+class RoomRequestRejectionView(ManagerRequiredMixin, UpdateView):
+    model = models.RoomRequest
+    form_class = forms.RoomRequestRejectionForm
     template_name = "manager_app/manager_room_request_rejection.html"
+    success_url = reverse_lazy("manager:room_request_list")
 
     def form_valid(self, form):
-        room_request = models.RoomRequest.objects.get(pk=self.kwargs["pk"])
-        room_request.status = 0
-        room_request.rejection_reason = form.cleaned_data["rejection_reason"]
-        room_request.save()
+        form.instance.status = 0
         return super().form_valid(form)

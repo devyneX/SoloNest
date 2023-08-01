@@ -2,26 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-
-*, *:before, *:after {
+*,
+*:before,
+*:after {
     @apply box-border;
 }
+
 * {
     @apply font-sans;
 }
+
 /* text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800
 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 */
-button {
-    @apply bg-sky-800 px-3 py-2 rounded-lg mx-2 text-white hover:text-white hover:bg-cyan-700 hover:scale-105 duration-300;
+button, button[type="submit"], input[type="submit"], input[type="reset"] {
+    @apply bg-sky-800 px-3 py-2 rounded-lg mx-2 text-white hover:bg-cyan-700;
 }
 
-input {
-    @apply flex justify-center rounded-xl border;
+[type='text'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select {
+    @apply w-full rounded-xl border bg-gray-700;
 }
+
+table {
+    @apply bg-slate-800 text-white border-collapse border border-slate-500;
+}
+
+td, th  {
+    @apply border border-slate-600;
+}
+
+th {
+    @apply bg-slate-700;
+}
+
+td {
+    @apply p-2;
+}
+
+tr:hover {
+    @apply bg-slate-400 text-black;
+}
+
 .sidebar-links {
     @apply w-11/12 m-2 pl-10 p-4 rounded-lg text-white;
 }
+
 .sidebar-links:hover {
     @apply bg-gray-500;
+}
+
+.errorlist {
+    @apply text-red-700 flex justify-center;
 }
