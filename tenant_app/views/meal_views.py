@@ -9,6 +9,8 @@ from django.views.generic import (
 from django.urls import reverse_lazy
 from .utils import TenantRequiredMixin
 from django.shortcuts import redirect
+from django.db.models import F, Sum, IntegerField
+from django.db.models.functions import Cast
 import datetime
 
 
@@ -39,7 +41,7 @@ class MealRequestView(TenantRequiredMixin, CreateView):
 
 class MonthlyMealListView(TenantRequiredMixin, ListView):
     model = models.Meal
-    template_name = "tenant_app/monthly_meal_list.html"
+    template_name = "tenant_app/meal_request_list.html"
     context_object_name = "meals"
 
     def get_queryset(self):
@@ -56,10 +58,8 @@ class MonthlyMealListView(TenantRequiredMixin, ListView):
         context["total_lunch"] = queryset.filter(meal_time=0).count()
         context["total_dinner"] = queryset.filter(meal_time=1).count()
         context["total_meal"] = context["total_lunch"] + context["total_dinner"]
-        meal_price = self.request.user.tenant.room.branch.meal_price
-        context["total_price"] = queryset.aggregate(
-            total_price=meal_price * models.Sum(models.F("on") + models.F("extra_meal"))
-        )["total_price"]
+        context["meal_price"] = self.request.user.tenant.room.branch.meal_price
+        context["total_price"] = context["meal_price"] * context["total_meal"]
         return context
 
 

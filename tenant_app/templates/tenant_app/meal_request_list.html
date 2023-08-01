@@ -1,0 +1,36 @@
+{% extends "tenant_app/profile_base.html" %}
+
+{% block title %}Monthly Meal{% endblock %}
+
+{% block profile_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Room Requests</h1>
+    <div class="flex justify-center">
+        <button onclick="location.href=`{% url 'tenant:meal_request' %}`">Request Meal</button>
+    </div>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Lunch/Dinner</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        {% for meal in meals %}
+        <tr class="text-center" onclick="location.href=`{% url 'tenant:meal_request_detail' meal.pk %}`">
+            <td>{{ meal.date }}</td>
+            <td>{{ meal.get_meal_time_display }}</td>
+            <td>{{ meal.get_quantity }}</td>
+            <td>{{ meal.get_price }}</td>
+        </tr>
+        {% endfor %}
+        {% if meals %}
+        <tr>
+            <td></td>
+            <td class="text-right">Total=</td>
+            <td class="text-center">{{ total_meal }}</td>
+            <td class="text-center">{{ total_price }}</td>
+        </tr>
+        {% endif %}
+    </table>
+</div>
+{% endblock %}

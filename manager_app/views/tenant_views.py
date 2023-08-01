@@ -16,12 +16,14 @@ class TenantDetailView(ManagerRequiredMixin, DetailView):
     context_object_name = "tenant"
 
 
+# NOTE: not used
 class TenantUpdateView(ManagerRequiredMixin, UpdateView):
     model = models.Tenant
     template_name = "manager_app/manager_tenant_update.html"
     context_object_name = "tenant"
 
 
+# NOTE: might use
 class TenantDeleteView(ManagerRequiredMixin, DeleteView):
     model = models.Tenant
     template_name = "manager_app/manager_tenant_delete.html"

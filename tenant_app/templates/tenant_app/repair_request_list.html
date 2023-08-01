@@ -1,0 +1,24 @@
+{% extends "tenant_app/profile_base.html" %}
+
+{% block title %}Repair Requests{% endblock %}
+
+{% block profile_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Repair Requests</h1>
+    <div class="flex justify-center">
+        <button onclick="location.href=`{% url 'tenant:repair_request' %}`">Request Repair</button>
+    </div>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Description</th>
+        </tr>
+        {% for repair_request in repairs %}
+        <tr class="text-center" onclick="location.href=`{% url 'tenant:repair_request_detail' repair_request.pk %}`">
+            <td>{{ repair_request.date }}</td>
+            <td>{{ repair_request.description }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

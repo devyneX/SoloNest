@@ -50,3 +50,7 @@ tr:hover {
 .sidebar-links:hover {
     @apply bg-gray-500;
 }
+
+.errorlist {
+    @apply text-red-700 flex justify-center;
+}

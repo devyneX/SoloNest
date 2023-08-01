@@ -1,4 +1,4 @@
-from tenant_app import models
+from tenant_app import models, forms
 from django.views.generic import (
     CreateView,
     ListView,
@@ -14,10 +14,8 @@ import datetime
 
 class RepairRequestView(TenantRequiredMixin, CreateView):
     model = models.RepairRequest
+    form_class = forms.RepairRequestForm
     template_name = "tenant_app/repair_request.html"
-    # TODO:: make this a textarea widget
-    # NOTE: You can create a form for this and use it here
-    fields = ["description"]
 
     def form_valid(self, form):
         form.instance.tenant = self.request.user.tenant
@@ -31,7 +29,7 @@ class RepairRequestView(TenantRequiredMixin, CreateView):
 
 class RepairRequestListView(TenantRequiredMixin, ListView):
     model = models.RepairRequest
-    template_name = "tenant_app/tenant_repair_request_list.html"
+    template_name = "tenant_app/repair_request_list.html"
     context_object_name = "repairs"
 
     def get_queryset(self):
@@ -60,8 +58,8 @@ class RepairRequestDetailView(TenantRequiredMixin, DetailView):
 
 class RepairRequestUpdateView(TenantRequiredMixin, UpdateView):
     model = models.RepairRequest
+    form_class = forms.RepairRequestForm
     template_name = "tenant_app/repair_request.html"
-    fields = ["repair_time", "date"]
 
     def get(self, request, *args, **kwargs):
         if request.user.tenant.pk != self.get_object().tenant.pk:
@@ -81,6 +79,7 @@ class RepairRequestUpdateView(TenantRequiredMixin, UpdateView):
 
 class RepairRequestDeleteView(TenantRequiredMixin, DeleteView):
     model = models.RepairRequest
+    form_class = forms.RepairRequestForm
     template_name = "tenant_app/repair_request_delete.html"
     context_object_name = "repair"
 

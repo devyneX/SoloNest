@@ -1,7 +1,20 @@
 from django.shortcuts import render
 from .utils import ManagerRequiredMixin
-from django.views.generic import ListView, DetailView, UpdateView, DeleteView
+from django.views.generic import (
+    CreateView,
+    ListView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+)
 from manager_app import models
+
+
+# NOTE: might use
+class RoomCreateView(ManagerRequiredMixin, CreateView):
+    model = models.Room
+    template_name = "manager_app/manager_room_create.html"
+    context_object_name = "room"
 
 
 class RoomListView(ManagerRequiredMixin, ListView):
