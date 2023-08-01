@@ -2,24 +2,3 @@
 
 {% block title %}Update Account Info{% endblock %}
 
-{% block content %}
-<div class='flex items-center justify-center bg-purple-300'>
-    <div class='w-2/5 bg-gray-100 shadow-md rounded-xl mb-10 mt-10'>
-        <div class='flex items-center justify-center p-20 flex-col'>
-    <h1 class="text-3xl font-normal text-gray-900 dark:text-gray-600 py-8">Update Account Info</h1>
-    <form method="POST" action="">
-        {% csrf_token %}
-        {% for field in form %}
-        {{ field | add_label_class:"flex items-center justify-center mt-3 pr-50" }}
-        {{ field | add_input_class:"flex justify-center rounded-xl border pr-52 w-full" }}
-        {{ field.errors }}
-        {% endfor %}
-        <button class="flex justify-items-center mt-5 mx-32  px-20">Update</button>
-    </form> 
-    
-        
-            <button class="flex justify-items-center m-5 px-20"><a href="{% url 'accounts:change_password' %}">Change Password</a></button>
-        </div>
-    </div>
-</div>
-{% endblock %}

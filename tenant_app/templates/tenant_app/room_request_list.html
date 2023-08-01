@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'tenant_app/profile_base.html' %}
 
 {% block title %}Room Requests{% endblock %}
 
-{% block content %}
+{% block profile_content %}
     <button onclick="location.href=`{% url 'tenant:room_request' %}`">Request Room</button>
 {% endblock %}
