@@ -1,0 +1,24 @@
+{% extends "tenant_app/profile_base.html" %}
+
+{% block title %}Laundry Requests{% endblock %}
+
+{% block profile_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Laundry Requests</h1>
+    <div class="flex justify-center">
+        <button onclick="location.href=`{% url 'tenant:laundry_request' %}`">Request Laundry</button>
+    </div>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+        {% for laundry_request in laundry_requests %}
+        <tr class="text-center" onclick="location.href=`{% url 'tenant:Laundry_request_update' Laundry_request.pk %}`">
+            <td>{{ laundry_request.date }}</td>
+            <td>{{ laundry_request.get_completed_display }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

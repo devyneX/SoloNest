@@ -4,7 +4,7 @@
 
 {% block profile_content %}
 <div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
-    <h1 class="text-4xl text-center text-white">Room Requests</h1>
+    <h1 class="text-4xl text-center text-white">Meal Requests</h1>
     <div class="flex justify-center">
         <button onclick="location.href=`{% url 'tenant:meal_request' %}`">Request Meal</button>
     </div>
@@ -16,7 +16,7 @@
             <th>Price</th>
         </tr>
         {% for meal in meals %}
-        <tr class="text-center" onclick="location.href=`{% url 'tenant:meal_request_detail' meal.pk %}`">
+        <tr class="text-center" onclick="location.href=`{% url 'tenant:meal_request_update' meal.pk %}`">
             <td>{{ meal.date }}</td>
             <td>{{ meal.get_meal_time_display }}</td>
             <td>{{ meal.get_quantity }}</td>

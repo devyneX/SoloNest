@@ -1,3 +1,5 @@
+from typing import Optional, Type
+from django.forms.models import BaseModelForm
 from tenant_app import models, forms
 from django.views.generic import (
     CreateView,
@@ -16,16 +18,18 @@ class CleaningRequestView(TenantRequiredMixin, CreateView):
     model = models.CleaningRequest
     template_name = "tenant_app/cleaning_request.html"
     form_class = forms.CleaningRequestForm
+    success_url = reverse_lazy("tenant:cleaning_request_list")
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["tenant"] = self.request.user.tenant
+        return kwargs
 
     def form_valid(self, form):
         # TODO: ensure only one request per day for the same room
+        # cleaning_req = models.CleaningRequest.objects.filter(
         form.instance.tenant = self.request.user.tenant
         return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse_lazy(
-            "tenant:cleaning_request_detail", kwargs={"pk": self.object.pk}
-        )
 
 
 class CleaningRequestListView(TenantRequiredMixin, ListView):
@@ -36,7 +40,8 @@ class CleaningRequestListView(TenantRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(
-            tenant__room=self.tenant.room, date__month=datetime.date.today().month
+            tenant__room=self.request.user.tenant.room,
+            date__month=datetime.date.today().month,
         )
         return queryset
 
@@ -61,8 +66,8 @@ class CleaningRequestDetailView(TenantRequiredMixin, DetailView):
 class CleaningRequestUpdateView(TenantRequiredMixin, UpdateView):
     model = models.CleaningRequest
     template_name = "tenant_app/cleaning_request.html"
-    fields = ["cleaning_time", "date"]
-    context_object_name = "cleaning_request"
+    form_class = forms.CleaningRequestForm
+    success_url = reverse_lazy("tenant:cleaning_request_list")
 
     def get(self, request, *args, **kwargs):
         if request.user.tenant.pk != self.get_object().tenant.pk:
@@ -73,11 +78,6 @@ class CleaningRequestUpdateView(TenantRequiredMixin, UpdateView):
         if request.user.tenant.pk != self.get_object().tenant.pk:
             return redirect("tenant:cleaning_request_list")
         return super().post(request, *args, **kwargs)
-
-    def get_success_url(self):
-        return reverse_lazy(
-            "tenant:cleaning_request_detail", kwargs={"pk": self.object.pk}
-        )
 
 
 class CleaningRequestDeleteView(TenantRequiredMixin, DeleteView):

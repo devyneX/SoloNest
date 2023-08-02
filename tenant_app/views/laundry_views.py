@@ -1,4 +1,4 @@
-from tenant_app import models
+from tenant_app import models, forms
 from django.views import View
 from django.views.generic import (
     CreateView,
@@ -17,7 +17,8 @@ class LaundryRequestView(TenantRequiredMixin, CreateView):
     model = models.LaundryRequest
     template_name = "tenant_app/laundry_request.html"
     # TODO: create a form for this
-    fields = ["date"]
+    # fields = ["date", "laundry_item"]
+    form_class = forms.LaundryRequestForm
 
     def form_valid(self, form):
         form.instance.tenant = self.request.user.tenant

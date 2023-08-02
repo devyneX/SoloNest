@@ -61,11 +61,16 @@ class RoomRequestUpdateView(LoginRequiredMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         if request.user.pk != self.get_object().user.pk:
             return redirect("tenant:room_request_list")
+        if self.get_object().status != -1:
+            return redirect("tenant:room_request_detail", pk=self.get_object().pk)
+
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         if request.user.pk != self.get_object().user.pk:
             return redirect("tenant:room_request_list")
+        if self.get_object().status != -1:
+            return redirect("tenant:room_request_detail", pk=self.get_object().pk)
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
@@ -80,11 +85,15 @@ class RoomRequestDeleteView(LoginRequiredMixin, DeleteView):
     def get(self, request, *args, **kwargs):
         if request.user.pk != self.get_object().user.pk:
             return redirect("tenant:room_request_list")
+        if self.get_object().status != -1:
+            return redirect("tenant:room_request_detail", pk=self.get_object().pk)
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         if request.user.pk != self.get_object().user.pk:
             return redirect("tenant:room_request_list")
+        if self.get_object().status != -1:
+            return redirect("tenant:room_request_detail", pk=self.get_object().pk)
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
