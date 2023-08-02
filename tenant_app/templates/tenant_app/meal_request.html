@@ -3,3 +3,35 @@
 {% block title %}Request Meal{% endblock %}
 
 {% block form_title %}Request Meal{% endblock %}
+
+{% block form_content %}
+    {% for field in form %}
+    {% if field.field.widget.input_type == "checkbox" %}
+    <div>
+        {{ field }}
+        {{ field.label }}
+        {{ field.errors }}
+    </div>
+    {% elif field.id_for_label == "extra_meal" %}
+        <div id="hidden_field" class="hidden">
+            <p class="text-start" >{{ field.label }}<p> 
+            {{ field }}
+            {{ field.errors }}
+        </div>
+        <button id="hidden_field_button" type="button">Add Extra Meal</button>
+        <script>
+            document.getElementById('hidden_field_button').addEventListener('click', function() {
+                document.getElementById('hidden_field').classList = "flex flex-col gap-2";
+                document.getElementById('hidden_field_button').classList = "hidden";
+            });
+        </script>
+    {% else %}
+    <div class="flex flex-col gap-2">
+        <p class="text-start" >{{ field.label }}<p> 
+        {{ field }}
+        {{ field.errors }}
+    </div>
+    {% endif %}
+    {% endfor %}
+
+{% endblock %}

@@ -75,7 +75,7 @@ class RoomRequest(models.Model):
     rejection_reason = models.CharField(max_length=100, null=True)
 
     def get_available_rooms(self):
-        # NOTE: might give error
+        # TODO: when payment is implemented, filter out rooms with unpaid room_requests
         rooms = (
             Room.objects.filter(
                 branch=self.branch,

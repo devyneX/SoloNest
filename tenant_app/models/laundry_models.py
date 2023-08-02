@@ -1,15 +1,34 @@
 from django.db import models
 from .room_request_models import Tenant
+from django.utils import timezone
 
 
 class LaundryRequest(models.Model):
-    tenant = models.ForeignKey(Tenant, on_delete=models.CASCADE)
-    date = models.DateField()
-    completed = models.BooleanField(default=False)
+    tenant = models.ForeignKey(
+        Tenant,
+        on_delete=models.CASCADE,
+        related_name="laundry_requests",
+        related_query_name="laundry_request",
+    )
+    date = models.DateField(default=timezone.now)
+    status_choices = [
+        (0, "Pending"),
+        (1, "Received"),
+        (2, "Washing"),
+        (3, "Drying"),
+        (4, "Ironing"),
+        (5, "Ready"),
+    ]
+    status = models.SmallIntegerField(choices=status_choices, default=0)
 
 
 class LaundryItem(models.Model):
-    laundry_request = models.ForeignKey(LaundryRequest, on_delete=models.CASCADE)
+    laundry_request = models.ForeignKey(
+        LaundryRequest,
+        on_delete=models.CASCADE,
+        related_name="laundry_items",
+        related_query_name="laundry_item",
+    )
     item_choices = [
         ("shirt", "Shirt"),
         ("pant", "Pant"),

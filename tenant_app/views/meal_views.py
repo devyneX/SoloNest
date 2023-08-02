@@ -18,6 +18,7 @@ class MealRequestView(TenantRequiredMixin, CreateView):
     model = models.Meal
     template_name = "tenant_app/meal_request.html"
     form_class = forms.MealRequestForm
+    success_url = reverse_lazy("tenant:monthly_meal_list")
 
     def form_valid(self, form):
         # should have only one meal for lunch or dinner on a day
@@ -27,16 +28,12 @@ class MealRequestView(TenantRequiredMixin, CreateView):
             meal_time=form.cleaned_data["meal_time"],
         )
         if meal_request.exists():
-            meal_request[0].update(
-                on=form.cleaned_data["on"], extra_meal=form.cleaned_data["extra_meal"]
-            )
-            return redirect("tenant:meal_request_detail", pk=meal_request.first().pk)
+            meal_request[0].on = form.cleaned_data["on"]
+            meal_request[0].extra_meal = form.cleaned_data["extra_meal"]
+            return redirect("tenant:monthly_meal_list")
 
         form.instance.tenant = self.request.user.tenant
         return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse_lazy("tenant:meal_request_detail", kwargs={"pk": self.object.pk})
 
 
 class MonthlyMealListView(TenantRequiredMixin, ListView):
@@ -55,8 +52,16 @@ class MonthlyMealListView(TenantRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["tenant"] = self.request.user.tenant
         queryset = self.get_queryset()
-        context["total_lunch"] = queryset.filter(meal_time=0).count()
-        context["total_dinner"] = queryset.filter(meal_time=1).count()
+        context["total_lunch"] = (
+            queryset.filter(meal_time=0, on=True)
+            .annotate(quantity=1 + F("extra_meal"))
+            .aggregate(total=Sum("quantity", output_field=IntegerField()))["total"]
+        )
+        context["total_dinner"] = (
+            queryset.filter(meal_time=1, on=True)
+            .annotate(quantity=1 + F("extra_meal"))
+            .aggregate(total=Sum("quantity", output_field=IntegerField()))["total"]
+        )
         context["total_meal"] = context["total_lunch"] + context["total_dinner"]
         context["meal_price"] = self.request.user.tenant.room.branch.meal_price
         context["total_price"] = context["meal_price"] * context["total_meal"]
@@ -79,14 +84,16 @@ class MealRequestUpdateView(TenantRequiredMixin, UpdateView):
     model = models.Meal
     template_name = "tenant_app/meal_request.html"
     form_class = forms.MealRequestForm
-    context_object_name = "meal"
+    success_url = reverse_lazy("tenant:monthly_meal_list")
+
+    def get(self, request, *args, **kwargs):
+        if request.user.tenant.pk != self.get_object().tenant.pk:
+            return redirect("tenant:monthly_meal_list")
+        return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.tenant = self.request.user.tenant
         return super().form_valid(form)
-
-    def get_success_url(self):
-        return reverse_lazy("tenant:meal_request_detail", kwargs={"pk": self.object.pk})
 
 
 # NOTE: this might not be needed

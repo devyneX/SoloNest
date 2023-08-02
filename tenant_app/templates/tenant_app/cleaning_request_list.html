@@ -1,7 +1,26 @@
-{% extends "profile_base.html" %}
+{% extends "tenant_app/profile_base.html" %}
 
 {% block title %}Cleaning Requests{% endblock %}
 
 {% block profile_content %}
-    table
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Cleaning Requests</h1>
+    <div class="flex justify-center">
+        <button onclick="location.href=`{% url 'tenant:cleaning_request' %}`">Request Cleaning</button>
+    </div>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Slot</th>
+            <th>Status</th>
+        </tr>
+        {% for cleaning_request in cleaning_requests %}
+        <tr class="text-center" onclick="location.href=`{% url 'tenant:cleaning_request_update' cleaning_request.pk %}`">
+            <td>{{ cleaning_request.date }}</td>
+            <td>{{ cleaning_request.slot }}</td>
+            <td>{{ cleaning_request.get_status_display }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}
