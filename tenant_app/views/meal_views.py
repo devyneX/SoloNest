@@ -57,11 +57,15 @@ class MonthlyMealListView(TenantRequiredMixin, ListView):
             .annotate(quantity=1 + F("extra_meal"))
             .aggregate(total=Sum("quantity", output_field=IntegerField()))["total"]
         )
+        if context["total_lunch"] is None:
+            context["total_lunch"] = 0
         context["total_dinner"] = (
             queryset.filter(meal_time=1, on=True)
             .annotate(quantity=1 + F("extra_meal"))
             .aggregate(total=Sum("quantity", output_field=IntegerField()))["total"]
         )
+        if context["total_dinner"] is None:
+            context["total_dinner"] = 0
         context["total_meal"] = context["total_lunch"] + context["total_dinner"]
         context["meal_price"] = self.request.user.tenant.room.branch.meal_price
         context["total_price"] = context["meal_price"] * context["total_meal"]
