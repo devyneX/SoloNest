@@ -23,12 +23,12 @@
           
           {% if field.field.widget.input_type == "checkbox" %}
           <div class="flex items-center">
-          {{ field | add_input_class:"p-2 mt-5 rounded-xl border" }}
+          {{ field | add_input_class:"p-2 mt-5" }}
           {{ field | add_label_class:"mt-5" }}
           </div>
           {% else %}
           {{ field | add_label_class:"mt-5" }}
-          {{ field | add_input_class:"p-2 rounded-xl border" }}
+          {{ field | add_input_class:"p-2" }}
           {% endif %}
           {{ field.errors }}
 
