@@ -23,8 +23,7 @@ class RepairRequestView(TenantRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy(
-            "tenant:repair_request_detail", kwargs={"pk": self.object.pk}
-        )
+            "tenant:repair_request_list")
 
 
 class RepairRequestListView(TenantRequiredMixin, ListView):
@@ -47,7 +46,7 @@ class RepairRequestListView(TenantRequiredMixin, ListView):
 
 class RepairRequestDetailView(TenantRequiredMixin, DetailView):
     model = models.RepairRequest
-    template_name = "tenant_app/repair_request_detail.html"
+    template_name = "tenant_app/repair_request_list.html"
     context_object_name = "repair"
 
     def get(self, request, *args, **kwargs):
@@ -73,7 +72,7 @@ class RepairRequestUpdateView(TenantRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy(
-            "tenant:repair_request_detail", kwargs={"pk": self.object.pk}
+            "tenant:repair_request_list"
         )
 
 

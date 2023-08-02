@@ -1,0 +1,26 @@
+{% extends "tenant_app/profile_base.html" %}
+
+{% block title %}Room Request{% endblock %}
+
+{% block profile_content %}
+<div class="mt-40 p-10 bg-gray-800 border rounded-xl text-white">
+    <h1 class="text-4xl text-center mb-6">Room Request</h1>
+    <ul class="text-lg">
+        <li class="mb-1">{{ room_request.user.first_name }} {{ room_request.user.last_name }}</li>
+        <li class="mb-1 text-cyan-600 underline">@{{ room_request.user.username }}</li>
+        <li class="mt-5 mb-2">Room Preferences</li>
+        <li class="mb-1">Room Type: {{ room_request.get_room_type_display }}</li>
+        <li class="mb-1">AC: {{ room_request.get_ac_display }}</li>
+        {% if room_request.balcony %}
+        <li class="mb-1">Balcony: <i class="fa-solid fa-square-check fa-lg"></i></li>
+        {% else %}
+        <li class="mb-1">Balcony: <i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></li>
+        {% endif %}
+        {% if room_request.attached_bathroom %}
+        <li class="mb-1">Attached Bathroom: <i class="fa-solid fa-square-check fa-lg"></i></li>
+        {% else %}
+        <li class="mb-1">Attached Bathroom: <i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></li>
+        {% endif %}
+        <li class="mb-3">{{ available_rooms }}</li>
+    </ul>
+{% endblock %}
