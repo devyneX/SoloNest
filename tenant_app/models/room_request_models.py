@@ -15,6 +15,9 @@ class Branch(models.Model):
     attached_bathroom_rent_addition = models.IntegerField(default=1000)
     cleaning_slot_limit = models.IntegerField(default=5)
 
+    def __str__(self):
+        return self.name
+
 
 class Room(models.Model):
     branch = models.ForeignKey(

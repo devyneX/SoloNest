@@ -16,8 +16,6 @@ import datetime
 class LaundryRequestView(TenantRequiredMixin, CreateView):
     model = models.LaundryRequest
     template_name = "tenant_app/laundry_request.html"
-    # TODO: create a form for this
-    # fields = ["date", "laundry_item"]
     form_class = forms.LaundryRequestForm
 
     def form_valid(self, form):
@@ -25,9 +23,7 @@ class LaundryRequestView(TenantRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy(
-            "tenant:laundry_request_detail", kwargs={"pk": self.object.pk}
-        )
+        return reverse_lazy("tenant:laundry_request_list")
 
 
 class LaundryRequestListView(TenantRequiredMixin, ListView):
@@ -75,7 +71,7 @@ class LaundryRequestUpdateView(TenantRequiredMixin, UpdateView):
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
-        return super().get_success_url()
+        return reverse_lazy("tenant:laundry_request_list")
 
 
 class LaundryRequestDeleteView(TenantRequiredMixin, DeleteView):

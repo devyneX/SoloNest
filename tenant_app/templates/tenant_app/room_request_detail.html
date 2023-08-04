@@ -21,6 +21,11 @@
         {% else %}
         <li class="mb-1">Attached Bathroom: <i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></li>
         {% endif %}
-        <li class="mb-3">{{ available_rooms }}</li>
+        <!-- <li class="mb-3">{{ available_rooms }}</li> -->
+        <li class="mb-1">Status: {{ room_request.get_status_display }}</li>
+        {% if room_request.status == 0 %}
+        <li class="mb-3">Rejection Reason: {{ room_request.rejection_reason }}</li>
+        {% endif %}
     </ul>
+</div>
 {% endblock %}

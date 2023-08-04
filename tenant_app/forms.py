@@ -68,8 +68,6 @@ class MealRequestForm(forms.ModelForm):
         if cleaned_data["extra_meal"] > 0 and not cleaned_data["on"]:
             raise ValidationError("You cannot request extra meal when meal is off")
 
-        return cleaned_data
-
 
 class CleaningRequestForm(forms.ModelForm):
     error_css_class = "error"
@@ -110,8 +108,6 @@ class CleaningRequestForm(forms.ModelForm):
         if count >= self.tenant.room.branch.cleaning_slot_limit:
             raise ValidationError("This cleaning slot is already full")
 
-        return cleaned_data
-
 
 class RepairRequestForm(forms.ModelForm):
     error_css_class = "error"
@@ -136,20 +132,68 @@ class LaundryRequestForm(forms.ModelForm):
             "date": forms.DateInput(attrs={"type": "date", "required": True}),
         }
 
-    # def __init__(self, *args, **kwargs):
-    #     self.tenant = kwargs.pop("tenant", None)
-    #     super().__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        self.tenant = kwargs.pop("tenant", None)
+        super().__init__(*args, **kwargs)
+        items = models.LaundryItem.objects.filter(laundry_request=self.instance)
+        i = 0
+        while i < len(items):
+            item_name = "item_%s" % (i + 1,)
+            color_name = "color_%s" % (i + 1,)
+            self.fields[item_name] = forms.ChoiceField(
+                choices=models.LaundryItem.item_choices
+            )
+            self.fields[color_name] = forms.CharField(required=False)
+            try:
+                self.initial[item_name] = items[i].item
+                self.initial[color_name] = items[i].color
+            except IndexError:
+                self.initial[item_name] = ""
+                self.initial[color_name] = ""
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     # should not be able to request laundry for past dates
-    #     if cleaned_data["date"] <= datetime.date.today():
-    #         raise ValidationError(
-    #             "You have to request laundry at least one day in advance"
-    #         )
+            i += 1
+        # create an extra blank field
+        item_name = "item_%s" % (i + 1,)
+        color_name = "color_%s" % (i + 1,)
+        self.fields[item_name] = forms.ChoiceField(
+            choices=models.LaundryItem.item_choices
+        )
+        self.fields[item_name].widget.attrs["class"] = "item-list-new"
+        self.fields[color_name] = forms.CharField(required=False)
 
-    #     return cleaned_data
+    def clean(self):
+        cleaned_data = super().clean()
 
-    # def save(self, commit=True):
-    #     pass
-    #     return super().save(commit)
+        items = []
+        i = 1
+        item_name = "interest_%s" % (i,)
+        color_name = "color_%s" % (i,)
+        while self.cleaned_data.get(item_name):
+            item = self.cleaned_data[item_name]
+            color = self.cleaned_data[color_name]
+            items.append((item, color))
+            i += 1
+            item_name = "interest_%s" % (i,)
+            color_name = "color_%s" % (i,)
+
+        self.cleaned_data["items"] = items
+
+        # should not be able to request laundry for past dates
+        if cleaned_data["date"] <= datetime.date.today():
+            raise ValidationError(
+                "You have to request laundry at least one day in advance"
+            )
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        laundry_req = self.instance
+        laundry_req.date = self.cleaned_data["date"]
+
+        for item, color in self.cleaned_data["items"]:
+            models.LaundryItem.objects.create(item=item, color=color)
+
+    def get_item_fields(self):
+        for field_name in self.fields:
+            if field_name.startswith("item_"):
+                yield self[field_name], self["color_" + field_name.split("_")[1]]
