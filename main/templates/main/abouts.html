@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="text-white 2xl:container 2xl:mx-auto lg:py-16 lg:px-20 md:py-12 md:px-6 py-9 px-4">
+    <h2 class="font-normal text-sm leading-3 text-indigo-700 hover:text-indigo-800 cursor-pointer pb-2">About</h2>
+    <div class="flex lg:flex-row flex-col lg:gap-8 sm:gap-10 gap-12">
+        <div class="w-full lg:w-6/12">
+            <h2 class="w-full font-bold lg:text-4xl text-3xl lg:leading-10 leading-9">Welcome to SoloNest! We are a dedicated accommodation provider specifically tailored for the unique lifestyle needs of bachelors.</h2>
+            <p class="font-normal text-base leading-6 text-white mt-6">At SoloNest, we understand that moving into a new city, starting a new job, or pursuing higher education can be a challenging chapter in life. We aim to make this transition smoother by providing secure, comfortable, and hassle-free living spaces for our clients. Our focus is not just to offer a room to stay, but to deliver an environment conducive to both personal and professional growth.</p>
+        </div>
+        <div class="w-full lg:w-6/12">
+            <img class="lg:block hidden w-full" src="{% static 'img/aboutUs.png' %}"/>
+            <img class="lg:hidden sm:block hidden w-full" src="{% static 'img/aboutUs.png' %}"/>
+            <img class="sm:hidden block w-full" src="{% static 'img/aboutUs.png' %}"/>
+        </div>
+    </div>
+
+    <div class="relative mt-24">
+        <div class="grid sm:grid-cols-3 grid-cols-2 sm:gap-8 gap-4">
+            <div class="z-20 w-12 h-12 bg-gray-800 rounded-full flex justify-center items-center">
+                <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg1.svg" alt="flag" />
+            </div>
+
+          <img class="z-20" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg2.svg" alt="note" />
+
+           <img class="z-20 sm:block hidden" src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg3.svg" alt="users" />
+        </div>
+        <hr class="z-10 absolute top-2/4 w-full bg-gray-200" />
+    </div>
+    <div class="grid sm:grid-cols-3 grid-cols-2 sm:gap-8 gap-4">
+        <div>
+            <p class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-white  mt-6">Founded</p>
+            <p class="font-normal text-base leading-6 text-white mt-6">SoloNest was founded in 2023 by a group of visionaries who understood firsthand the unique challenges bachelors face in finding suitable accommodation. Having experienced these challenges themselves, they sought to create a solution that would not only address these issues but also redefine the concept of bachelor accommodation.</p>
+        </div>
+        <div>
+            <p class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-white mt-6">Montly enrichments</p>
+            <p class="font-normal text-base leading-6 text-white  mt-6">We offer a variety of monthly enrichment activities designed to cater to diverse interests. These activities aim to promote community interaction, holistic development, and most importantly, fun.</p>
+        </div>
+        <div class="sm:block hidden">
+            <p class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-white mt-6">10K Tanents</p>
+            <p class="font-normal text-base leading-6 text-white  mt-6">10,000 tenants! Our journey began with a single property, a small team, and a grand vision. Today, we have grown into a large community spanning multiple cities, all thanks to the trust and support of our tenants.</p>
+        </div>
+    </div>
+    <div class="sm:hidden block relative mt-8">
+        <div class="grid sm:grid-cols-3 grid-cols-2 sm:gap-8 gap-4">
+           <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg3.svg" alt="user" />
+        </div>
+        <hr class="z-10 absolute top-2/4 w-full bg-gray-200" />
+    </div>
+    <div class="sm:hidden grid sm:grid-cols-3 grid-cols-2 sm:gap-8 gap-4">
+        <div>
+            <p class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-white mt-6">400k User</p>
+            <p class="font-normal text-base leading-6 text-white mt-6">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
+        </div>
+    </div>
+
+    <div class="flex lg:flex-row flex-col md:gap-14 gap-16 justify-between lg:mt-20 mt-16">
+        <div class="w-full lg:w-6/12">
+            <h2 class="font-bold lg:text-4xl text-3xl lg:leading-9 leading-7 text-white">Our Mission</h2>
+            <p class="font-normal text-base leading-6 text-white  mt-6 w-full lg:w-10/12 xl:w-9/12">
+                Our mission at SoloNest is to redefine the bachelor living experience by providing secure, comfortable, and hassle-free accommodation solutions tailored to their unique needs. We are committed to simplifying the process of finding and renting rooms, ensuring quality in our properties, fostering a vibrant community, promoting affordability, and respecting the individuality of our tenants. Our aspiration is not just to offer a place to stay, but to provide an enriching living experience that makes SoloNest the preferred choice for bachelors seeking a home away from home.</p>
+            <p class="font-normal text-base leading-6 text-white  w-full lg:w-10/12 xl:w-9/12 mt-10">At SoloNest, our mission extends beyond just providing accommodation. We aim to be a transformative solution for bachelors navigating their independent lives, ensuring their residential needs are met with quality, comfort, and affordability. We are dedicated to creating spaces that offer more than just a room - a community where individuals can learn, grow, and thrive. We prioritize the privacy and freedom of our tenants while fostering a sense of community that enriches their living experience.</p>
+        </div>
+        <div class="w-full lg:w-6/12">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 lg:gap-12 gap-10">
+                <!-- Team Card -->
+                <div class="flex p-4 bg-gray-500 rounded-lg">
+                    <div class="mr-6">
+                       <img class="mr-6"  src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg4.svg" alt="team card" />
+                    </div>
+                    <div class="">
+                        <p class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-white">Team</p>
+                        <p class="mt-2 font-normal text-base leading-6 text-white">At SoloNest, our team is our greatest asset. A diverse group of committed individuals, our team comprises experienced professionals who share a common vision - to transform the bachelor accommodation landscape.</p>
+                    </div>
+                </div>
+
+                <!-- Board Card -->
+                <div class="flex p-4 bg-gray-500 rounded-lg">
+                    <div class="mr-6">
+                        <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg5.svg" alt="board card" />
+                    </div>
+                    <div class="mr-6">
+                        <p class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-white">Board</p>
+                        <p class="mt-2 font-normal text-base leading-6 text-white ">Our Board of Directors at SoloNest brings together a group of experienced leaders with diverse backgrounds in business, real estate, technology, and finance.</p>
+                    </div>
+                </div>
+                <div class="flex p-4 bg-gray-500 rounded-lg">
+                    <div class="mr-6">
+                       <img src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg6.svg" alt="press card" />
+                    </div>
+                    <div class="">
+                        <p class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-gray-800 dark:text-white">Press</p>
+                        <p class="mt-2 font-normal text-base leading-6 text-gray-600 dark:text-gray-200">SoloNest's pioneering approach to bachelor accommodations has attracted significant attention from the press. </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
