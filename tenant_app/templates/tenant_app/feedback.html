@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post" class="space-y-4">
+    {% csrf_token %}
+    <div>
+        <label>Name:</label>
+        <input type="text" name="name">
+    </div>
+    <div>
+        <label>Email:</label>
+        <input type="email" name="email">
+    </div>
+    <div>
+        <label>Message:</label>
+        <textarea name="message"></textarea>
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+{% endblock %}
+```
