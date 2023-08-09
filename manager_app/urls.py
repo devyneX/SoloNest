@@ -65,5 +65,6 @@ urlpatterns = [
         views.RoomRequestRejectionView.as_view(),
         name="room_request_reject",
     ),
-    path("meal-list/", views.MealListView.as_view(), name="meal_list"),
-]
+    path("lunch-list/>", views.LunchListView.as_view(), name="lunch_list"),
+    path("dinner-list/>", views.DinnerListView.as_view(), name="dinner_list"),
+    ]

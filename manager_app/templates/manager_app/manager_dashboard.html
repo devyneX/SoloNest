@@ -12,11 +12,12 @@
     <div class="flex flex-row">
         <div class="bg-gray-800 border-gray-700 w-72 min-h-screen z-0 lg:block hidden" id="sidebar">
             <ul class="w-full">
-                <li class="sidebar-links" onclick="location.href=`{% url 'manager:user_list' %}`">Users</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'manager:tenant_list' %}`">Tenants</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'manager:room_list' %}`">Rooms</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'manager:room_request_list' %}`">Room Requests</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'manager:meal_list' %}`">Today's Meal List</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:user_list' %}`">Users</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:tenant_list' %}`">Tenants</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:room_list' %}`">Rooms</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:room_request_list' %}`">Room Requests</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:lunch_list' %}`">Today's Lunch List</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:dinner_list' %}`">Today's Dinner List</li>
             </ul>
         </div>
         <div class="w-full flex flex-col justify-start items-center">
