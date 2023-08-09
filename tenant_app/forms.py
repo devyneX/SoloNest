@@ -3,7 +3,6 @@ from django import forms
 from django.core.exceptions import ValidationError
 from . import models
 import datetime
-from tenant_app.models import Feedback
 from django.shortcuts import render, redirect
 
 
@@ -200,20 +199,3 @@ class LaundryRequestForm(forms.ModelForm):
             if field_name.startswith("item_"):
                 yield self[field_name], self["color_" + field_name.split("_")[1]]
 
-class FeedbackForm(forms.ModelForm):
-    class Meta:
-        model = Feedback
-        fields = ['name', 'email', 'message']
-        
-
-
-    def feedback_view(request):
-        if request.method == 'POST':
-            form = FeedbackForm(request.POST)
-            if form.is_valid():
-                form.save()
-            # Redirect or show a success message
-                return redirect('success_page_or_some_url')
-        else:
-            form = FeedbackForm()
-        return render(request, 'feedback.html', {'form': form})

@@ -4,5 +4,5 @@ from .meal_views import *
 from .cleaning_views import *
 from .repair_views import *
 from .laundry_views import *
-# from .feedback_view import feedback_view
+from .feedback_view import *
 

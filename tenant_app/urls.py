@@ -112,4 +112,5 @@ urlpatterns = [
     ),
 
     # path("feedback/<int:pk>/delete/", views.feedback_view.as_view(), name="feedback"),
+    path("feedback/", views.FeedbackView.as_view(), name="feedback"),
 ]
