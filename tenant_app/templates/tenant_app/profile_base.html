@@ -11,16 +11,18 @@
     <div class="flex flex-row">
         <div class="bg-gray-800 border-gray-700 w-72 min-h-screen z-0 lg:block hidden" id="sidebar">
             <ul class="w-full">
-                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:profile' %}`">Profile</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:profile' %}`">Profile</li>
                 {% if request.user.is_tenant %}
-                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:monthly_meal_list' %}`">Meal</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:cleaning_request_list' %}`">Cleaning</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:repair_request_list' %}`">Repair</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:laundry_request_list' %}`">Laundry</li>
-                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:profile' %}`">Missing Laundry</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:monthly_meal_list' %}`">Meal</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:cleaning_request_list' %}`">Cleaning</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:repair_request_list' %}`">Repair</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:laundry_request_list' %}`">Laundry</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:profile' %}`">Missing Laundry</li>
                 {% else %}
-                <li class="sidebar-links" onclick="location.href=`{% url 'tenant:room_request_list' %}`">Room Request</li>
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:room_request_list' %}`">Room Request</li>
                 {% endif %}
+                <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:feedback' %}`">Feedback</li>
+
             </ul>
         </div>
         <div class="w-full flex justify-center items-start">

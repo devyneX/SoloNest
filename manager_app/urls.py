@@ -67,4 +67,9 @@ urlpatterns = [
     ),
     path("lunch-list/>", views.LunchListView.as_view(), name="lunch_list"),
     path("dinner-list/>", views.DinnerListView.as_view(), name="dinner_list"),
+    # path("menu-maker/>", views.MenuMaker.as_view(), name="menu_maker"),
+    path("cleaning-list/>", views.CleaningListView.as_view(), name="cleaning_list"),
+    path("repair-list/>", views.RepairListView.as_view(), name="repair_list"),
+    path("repair-complete/<int:pk>/", views.RepairComplete.as_view(), name="repair_complete"),
+    path("laundry-list/>", views.LaundryListView.as_view(), name="laundry_list"),
     ]

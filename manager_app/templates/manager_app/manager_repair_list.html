@@ -1,0 +1,32 @@
+{% extends "manager_app/manager_dashboard.html" %}
+
+{% block title %}Today's Meal{% endblock %}
+
+{% block manager_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">{{ meal_time }}</h1>
+    <table>
+        <tr>
+            <th class="text-center">Tenant Name</th>
+            <th class="text-center">Room No</th>
+            <th class="text-center">Date</th>
+            <th class="text-center">Description</th>
+            <th class="text-center">Complete</th>
+        </tr>
+        {% for repair in repair_requests %}
+        <tr>
+            <td class="text-center">{{ repair.tenant.user.first_name}} {{ repair.tenant.user.last_name }}</td>
+            <td class="text-center">{{ repair.tenant.room.room_no }}</td>
+            <td class="text-center">{{ repair.date }}</td>
+            <td class="text-center">{{ repair.description }}</td>
+            {% if repair.completed %}
+            <td class="text-center">Yes</td>
+            {% else %}
+            <td class="text-center"><button onclick="location.href=`{% url 'manager:repair_complete' repair.pk %}`">Complete</button></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+    
+{% endblock %}
