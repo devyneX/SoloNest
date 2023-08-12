@@ -1,55 +1,65 @@
 {% extends 'form_base.html' %}
 
 {% block title %}Request Laundry Service{% endblock %}
+{% block jquery %}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+{% endblock %}
 
 {% block content %}
-    <div class='flex items-center justify-center text-white'>
-        <div class='bg-gray-800 shadow-md rounded-xl mb-10 mt-10 w-11/12 sm:w-4/5 md:w-4/6 lg:w-2/5'>
-            <div class='flex flex-col items-center justify-center px-4 py-20 sm:px-6 md:px-10'>
-                <h1 class="px-4 text-3xl font-normal text-white py-8">{% block form_title %}Laundry Request{% endblock %}</h1>
-                <form method="POST" class="flex flex-col justify-center gap-4 lg:w-11/12 md:w-4/6 sm:w-5/6 w-11/12">
-                    {% csrf_token %}
-                    {{ form.non_field_errors }}
-                    {{ form.date.label }}
-                    {{ form.date }}
-                    <div>
-                        {% for item, color in form.get_item_fields %}
-                        {{ item.label }}
-                        {{ item }}
-                        {{ color.label }}
-                        {{ color }}
-                        <script>
-                            $('.item-list-new').on('input', function() {
-                                let $this = $(this)
-                                let $clone = $this.clone()
-                                let $color = $this.parent().children()[3]
-                                let name = $clone.children()[1].attr('name')
-                                let n = parseInt(name.split('_')[1]) + 1
-                                $clone.val('')
-                                $clone.attr('name', "item_" + n)
-                                $color.val('')
-                                $color.attr('name', "color_" + n)
-                                $clone.appendTo($this.parent())
-                                $color.appendTo($this.parent())
-                                $this.removeClass('item-list-new')
-                                $this.off('input', arguments.callee)
-                                $clone.on('input', arguments.callee)
-                            })
-                        </script>
-                        {% endfor %}
-                        
-                    </div>
-                    
-                    
-                    <div class="mt-5 flex flex-col gap-2">
-                        <button type="submit">Submit</button>
-                    </div>
-                </form> 
-        
+<div class='flex items-center justify-center text-white'>
+    <div class='bg-gray-800 shadow-md rounded-xl mb-10 mt-10 w-11/12 sm:w-4/5 md:w-4/6 lg:w-2/5'>
+        <div class='flex flex-col items-center justify-center px-4 py-20 sm:px-6 md:px-10'>
+            <h1 class="px-4 text-3xl font-normal text-white py-8">{% block form_title %}Laundry Request{% endblock %}</h1>
+
+
+            <form method="post" class='w-full flex flex-col gap-10'>
+                {% csrf_token %}
+            <!-- Render Laundry Request Form -->
+
+            {{ laundry_request_form.as_p }}
             
+            <div id="form-set">
+                {{ laundry_item_formset.management_form }}
+                {% for item_form in laundry_item_formset %}
+                    <div class="item-form flex flex-col gap-4">
+                        {{ item_form.as_p }}
+                    </div>         
+                {% endfor %}
+            </div>
+            <div class="flex justify-center">
+        
+            <button type="button" class="add-form-row mt-5">Add Another Item</button>
+            <button type="submit" class="mt-5">Submit</button>
+            </div>
+            </form>
+
+            <div id="empty-form" style="display:none;">
+                <div class="item-form">
+                    {{ laundry_item_formset.empty_form.as_p }}
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('.add-form-row').click(function (e) {
+                e.preventDefault();
+                var formIdx = parseInt($('#id_laundry_item-TOTAL_FORMS').val());
+                
+                if (formIdx < 10) { // Check if less than 10 forms
+                    $('#form-set').append($('#empty-form').html().replace(/__prefix__/g, formIdx));
+                    $('#id_laundry_item-TOTAL_FORMS').val(formIdx + 1);
+                } else {
+                    alert('You cannot add more than 10 items.');
+                }
+            });
+        });
+        
+    </script>    
 {% endblock %}
 
 

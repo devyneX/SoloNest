@@ -88,7 +88,7 @@ urlpatterns = [
         name="repair_delete",
     ),
     path(
-        "request-laundry/", views.LaundryRequestView.as_view(), name="laundry_request"
+        "request-laundry/", views.laundry_request_view, name="laundry_request"
     ),
     path(
         "laundry-requests/",

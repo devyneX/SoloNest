@@ -65,6 +65,17 @@
             Sign Up
           </button>
         </form>
+        <div class="mt-6 grid grid-cols-3 items-center text-gray-400">
+          <hr class="border-gray-400" />
+          <p class="text-center text-sm">OR</p>
+          <hr class="border-gray-400" />
+        </div>
+        <div
+        class="mt-5 flex justify-between items-center"
+      >
+        <p>Already have an account? <a class="text-blue-500" href="{% url "accounts:login" %}">Log In</a> </p>
+
+      </div>
       </div>
 
         {% comment %} <div class="mt-6 grid grid-cols-3 items-center text-gray-400">
@@ -85,6 +96,7 @@
         </div> 
       </div>
       {% endcomment %}
+      
       <!-- image -->
       <div class="md:block hidden w-1/2">
         <img class="rounded-3xl" src="{% static 'img/login_signup.png'%}" />
