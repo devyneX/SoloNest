@@ -4,3 +4,4 @@ psycopg-binary
 django-tailwind
 django-tailwind[reload]
 python-dotenv
+sslcommerz-python

@@ -60,9 +60,9 @@ class MealRequestForm(forms.ModelForm):
 
         # should not be able to request meal for today after 11am for lunch and after 5pm for dinner
         if cleaned_data["date"] == datetime.date.today():
-            if datetime.datetime.now().hour > 11 and cleaned_data["meal_time"] == 0:
+            if datetime.datetime.now().hour >= 11 and cleaned_data["meal_time"] == 0:
                 raise ValidationError("You cannot request lunch after 11am")
-            if datetime.datetime.now().hour > 17 and cleaned_data["meal_time"] == 1:
+            if datetime.datetime.now().hour >= 17 and cleaned_data["meal_time"] == 1:
                 raise ValidationError("You cannot request dinner after 5pm")
 
         # if extra meal is requested, the meal should be on
@@ -78,6 +78,7 @@ class CleaningRequestForm(forms.ModelForm):
         exclude = ["tenant", "status"]
         widgets = {
             "date": forms.DateInput(attrs={"type": "date", "required": True}),
+            "slot": forms.Select(attrs={"required": True}),
         }
 
     def __init__(self, *args, **kwargs):

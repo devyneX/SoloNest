@@ -96,6 +96,11 @@ DATABASES = {
     }
 }
 
+# PAYMENT GATEWAY SETTINGS
+
+SSLCOMMERZ_STORE_ID = str(os.getenv("STORE_ID"))
+SSLCOMMERZ_STORE_PASSWD = str(os.getenv("STORE_PASSWD"))
+SSLCOMMERZ_IS_SANDBOX = str(os.getenv("IS_SANDBOX"))
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
