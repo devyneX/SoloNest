@@ -12,4 +12,6 @@ admin.site.register(models.CleaningSlots)
 admin.site.register(models.RepairRequest)
 admin.site.register(models.LaundryRequest)
 admin.site.register(models.LaundryItem)
+admin.site.register(models.BookingFee)
+admin.site.register(models.Payment)
 

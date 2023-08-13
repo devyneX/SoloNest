@@ -25,7 +25,14 @@
         <li class="mb-1">Status: {{ room_request.get_status_display }}</li>
         {% if room_request.status == 0 %}
         <li class="mb-3">Rejection Reason: {{ room_request.rejection_reason }}</li>
+        {% elif room_request.status == 1 and not room_request.expired %}
+        <li class="mb-3">Assigned Room: {{ room_request.assigned_room.room_no }}</li>
+        <li class="mb-3">Expires in: {{ room_request.expires_in }} days</li>
         {% endif %}
     </ul>
+    {% if room_request.status == 1 and not room_request.expired %}
+    <button onclick="location.href=`{% url 'payment:booking_fee' room_request.booking_fee.pk %}`">Pay Booking
+        Fee</button>
+    {% endif %}
 </div>
 {% endblock %}

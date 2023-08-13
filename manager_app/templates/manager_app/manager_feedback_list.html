@@ -1,0 +1,42 @@
+{% extends "manager_app/manager_dashboard.html" %}
+
+{% block title %}Feedbacks{% endblock %}
+
+{% block manager_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Feedbacks</h1>
+    <table>
+        <tr>
+            <th>Tenant</th>
+            <th>About</th>
+            <th>Feedback</th>
+            <th>Created At</th>
+        </tr>
+        {% for feedback in feedbacks %}
+        <tr>
+            <td class="text-center">{{ feedback.tenant.user.first_name }} {{ feedback.tenant.user.last_name }}</td>
+            <td class="text-center">{{ feedback.get_about_display }}</td>
+            <td class="text-center">{{ feedback.feedback }}</td>
+            <td class="text-center">{{ feedback.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="text-center">
+        <div class="text-white">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </div>
+        <div class="text-white">
+            {% if page_obj.has_previous %}
+                <a href="?page=1"><i class="fa-solid fa-backward"></i></a>
+                <a href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-backward-step"></i></a>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-forward-step"></i></a>
+                <a href="?page={{ page_obj.paginator.num_pages }}"><i class="fa-solid fa-forward"></i></a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    
+{% endblock %}

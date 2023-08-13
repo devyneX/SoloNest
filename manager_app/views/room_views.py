@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from .utils import ManagerRequiredMixin
 from django.views.generic import (
     CreateView,
@@ -18,9 +19,15 @@ class RoomCreateView(ManagerRequiredMixin, CreateView):
 
 
 class RoomListView(ManagerRequiredMixin, ListView):
+    paginate_by = 10
     model = models.Room
     template_name = "manager_app/manager_room_list.html"
     context_object_name = "rooms"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(branch=self.request.user.manager.branch)
+        return queryset
 
 
 class RoomDetailView(ManagerRequiredMixin, DetailView):
@@ -33,6 +40,7 @@ class RoomUpdateView(ManagerRequiredMixin, UpdateView):
     model = models.Room
     template_name = "manager_app/manager_room_update.html"
     context_object_name = "room"
+    success_url = reverse_lazy("manager:room_list")
 
 
 class RoomDeleteView(ManagerRequiredMixin, DeleteView):

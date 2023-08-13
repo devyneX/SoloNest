@@ -4,12 +4,14 @@ from django.views.generic import ListView, DetailView, UpdateView
 from manager_app import models, forms
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+import datetime
 
 
 class RoomRequestListView(ManagerRequiredMixin, ListView):
     model = models.RoomRequest
     template_name = "manager_app/manager_room_request_list.html"
     context_object_name = "room_requests"
+    paginate_by = 10
 
     def get_queryset(self):
         return self.model.objects.filter(
@@ -47,12 +49,13 @@ class RoomRequestApprovalView(ManagerRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.status = 1
-        # TODO: change this after payment implementation
-        form.instance.user.is_tenant = True
-        form.instance.user.save()
-        models.Tenant.objects.create(
-            user=form.instance.user, room=form.cleaned_data["assigned_room"]
+        form.instance.assigned_room = form.cleaned_data["assigned_room"]
+        form.instance.approval_date = datetime.datetime.now()
+        models.BookingFee.objects.create(
+            room_request=form.instance,
+            user=form.instance.user,
         )
+        # TODO: Send email to tenant
         return super().form_valid(form)
 
 

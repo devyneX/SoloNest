@@ -1,5 +1,31 @@
-{% extends 'form_base.html' %}
+{% extends "tenant_app/profile_base.html" %}
 
-{% block title %}Laundry Items{% endblock %}
+{% block title %}Laundry Requests{% endblock %}
 
-{% block form_title %}Request Laundry{% endblock %}
+{% block profile_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Laundry Requests Items</h1>
+    <!-- <div class="flex justify-center">
+        <button onclick="location.href=`{% url 'tenant:laundry_request' %}`">Request Laundry</button>
+    </div> -->
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Color</th>
+            <th>Price</th>
+        </tr>
+        {% for item in laundry_items %}
+        <tr class="text-center">
+            <td>{{ item.get_item_display }}</td>
+            <td>{{ item.color }}</td>
+            <td>{{ item.calculate_price }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td>Total</td>
+            <td>{{ laundry.calculate_price }}</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

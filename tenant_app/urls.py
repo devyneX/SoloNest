@@ -88,7 +88,7 @@ urlpatterns = [
         name="repair_delete",
     ),
     path(
-        "request-laundry/", views.laundry_request_view, name="laundry_request"
+        "request-laundry/", views.LaundryRequestView.as_view(), name="laundry_request"
     ),
     path(
         "laundry-requests/",
@@ -110,7 +110,6 @@ urlpatterns = [
         views.LaundryRequestDeleteView.as_view(),
         name="laundry_delete",
     ),
-
     # path("feedback/<int:pk>/delete/", views.feedback_view.as_view(), name="feedback"),
     path("feedback/", views.FeedbackView.as_view(), name="feedback"),
 ]

@@ -11,9 +11,13 @@ class RepairListView(ManagerRequiredMixin, ListView):
     context_object_name = "repair_requests"
 
     def get_queryset(self):
-        return super().get_queryset().filter(completed=False).order_by("date")
-    
-    
+        queryset = super().get_queryset()
+        queryset = queryset.filter(
+            completed=False, tenant__room__branch=self.request.user.manager.branch
+        )
+        return queryset.order_by("date")
+
+
 # NOTE: this might not be needed
 class RepairDetailView(ManagerRequiredMixin, DetailView):
     model = models.RepairRequest
@@ -27,4 +31,3 @@ class RepairComplete(ManagerRequiredMixin, View):
         repair_request.completed = True
         repair_request.save()
         return redirect("manager:repair_list")
-    

@@ -1,0 +1,28 @@
+{% extends "tenant_app/profile_base.html" %}
+
+{% block title %}Booking Fee{% endblock %}
+
+{% block profile_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Laundry Requests</h1>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Price (TK)</th>
+        </tr>
+        <tr class="text-center">
+            <td>Security Deposit</td>
+            <td>{{ booking_fee.get_amount }}</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td>{{ booking_fee.get_amount }}</td>
+        </tr>
+    </table>
+    <div class='flex justify-center'>
+        <button onclick="location.href=`{% url 'payment:booking_fee_payment' booking_fee.pk %}`">Proceed to
+            Payment</button>
+    </div>
+
+</div>
+{% endblock %}

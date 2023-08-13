@@ -5,6 +5,12 @@ app_name = "manager"
 
 urlpatterns = [
     path("", views.ManagerDashboardView.as_view(), name="manager_dashboard"),
+    path("brach/edit/", views.BranchEditFormView.as_view(), name="branch_edit"),
+    path(
+        "cleaning_slot/edit/",
+        views.CleaningSlotEditFormView.as_view(),
+        name="cleaning_slot_edit",
+    ),
     path("users/", views.UserListView.as_view(), name="user_list"),
     path("users/<int:pk>/", views.UserDetailView.as_view(), name="user_detail"),
     path(
@@ -65,11 +71,16 @@ urlpatterns = [
         views.RoomRequestRejectionView.as_view(),
         name="room_request_reject",
     ),
-    path("lunch-list/>", views.LunchListView.as_view(), name="lunch_list"),
-    path("dinner-list/>", views.DinnerListView.as_view(), name="dinner_list"),
+    path("lunch-list/", views.LunchListView.as_view(), name="lunch_list"),
+    path("dinner-list/", views.DinnerListView.as_view(), name="dinner_list"),
     # path("menu-maker/>", views.MenuMaker.as_view(), name="menu_maker"),
-    path("cleaning-list/>", views.CleaningListView.as_view(), name="cleaning_list"),
-    path("repair-list/>", views.RepairListView.as_view(), name="repair_list"),
-    path("repair-complete/<int:pk>/", views.RepairComplete.as_view(), name="repair_complete"),
-    path("laundry-list/>", views.LaundryListView.as_view(), name="laundry_list"),
-    ]
+    path("cleaning-list/", views.CleaningListView.as_view(), name="cleaning_list"),
+    path("repair-list/", views.RepairListView.as_view(), name="repair_list"),
+    path(
+        "repair-complete/<int:pk>/",
+        views.RepairComplete.as_view(),
+        name="repair_complete",
+    ),
+    path("laundry-list/", views.LaundryListView.as_view(), name="laundry_list"),
+    path("feedback-list/", views.FeedbackListView.as_view(), name="feedback_list"),
+]

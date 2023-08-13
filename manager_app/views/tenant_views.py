@@ -9,6 +9,11 @@ class TenantListView(ManagerRequiredMixin, ListView):
     template_name = "manager_app/manager_tenant_list.html"
     context_object_name = "tenants"
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(room__branch=self.request.user.manager.branch)
+        return queryset
+
 
 class TenantDetailView(ManagerRequiredMixin, DetailView):
     model = models.Tenant

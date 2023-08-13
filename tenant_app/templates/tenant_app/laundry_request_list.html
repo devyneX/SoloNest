@@ -12,11 +12,13 @@
         <tr>
             <th>Date</th>
             <th>Status</th>
+            <th>Price</th>
         </tr>
-        {% for laundry_request in laundry_requests %}
-        <tr class="text-center" onclick="location.href=`{% url 'tenant:Laundry_request_update' Laundry_request.pk %}`">
+        {% for laundry_request in laundries %}
+        <tr class="text-center" onclick="location.href=`{% url 'tenant:laundry_request_detail' laundry_request.pk %}`">
             <td>{{ laundry_request.date }}</td>
-            <td>{{ laundry_request.get_completed_display }}</td>
+            <td>{{ laundry_request.get_status_display }}</td>
+            <td>{{ laundry_request.calculate_price }}</td>
         </tr>
         {% endfor %}
     </table>

@@ -18,8 +18,15 @@ class LaundryRequest(models.Model):
         (3, "Drying"),
         (4, "Ironing"),
         (5, "Ready"),
+        (6, "Delivered"),
     ]
     status = models.SmallIntegerField(choices=status_choices, default=0)
+
+    def calculate_price(self):
+        price = 0
+        for item in self.laundry_items.all():
+            price += item.calculate_price()
+        return price
 
 
 class LaundryItem(models.Model):

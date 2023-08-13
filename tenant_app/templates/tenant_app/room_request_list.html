@@ -3,38 +3,38 @@
 {% block title %}Room Requests{% endblock %}
 
 {% block profile_content %}
-    <div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
-        <h1 class="text-4xl text-center text-white">Room Requests</h1>
-        <div class = 'flex justify-center'>
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Room Requests</h1>
+    <div class='flex justify-center'>
         <button onclick="location.href=`{% url 'tenant:room_request' %}`">Request Room</button>
-        </div>
-        <table>
-            <tr>
-                <th>User</th>
-                <th>Room Type</th>
-                <th>AC</th>
-                <th>Balcony</th>
-                <th>Attached Bathroom</th>
-                {% comment %} <th>#Available Rooms</th> {% endcomment %}
-            </tr>
-            {% for room_request in room_requests %}
-            <tr onclick="location.href=`{% url 'tenant:room_request_detail' room_request.pk %}`">
-                <td>{{ room_request.user.first_name }} {{ room_request.user.last_name }}</td>
-                <td class="text-center">{{ room_request.get_room_type_display }}</td>
-                <td class="text-center">{{ room_request.get_ac_display }}</td>
-                {% if room_request.balcony %}
-                <td class="text-center"><i class="fa-solid fa-square-check fa-lg"></i></td>
-                {% else %}
-                <td class="text-center"><i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></td>
-                {% endif %}
-                {% if room_request.attached_bathroom %}
-                <td class="text-center"><i class="fa-solid fa-square-check fa-lg"></i></td>
-                {% else %}
-                <td class="text-center"><i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></td>
-                {% endif %}
-                {% comment %} <td class="text-center">{{ available_rooms }}</td> {% endcomment %}
-            </tr>
-            {% endfor %}
-        </table>
     </div>
+    <table>
+        <tr>
+            <th>User</th>
+            <th>Room Type</th>
+            <th>AC</th>
+            <th>Balcony</th>
+            <th>Attached Bathroom</th>
+            {% comment %} <th>#Available Rooms</th> {% endcomment %}
+        </tr>
+        {% for room_request in room_requests %}
+        <tr onclick="location.href=`{% url 'tenant:room_request_detail' room_request.pk %}`">
+            <td>{{ room_request.user.first_name }} {{ room_request.user.last_name }}</td>
+            <td class="text-center">{{ room_request.get_room_type_display }}</td>
+            <td class="text-center">{{ room_request.get_ac_display }}</td>
+            {% if room_request.balcony %}
+            <td class="text-center"><i class="fa-solid fa-square-check fa-lg"></i></td>
+            {% else %}
+            <td class="text-center"><i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></td>
+            {% endif %}
+            {% if room_request.attached_bathroom %}
+            <td class="text-center"><i class="fa-solid fa-square-check fa-lg"></i></td>
+            {% else %}
+            <td class="text-center"><i class="fa-sharp fa-solid fa-square-xmark fa-lg"></i></td>
+            {% endif %}
+            {% comment %} <td class="text-center">{{ available_rooms }}</td> {% endcomment %}
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

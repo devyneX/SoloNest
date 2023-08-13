@@ -7,7 +7,13 @@ class CleaningListView(ManagerRequiredMixin, ListView):
     model = models.CleaningRequest
     template_name = "manager_app/manager_cleaning_list.html"
     context_object_name = "cleaning_requests"
-    
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        queryset = queryset.filter(status=0)
+
+        return queryset.order_by("date", "slot__slot_time")
 
 
 class CleaningDetailView(ManagerRequiredMixin, DetailView):

@@ -12,7 +12,6 @@ class Meal(models.Model):
     on = models.BooleanField(default=True)
     extra_meal = models.IntegerField(default=0)
     # TODO: add a unique constraint on tenant, date and meal_time
-    payment = models.ForeignKey("Payment", on_delete=models.CASCADE, null=True)
 
     def get_quantity(self):
         quantity = self.on + self.extra_meal

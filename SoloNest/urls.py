@@ -24,4 +24,5 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path("user/", include("tenant_app.urls")),
     path("manager/", include("manager_app.urls")),
+    path("payment/", include("payment.urls")),
 ]
