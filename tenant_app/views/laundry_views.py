@@ -43,10 +43,12 @@ class LaundryRequestView(TenantRequiredMixin, View):
 
         if laundry_request_form.is_valid() and laundry_item_formset.is_valid():
             laundry_request = laundry_request_form.save(commit=False)
-            # Set tenant if required, for example:
             laundry_request.tenant = request.user.tenant
             laundry_request.save()
             for item_form in laundry_item_formset:
+                # if form is empty, skip
+                if not item_form.cleaned_data:
+                    continue
                 print(item_form.cleaned_data)
                 item = item_form.save(commit=False)
                 item.laundry_request = laundry_request
@@ -58,40 +60,6 @@ class LaundryRequestView(TenantRequiredMixin, View):
             "laundry_item_formset": laundry_item_formset,
         }
         return render(request, "tenant_app/laundry_request.html", context)
-
-
-# def laundry_request_view(request):
-#     LaundryItemFormSet = modelformset_factory(
-#         models.LaundryItem, form=forms.LaundryItemForm, extra=1, max_num=10
-#     )
-
-#     if request.method == "POST":
-#         laundry_request_form = forms.LaundryRequestForm(request.POST)
-#         laundry_item_formset = LaundryItemFormSet(request.POST, prefix="laundry_item")
-
-#         if laundry_request_form.is_valid() and laundry_item_formset.is_valid():
-#             print("here")
-#             laundry_request = laundry_request_form.save(commit=False)
-#             # Set tenant if required, for example:
-#             laundry_request.tenant = request.user.tenant
-#             laundry_request.save()
-#             for item_form in laundry_item_formset:
-#                 item = item_form.save(commit=False)
-#                 item.laundry_request = laundry_request
-#                 item.save()
-#             return redirect("tenant:laundry_request_list")  # Redirect to a success page
-#     else:
-#         laundry_request_form = forms.LaundryRequestForm()
-#         laundry_item_formset = LaundryItemFormSet(
-#             queryset=models.LaundryItem.objects.none(), prefix="laundry_item"
-#         )
-
-#     context = {
-#         "laundry_request_form": laundry_request_form,
-#         "laundry_item_formset": laundry_item_formset,
-#     }
-
-#     return render(request, "tenant_app/laundry_request.html", context)
 
 
 class LaundryRequestListView(TenantRequiredMixin, ListView):
@@ -118,7 +86,9 @@ class LaundryRequestDetailView(TenantRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         if request.user.tenant.pk != self.get_object().tenant.pk:
+            # TODO: return Bad Request
             return redirect("tenant:laundry_request_list")
+            
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -167,7 +137,13 @@ class LaundryRequestDeleteView(TenantRequiredMixin, DeleteView):
 
 
 class ReportMissingLaundry(TenantRequiredMixin, View):
-    pass
+    def get(self, request, pk):
+        laundry_item = models.LaundryItem.objects.get(pk=pk)
+        if request.user.tenant.pk != laundry_item.laundry_request.tenant.pk:
+            return redirect("tenant:laundry_request_list")
+        laundry_item.missing = True
+        laundry_item.save()
+        return redirect("tenant:laundry_request_detail", pk=laundry_item.laundry_request.pk)
 
 
 class MissingLaundryListView(TenantRequiredMixin, ListView):

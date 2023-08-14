@@ -105,6 +105,7 @@ urlpatterns = [
         views.LaundryRequestUpdateView.as_view(),
         name="laundry_request_update",
     ),
+    path("laundry-requests/report-missing/<int:pk>/", views.ReportMissingLaundry.as_view(), name="report_missing"),
     path(
         "laundry-requests/<int:pk>/delete/",
         views.LaundryRequestDeleteView.as_view(),

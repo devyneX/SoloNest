@@ -1,24 +1,42 @@
 {% extends "manager_app/manager_dashboard.html" %}
 
-{% block title %}Today's Meal{% endblock %}
+{% block title %}Laundry Requests{% endblock %}
 
 {% block manager_content %}
 <div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
-    <h1 class="text-4xl text-center text-white">{{ meal_time }}</h1>
-    <table>
-        <tr>
-            <th class="text-center">Tenant Name</th>
-            <th class="text-center">Room No</th>
-            <th class="text-center">Quantity</th>
-        </tr>
-        {% for meal in meals %}
-        <tr>
-            <td class="text-center">{{ meal.tenant.user.first_name}} {{ meal.tenant.user.last_name }}</td>
-            <td class="text-center">{{ meal.tenant.room.room_no }}</td>
-            <td class="text-center">{{ meal.get_quantity }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    <h1 class="text-4xl text-center text-white">Laundry Requests</h1>
+    <form class="w-full flex flex-col gap-4" method="post" action="{% url 'manager:laundry_next_step' status  %}">
+        {% csrf_token %}
+        <div class="flex justify-center">
+            <button type="submit">Send to Next Step</button>
+        </div>
+        <table class="w-full">
+            <tr>
+                <th>Select</th>
+                <th>Date</th>
+                <th>Tenant</th>
+                <th>Status</th>
+                <th>Price</th>
+            </tr>
+            {{ formset.management_form }}
+            {% for laundry_request, form in objects_and_forms %}
+            <tr class="text-center">
+                <td>{{ form.pk }}{{ form.id }}</td>
+                <td onclick="location.href=`{% url 'manager:laundry_detail' laundry_request.pk %}`">
+                    {{ laundry_request.date}}
+                </td>
+                <td onclick="location.href=`{% url 'manager:laundry_detail' laundry_request.pk %}`">
+                    {{laundry_request.tenant.user.first_name }} {{ laundry_request.tenant.user.last_name }}
+                </td>
+                <td onclick="location.href=`{% url 'manager:laundry_detail' laundry_request.pk %}`">
+                    {{laundry_request.get_status_display }}
+                </td>
+                <td onclick="location.href=`{% url 'manager:laundry_detail' laundry_request.pk %}`">
+                    {{laundry_request.calculate_price }}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
 </div>
-    
 {% endblock %}

@@ -1,6 +1,6 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
-{% block title %}Home{% endblock %} 
+{% block title %}Home{% endblock %}
 {% block content%}
 
 
@@ -18,16 +18,8 @@
     </p>
     {% if not request.user.is_authenticated %}
     <div class="my-4">
-      <button
-        class=""
-      >
-        <a href="{% url 'accounts:signup' %}">Sign Up</a>
-      </button>
-      <button
-        class=""
-      >
-        <a href="{% url 'accounts:login' %}">Log In</a>
-      </button>
+      <button onclick="location.href=`{%url 'accounts:signup' %}`">Sign Up</button>
+      <button onclick="location.href=`{%url 'accounts:login' %}`">Log In</button>
     </div>
     {% endif %}
   </div>

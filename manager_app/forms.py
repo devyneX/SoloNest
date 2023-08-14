@@ -19,3 +19,18 @@ class RoomRequestRejectionForm(forms.ModelForm):
         widgets = {
             "rejection_reason": forms.Textarea(),
         }
+
+
+class CleaningSearchForm(forms.Form):
+    date = forms.DateField(
+        widget=forms.DateInput(attrs={"type": "date"}),
+        required=False,
+    )
+
+
+class LaundrySelectionFrom(forms.ModelForm):
+    pk = forms.BooleanField(required=False)
+
+    class Meta:
+        model = models.LaundryRequest
+        fields = []

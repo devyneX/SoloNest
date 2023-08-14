@@ -52,5 +52,9 @@ tr:hover {
 }
 
 .errorlist {
-    @apply text-red-700 flex justify-center;
+    @apply text-red-500 flex flex-col items-center;
+}
+
+.error{
+    @apply text-red-500;
 }

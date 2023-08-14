@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 from django import forms
 from django.core.exceptions import ValidationError
 from . import models
@@ -108,7 +108,7 @@ class CleaningRequestForm(forms.ModelForm):
             date=cleaned_data["date"], slot=cleaned_data["slot"]
         ).count()
         if count >= self.tenant.room.branch.cleaning_slot_limit:
-            raise ValidationError("This cleaning slot is already full")
+            raise ValidationError("This cleaning slot is already full. Please select another slot.")
 
 
 class RepairRequestForm(forms.ModelForm):
@@ -131,6 +131,10 @@ class LaundryRequestForm(forms.ModelForm):
         widgets = {
             "date": forms.DateInput(attrs={"type": "date", "required": True}),
         }
+
+    # def clean(self):
+    #     cleaned_data = super().clean()
+
 
 
 class LaundryItemForm(forms.ModelForm):

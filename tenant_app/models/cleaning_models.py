@@ -1,9 +1,10 @@
 from django.db import models
-from .room_request_models import Tenant
+from .room_request_models import Tenant, Branch
 import datetime as dt
 
 
 class CleaningSlots(models.Model):
+    branch = models.ForeignKey(Branch, on_delete=models.CASCADE, related_name="cleaning_slots", related_query_name="cleaning_slot")
     time = models.TimeField()
     duration = models.DurationField(default=dt.timedelta(hours=3))
 

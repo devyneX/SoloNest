@@ -4,21 +4,32 @@
 
 {% block manager_content %}
 <div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
-    <h1 class="text-4xl text-center text-white">{{ meal_time }}</h1>
+    <h1 class="text-4xl text-center text-white">{% block cleaning_list_title %}Today's Cleaning Requests{% endblock %}
+    </h1>
     <table>
         <tr>
             <th class="text-center">Tenant Name</th>
             <th class="text-center">Room No</th>
-            <th class="text-center">Quantity</th>
+            <th class="text-center">Slot</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Complete</th>
+            <th class="text-center">Incomplete</th>
         </tr>
-        {% for meal in meals %}
+        {% for cleaning in cleaning_requests %}
         <tr>
-            <td class="text-center">{{ meal.tenant.user.first_name}} {{ meal.tenant.user.last_name }}</td>
-            <td class="text-center">{{ meal.tenant.room.room_no }}</td>
-            <td class="text-center">{{ meal.get_quantity }}</td>
+            <td class="text-center">{{ cleaning.tenant.user.first_name}} {{ cleaning.tenant.user.last_name }}</td>
+            <td class="text-center">{{ cleaning.tenant.room.room_no }}</td>
+            <td class="text-center">{{ cleaning.slot }}</td>
+            <td class="text-center">{{ cleaning.get_status_display }}</td>
+            <td class="text-center" onclick="location.href=`{% url 'manager:cleaning_complete' cleaning.pk %}`">
+                <button>Complete</button>
+            </td>
+            <td class="text-center" onclick="location.href=`{% url 'manager:cleaning_incomplete' cleaning.pk %}`">
+                <button>Incomplete</button>
+            </td>
         </tr>
         {% endfor %}
     </table>
 </div>
-    
+
 {% endblock %}

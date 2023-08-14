@@ -11,12 +11,15 @@
     <table>
         <tr>
             <th>Date</th>
+            <th>Requested by</th>
             <th>Slot</th>
             <th>Status</th>
         </tr>
         {% for cleaning_request in cleaning_requests %}
-        <tr class="text-center" onclick="location.href=`{% url 'tenant:cleaning_request_update' cleaning_request.pk %}`">
+        <tr class="text-center"
+            onclick="location.href=`{% url 'tenant:cleaning_request_update' cleaning_request.pk %}`">
             <td>{{ cleaning_request.date }}</td>
+            <td>{{ cleaning_request.tenant.user.first_name }} {{ cleaning_request.tenant.user.last_name }}</td>
             <td>{{ cleaning_request.slot }}</td>
             <td>{{ cleaning_request.get_status_display }}</td>
         </tr>

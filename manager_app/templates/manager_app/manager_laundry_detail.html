@@ -1,33 +1,31 @@
-{% extends "tenant_app/profile_base.html" %}
+{% extends "manager_app/manager_dashboard.html" %}
 
 {% block title %}Laundry Request{% endblock %}
 
-{% block profile_content %}
+{% block manager_content %}
 <div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
     <h1 class="text-4xl text-center text-white">Laundry Request Items</h1>
+    <div class="text-white text-center">
+        <p>By {{ laundry_request.tenant.user.first_name }} {{ laundry_request.tenant.user.last_name }}</p>
+        <p>On {{ laundry_request.date }}</p>
+    </div>
     <table>
         <tr>
             <th>Item</th>
             <th>Color</th>
             <th>Price</th>
-            <th>Missing</th>
         </tr>
         {% for item in laundry_items %}
         <tr class="text-center">
             <td>{{ item.get_item_display }}</td>
             <td>{{ item.color }}</td>
             <td>{{ item.calculate_price }}</td>
-            {% if item.missing %}
-            <td>Yes</td>
-            {% else %}
-            <td><button onclick="location.href=`{% url 'tenant:report_missing' item.pk %}`">Report Missing</button></td>
-            {% endif %}
         </tr>
         {% endfor %}
         <tr>
             <td></td>
             <td>Total</td>
-            <td>{{ laundry.calculate_price }}</td>
+            <td>{{ laundry_request.calculate_price }}</td>
         </tr>
     </table>
 </div>

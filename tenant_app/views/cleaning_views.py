@@ -26,8 +26,6 @@ class CleaningRequestView(TenantRequiredMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
-        # TODO: ensure only one request per day for the same room
-        # cleaning_req = models.CleaningRequest.objects.filter(
         form.instance.tenant = self.request.user.tenant
         return super().form_valid(form)
 
@@ -43,7 +41,7 @@ class CleaningRequestListView(TenantRequiredMixin, ListView):
             tenant__room=self.request.user.tenant.room,
             date__month=datetime.date.today().month,
         )
-        return queryset
+        return queryset.order_by("-date")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
