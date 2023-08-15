@@ -5,12 +5,7 @@ app_name = "manager"
 
 urlpatterns = [
     path("", views.ManagerDashboardView.as_view(), name="manager_dashboard"),
-    path("brach/edit/", views.BranchEditFormView.as_view(), name="branch_edit"),
-    path(
-        "cleaning_slot/edit/",
-        views.CleaningSlotEditFormView.as_view(),
-        name="cleaning_slot_edit",
-    ),
+    path("branch/edit/", views.BranchEditFormView.as_view(), name="branch_edit"),
     path("users/", views.UserListView.as_view(), name="user_list"),
     path("users/<int:pk>/", views.UserDetailView.as_view(), name="user_detail"),
     path(

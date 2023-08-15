@@ -76,6 +76,7 @@
                 <li>Meal Price - {{ branch.meal_price }}</li>
                 <li>Cleaning Slot Limit - {{ branch.cleaning_slot_limit }}</li>
             </ul>
+            <button onclick="location.href=`{% url 'manager:branch_edit' %}`">Edit Branch Info</button>
         </div>
         {% endblock %}
     </div>

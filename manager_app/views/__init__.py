@@ -43,12 +43,9 @@ class BranchEditFormView(ManagerRequiredMixin, UpdateView):
         "attached_bathroom_rent_addition",
         "cleaning_slot_limit",
     ]
-    template_name = "manager_app/branch_edit_form.html"
+    template_name = "manager_app/branch_edit.html"
     success_url = "/manager/dashboard/"
 
     def get_object(self, queryset=None):
         return self.request.user.manager.branch
 
-
-class CleaningSlotEditFormView(ManagerRequiredMixin, View):
-    pass
