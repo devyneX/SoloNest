@@ -9,26 +9,15 @@
         <tr>
             <th>Item</th>
             <th>Color</th>
-            <th>Price</th>
             <th>Missing</th>
         </tr>
         {% for item in laundry_items %}
         <tr class="text-center">
             <td>{{ item.get_item_display }}</td>
             <td>{{ item.color }}</td>
-            <td>{{ item.calculate_price }}</td>
-            {% if not item.missing %}
-            <td><button onclick="location.href=`{% url 'tenant:report_missing' item.pk %}`">Report Missing</button></td>
-            {% else %}
             <td>{{ item.get_missing_display }}</td>
-            {% endif %}
         </tr>
         {% endfor %}
-        <tr>
-            <td></td>
-            <td>Total</td>
-            <td>{{ laundry.calculate_price }}</td>
-        </tr>
     </table>
 </div>
 {% endblock %}

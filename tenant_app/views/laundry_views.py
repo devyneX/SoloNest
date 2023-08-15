@@ -154,7 +154,7 @@ class MissingLaundryListView(TenantRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(
-            tenant=self.request.user.tenant, missing=True, found=False
+            laundry_request__tenant=self.request.user.tenant, missing__in=[1, 2]
         )
         return queryset
 

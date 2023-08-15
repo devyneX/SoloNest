@@ -47,8 +47,8 @@ class LaundryItem(models.Model):
     ]
     item = models.CharField(max_length=20, choices=item_choices)
     color = models.CharField(max_length=20)
-    missing = models.BooleanField(default=False)
-
+    missing_choices = [(0, "No"), (1, "Yes"), (2, "Found"), (3, "Returned")]
+    missing = models.SmallIntegerField(choices=missing_choices, default=0)
 
     def calculate_price(self):
         price = 0

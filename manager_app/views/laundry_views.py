@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from .utils import ManagerRequiredMixin
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.views import View
@@ -71,11 +72,21 @@ class MissingLaundryListView(ManagerRequiredMixin, ListView):
     context_object_name = "laundry_items"
 
     def get_queryset(self):
+        missing = 1 if self.kwargs["missing"] == "missing" else 2
         queryset = super().get_queryset()
-        queryset = queryset.filter(missing=True, laundry_request__tenant__room__branch=self.request.user.manager.branch)
-        print(queryset)
+        queryset = queryset.filter(missing=missing, laundry_request__tenant__room__branch=self.request.user.manager.branch)
         return queryset
 
-class MissingLaundryFoundView(ManagerRequiredMixin, View):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["button"] = "Found" if self.kwargs["missing"] == "missing" else "Returned"
+
+        return context
+
+class MissingLaundryUpdateView(ManagerRequiredMixin, View):
     def get(self, request, pk):
-        pass
+        laundry_item = models.LaundryItem.objects.get(pk=pk)
+        laundry_item.missing += 1
+        laundry_item.save()
+        return redirect("manager:missing_laundry_list", "missing")
+    

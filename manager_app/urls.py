@@ -88,7 +88,7 @@ urlpatterns = [
     path("laundry/<str:status>/", views.LaundryListView.as_view(), name="laundry_list"),
     path("laundry/items/<int:pk>/", views.LaundryDetailView.as_view(), name="laundry_detail"),
     path("next-step/<str:status>/", views.LaundryNextStepView.as_view(), name="laundry_next_step"),
-    path("missing-laundry/", views.MissingLaundryListView.as_view(), name="missing_laundry_list"),
-    path("missing-laundry/<int:pk>/found/", views.MissingLaundryFoundView.as_view(), name="missing_laundry_found"),
+    path("missing-laundry/<str:missing>", views.MissingLaundryListView.as_view(), name="missing_laundry_list"),
+    path("missing-laundry/<int:pk>/update/", views.MissingLaundryUpdateView.as_view(), name="missing_laundry_update"),
     path("feedback/", views.FeedbackListView.as_view(), name="feedback_list"),
 ]

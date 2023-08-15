@@ -50,8 +50,12 @@
                 Laundry Ready</li>
             <li class="sidebar-links cursor-pointer"
                 onclick="location.href=`{% url 'manager:laundry_list' 'returned' %}`">Laundry Returned</li>
-            <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:missing_laundry_list' %}`">
-                Missing Laundry</li>
+            <li class="sidebar-links cursor-pointer"
+                onclick="location.href=`{% url 'manager:missing_laundry_list' 'missing' %}`">
+                Missing Laundry Missing</li>
+            <li class="sidebar-links cursor-pointer"
+                onclick="location.href=`{% url 'manager:missing_laundry_list' 'found' %}`">
+                Missing Laundry Found</li>
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:feedback_list' %}`">
                 Feedback</li>
         </ul>

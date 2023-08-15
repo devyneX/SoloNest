@@ -11,17 +11,17 @@
             <th>Tenant</th>
             <th>Item</th>
             <th>Color</th>
-            <th>Price</th>
-            <th>Found</th>
+            <th>Update</th>
         </tr>
         {% for item in laundry_items %}
         <tr class="text-center">
             <td>{{ item.laundry_request.date }}</td>
-            <td>{{ item.laundry_request.tenant.first_name }} {{ item.laundry_request.tenant.last_name }}</td>
+            <td>{{ item.laundry_request.tenant.user.first_name }} {{ item.laundry_request.tenant.user.last_name }}</td>
             <td>{{ item.get_item_display }}</td>
             <td>{{ item.color }}</td>
-            <td>{{ item.calculate_price }}</td>
-            <td><button>Found</button></td>
+            <td><button onclick="location.href=`{% url 'manager:missing_laundry_update' item.pk %}`">
+                    {{ button}}
+                </button></td>
         </tr>
         {% endfor %}
     </table>
