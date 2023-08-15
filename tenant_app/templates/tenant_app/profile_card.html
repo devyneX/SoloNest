@@ -18,16 +18,30 @@
             </div>
         </div>
         <div class="p-8 text-right">
-            <p class="capitalize text-6xl text-ellipsis hover:underline hover:text-sky-500">{{ user.first_name }} {{ user.last_name }}</p>
+            <p class="capitalize text-6xl text-ellipsis hover:underline hover:text-sky-500">
+                {{ user.first_name }} {{user.last_name }}
+            </p>
             <p class="text-3xl text-ellipsis underline text-sky-500">@{{ user.username }}</p>
             {% if user.is_tenant %}
             <p class="mt-5 text-xl">Room No</p>
             <p class="text-2xl">{{ user.tenant.room.room_no }}</p>
+            <p class="mt-5 text-xl">Lunch Default</p>
+            {% if user.tenant.lunch_default %}
+            <p class="text-2xl">ON</p>
+            {% else %}
+            <p class="text-2xl">OFF</p>
             {% endif %}
-            
-            
+            <p class="mt-5 text-xl">Dinner Default</p>
+            {% if user.tenant.dinner_default %}
+            <p class="text-2xl">ON</p>
+            {% else %}
+            <p class="text-2xl">OFF</p>
+            {% endif %}
+            {% endif %}
+
+
         </div>
-        
+
     </div>
     <div class="p-5 flex flex-row justify-between flex-wrap text-center">
         <div class="flex flex-col justify-center">
@@ -38,7 +52,7 @@
             <p class="text-2xl">N/A</p>
             {% endif %}
         </div>
-        
+
         <div class="flex flex-col justify-center">
             <p class="mt-5 underline">Birth Certificate</p>
             {% if user.profile.birth_certificate %}
@@ -47,7 +61,7 @@
             <p class="text-2xl">N/A</p>
             {% endif %}
         </div>
-        
+
         <div class="flex flex-col justify-center flex-wrap">
             <p class="mt-5 underline">Blood Group</p>
             {% if user.profile.blood_group %}
@@ -56,7 +70,7 @@
             <p class="text-2xl">N/A</p>
             {% endif %}
         </div>
-        
+
         <div class="flex flex-col justify-center">
             <p class="mt-5 underline">Emergency Contact</p>
             {% if user.profile.emergency_contact %}

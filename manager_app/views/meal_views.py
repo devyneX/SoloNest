@@ -12,6 +12,14 @@ class LunchListView(ManagerRequiredMixin, ListView):
     context_object_name = "meals"
 
     def get_queryset(self):
+        tenants = models.Tenant.objects.filter(room__branch=self.request.user.manager.branch)
+        for tenant in tenants:
+            if not models.Meal.objects.filter(
+                tenant=tenant, date=datetime.date.today(), meal_time=0
+            ).exists():
+                models.Meal.objects.create(
+                    tenant=tenant, date=datetime.date.today(), meal_time=0, on=tenant.lunch_default
+                )
         queryset = super().get_queryset()
         queryset = queryset.filter(
             on=True,
@@ -33,6 +41,15 @@ class DinnerListView(ManagerRequiredMixin, ListView):
     context_object_name = "meals"
 
     def get_queryset(self):
+        tenants = models.Tenant.objects.filter(room__branch=self.request.user.manager.branch)
+        for tenant in tenants:
+            if not models.Meal.objects.filter(
+                tenant=tenant, date=datetime.date.today(), meal_time=1
+            ).exists():
+                models.Meal.objects.create(
+                    tenant=tenant, date=datetime.date.today(), meal_time=1, on=tenant.dinner_default
+                )
+
         queryset = super().get_queryset()
 
         queryset = queryset.filter(

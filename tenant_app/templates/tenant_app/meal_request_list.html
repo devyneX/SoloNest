@@ -5,8 +5,9 @@
 {% block profile_content %}
 <div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
     <h1 class="text-4xl text-center text-white">Meal Requests</h1>
-    <div class="flex justify-center">
+    <div class="flex flex-col gap-4 items-center">
         <button onclick="location.href=`{% url 'tenant:meal_request' %}`">Request Meal</button>
+        <button onclick="location.href=`{% url 'tenant:meal_default' %}`">Set Meal Default</button>
     </div>
     <table>
         <tr>

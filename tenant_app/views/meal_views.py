@@ -1,3 +1,5 @@
+from typing import Any, Optional
+from django.db import models
 from tenant_app import models, forms
 from django.views.generic import (
     CreateView,
@@ -13,6 +15,15 @@ from django.db.models import F, Sum, IntegerField
 from django.db.models.functions import Cast
 import datetime
 
+
+class MealDefaultView(TenantRequiredMixin, UpdateView):
+    model = models.Tenant
+    template_name = "tenant_app/meal_default.html"
+    fields = ["lunch_default", "dinner_default"]
+    success_url = reverse_lazy("tenant:monhtly_meal_list")
+
+    def get_object(self):
+        return self.request.user.tenant
 
 class MealRequestView(TenantRequiredMixin, CreateView):
     model = models.Meal

@@ -26,6 +26,7 @@ urlpatterns = [
     path(
         "monthly-meals/", views.MonthlyMealListView.as_view(), name="monthly_meal_list"
     ),
+    path("meal-default/", views.MealDefaultView.as_view(), name="meal_default"),
     path(
         "meal-request/<int:pk>/",
         views.MealRequestDetailView.as_view(),
