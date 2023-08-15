@@ -7,62 +7,122 @@
     type="button"
     class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
     <span class="sr-only">Open sidebar</span>
-    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-        <path clip-rule="evenodd" fill-rule="evenodd"
-            d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z">
-        </path>
-    </svg>
+    <i class="fa-solid fa-angle-down"></i>
 </button>
 <div class="flex flex-row">
     <div class="bg-gray-800 border-gray-700 w-72 min-h-screen z-0 lg:block hidden" id="sidebar">
         <ul class="w-full">
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:manager_dashboard' %}`">
                 Dashboard</li>
-            <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:user_list' %}`">Users</li>
+            <!-- <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:user_list' %}`">Users</li> -->
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:tenant_list' %}`">Tenants
             </li>
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:room_list' %}`">Rooms</li>
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:room_request_list' %}`">
                 Room Requests</li>
-            <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:lunch_list' %}`">Today's
-                Lunch List</li>
-            <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:dinner_list' %}`">Today's
-                Dinner List</li>
-            <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:cleaning_list' %}`">Today's
-                Cleaning List</li>
-            <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:cleaning_search' %}`">
-                Cleaning Request Search</li>
+
+
+            <li class="">
+                <!-- Wrap button and icon in a div to make both clickable -->
+                <div class="sidebar-links cursor-pointer flex items-center focus:outline-none collapsible-toggle gap-2"
+                    data-target="collapseContent">
+                    Meal
+                    <!-- FontAwesome icon for down arrow -->
+                    <i class="fas fa-chevron-down inline-block ml-2 transition-transform duration-300"></i>
+                </div>
+
+                <!-- Collapsible Content -->
+                <ul id="collapseContent" class="hidden mt-2 indent-4">
+                    <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:lunch_list' %}`">
+                        Today's Lunch List</li>
+                    <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:dinner_list' %}`">
+                        Today's Dinner List</li>
+                </ul>
+            </li>
+
+
+
+            <li class="">
+                <!-- Wrap button and icon in a div to make both clickable -->
+                <div class="sidebar-links cursor-pointer flex items-center focus:outline-none collapsible-toggle gap-2"
+                    data-target="anotherCollapseContent">
+                    Cleaning
+                    <!-- FontAwesome icon for down arrow -->
+                    <i class="fas fa-chevron-down inline-block ml-2 transition-transform duration-300"></i>
+                </div>
+
+                <!-- Collapsible Content -->
+                <ul id="anotherCollapseContent" class="hidden mt-2 indent-4">
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:cleaning_list' %}`">Today's
+                        Cleaning List</li>
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:cleaning_search' %}`">
+                        Cleaning Search</li>
+                </ul>
+            </li>
+
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:repair_list' %}`">Repair
             </li>
-            <li class="sidebar-links cursor-pointer"
-                onclick="location.href=`{% url 'manager:laundry_list' 'pending' %}`">Laundry Pending</li>
-            <li class="sidebar-links cursor-pointer"
-                onclick="location.href=`{% url 'manager:laundry_list' 'received' %}`">Laundry Received</li>
-            <li class="sidebar-links cursor-pointer"
-                onclick="location.href=`{% url 'manager:laundry_list' 'washing' %}`">Laundry Washing</li>
-            <li class="sidebar-links cursor-pointer"
-                onclick="location.href=`{% url 'manager:laundry_list' 'drying' %}`">Laundry Drying
+
+
+            <li class="">
+                <!-- Wrap button and icon in a div to make both clickable -->
+                <div class="flex items-center focus:outline-none collapsible-toggle gap-2 sidebar-links cursor-pointer "
+                    data-target="another2CollapseContent">
+                    Laundry
+                    <!-- FontAwesome icon for down arrow -->
+                    <i class="fas fa-chevron-down inline-block ml-2 transition-transform duration-300"></i>
+                </div>
+
+                <!-- Collapsible Content -->
+                <ul id="another2CollapseContent" class="hidden mt-2 indent-4">
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:laundry_list' 'pending' %}`">Pending</li>
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:laundry_list' 'received' %}`">Received</li>
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:laundry_list' 'washing' %}`">Washing</li>
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:laundry_list' 'drying' %}`">Drying
+                    </li>
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:laundry_list' 'ironing' %}`">Ironing
+                    </li>
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:laundry_list' 'ready' %}`">
+                        Laundry Ready</li>
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:laundry_list' 'returned' %}`">Returned</li>
+                </ul>
             </li>
-            <li class="sidebar-links cursor-pointer"
-                onclick="location.href=`{% url 'manager:laundry_list' 'ironing' %}`">Laundry Ironing
+            <li class="">
+                <!-- Wrap button and icon in a div to make both clickable -->
+                <div class="flex items-center focus:outline-none collapsible-toggle gap-2 sidebar-links cursor-pointer "
+                    data-target="another3CollapseContent">
+                    Missing Laundry
+                    <!-- FontAwesome icon for down arrow -->
+                    <i class="fas fa-chevron-down inline-block ml-2 transition-transform duration-300"></i>
+                </div>
+
+                <!-- Collapsible Content -->
+                <ul id="another3CollapseContent" class="hidden mt-2 indent-4">
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:missing_laundry_list' 'missing' %}`">
+                        Missing</li>
+                    <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:missing_laundry_list' 'found' %}`">
+                        Found</li>
+                </ul>
             </li>
-            <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:laundry_list' 'ready' %}`">
-                Laundry Ready</li>
-            <li class="sidebar-links cursor-pointer"
-                onclick="location.href=`{% url 'manager:laundry_list' 'returned' %}`">Laundry Returned</li>
-            <li class="sidebar-links cursor-pointer"
-                onclick="location.href=`{% url 'manager:missing_laundry_list' 'missing' %}`">
-                Missing Laundry Missing</li>
-            <li class="sidebar-links cursor-pointer"
-                onclick="location.href=`{% url 'manager:missing_laundry_list' 'found' %}`">
-                Missing Laundry Found</li>
+
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:feedback_list' %}`">
                 Feedback</li>
         </ul>
     </div>
     <div class="w-full flex flex-col justify-start items-center">
         {% block manager_content %}
-        <div class="bg-gray-800 text-white mt-10 p-10 border rounded">
+        <!-- <div class="bg-gray-800 text-white mt-10 p-10 border rounded">
             <h1>Branch Info</h1>
             <ul class="w-full">
                 <li>{{ branch.name }}</li>
@@ -77,8 +137,156 @@
                 <li>Cleaning Slot Limit - {{ branch.cleaning_slot_limit }}</li>
             </ul>
             <button onclick="location.href=`{% url 'manager:branch_edit' %}`">Edit Branch Info</button>
-        </div>
+        </div> -->
+
+
+        <body class="relative bg-yellow-50 overflow-hidden max-h-screen">
+
+
+            <main class="pt-16 max-h-screen overflow-auto">
+                <div class="px-6 py-8">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="bg-gray-800 text-white rounded-3xl p-8 mb-5">
+                            <h1 class="text-3xl font-bold mb-10">Manager Dashboard</h1>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-stretch">
+                                    <div class="text-2xl">Branch Info</div>
+                                    <div class="h-100 border-l mx-4"></div>
+                                    <div class="flex flex-nowrap -space-x-3">
+                                        {{ branch.name }} <br>
+                                        {{ branch.address }}
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-x-2">
+                                    <button type="button"
+                                        class="inline-flex items-center justify-center h-9 px-5 rounded-xl hover:text-white text-sm font-semibold transition">
+                                        Send Out Bills
+                                    </button>
+                                </div>
+                            </div>
+
+                            <hr class="my-10">
+
+                            <div class="grid grid-cols-2 gap-x-20">
+                                <div>
+                                    <h2 class="text-2xl font-bold mb-4">Stats</h2>
+
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="col-span-2">
+                                            <div class="p-4 bg-green-100 rounded-xl">
+                                                <div class="font-bold text-xl text-gray-800 leading-none">Edit Branch
+                                                    Info
+
+                                                </div>
+                                                <div class="mt-5">
+                                                    <button onclick="location.href=`{% url 'manager:branch_edit' %}`">
+                                                        Click Here</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
+                                            <div class="font-bold text-2xl leading-none">{{ tenant_count }}</div>
+                                            <div class="mt-2">Tenants</div>
+                                        </div>
+                                        <div class="p-4 bg-yellow-100 rounded-xl text-gray-800">
+                                            <div class="font-bold text-2xl leading-none">{{ room_count }}</div>
+                                            <div class="mt-2">Rooms</div>
+                                        </div>
+                                        <div class="col-span-2">
+                                            <div class="p-4 bg-purple-100 rounded-xl text-gray-800">
+                                                <div class="font-bold text-xl leading-none">Your Branch ID</div>
+                                                <div class="mt-2">SN-GB-233321</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2 class="text-2xl font-bold mb-4">Your tasks today</h2>
+
+                                    <div class="space-y-4">
+                                        <div class="p-4 bg-white border rounded-xl text-gray-800 space-y-2">
+                                            <!-- <div class="flex justify-between">
+                                                <div class="text-gray-400 text-xs">Number 10</div>
+                                                <div class="text-gray-400 text-xs">4h</div>
+                                            </div> -->
+                                            <a href="javascript:void(0)"
+                                                class="font-bold hover:text-yellow-800 hover:underline">
+                                                {{ room_request_count }}
+                                            </a>
+                                            <div class="text-sm text-gray-600">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                    fill="currentColor" class="text-gray-800 inline align-middle mr-1"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                                                </svg>Pending Room Requests
+                                            </div>
+                                        </div>
+                                        <div class="p-4 bg-white border rounded-xl text-gray-800 space-y-2">
+                                            <!-- <div class="flex justify-between">
+                                                <div class="text-gray-400 text-xs">Grace Aroma</div>
+                                                <div class="text-gray-400 text-xs">7d</div>
+                                            </div> -->
+                                            <a href="javascript:void(0)"
+                                                class="font-bold hover:text-yellow-800 hover:underline">
+                                                {{ repair_count }}
+                                            </a>
+                                            <div class="text-sm text-gray-600">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                    fill="currentColor" class="text-gray-800 inline align-middle mr-1"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                                                </svg>Pending Repair Requests
+                                            </div>
+                                        </div>
+                                        <div class="p-4 bg-white border rounded-xl text-gray-800 space-y-2">
+                                            <!-- <div class="flex justify-between">
+                                                                                        <div class="text-gray-400 text-xs">Grace Aroma</div>
+                                                                                        <div class="text-gray-400 text-xs">7d</div>
+                                                                                    </div> -->
+                                            <a href="javascript:void(0)"
+                                                class="font-bold hover:text-yellow-800 hover:underline">
+                                                {{ missing_laundry_count }}
+                                            </a>
+                                            <div class="text-sm text-gray-600">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
+                                                    fill="currentColor" class="text-gray-800 inline align-middle mr-1"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+                                                </svg>Missing Laundry
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </body>
         {% endblock %}
     </div>
 </div>
+
+<script>
+    // Get all toggle elements
+    let toggles = document.querySelectorAll('.collapsible-toggle');
+
+    toggles.forEach(toggle => {
+        toggle.addEventListener('click', function () {
+            // Get target ID from the 'data-target' attribute
+            let targetId = this.getAttribute('data-target');
+            let content = document.getElementById(targetId);
+
+            if (content) {
+                content.classList.toggle('hidden');
+            }
+        });
+    });
+
+
+</script>
 {% endblock %}

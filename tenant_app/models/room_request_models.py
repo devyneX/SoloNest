@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import F, Count
 from accounts.models import *
+from django.utils import timezone
 import datetime
 
 
@@ -70,21 +71,28 @@ class RoomRequest(models.Model):
         related_name="room_requests",
         related_query_name="room_request",
     )
+    date = models.DateField(default=timezone.now)
+    
+    start_date = models.DateField()
+    
     room_type_choices = [(1, "Single"), (2, "Double")]
     room_type = models.SmallIntegerField(choices=room_type_choices)
     ac_choices = [(False, "AC"), (True, "Non-AC")]
     ac = models.BooleanField(choices=ac_choices)
     balcony = models.BooleanField()
     attached_bathroom = models.BooleanField()
+    
     # manager
     assigned_room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True)
-    approval_date = models.DateField(null=True)
+    expiry_date = models.DateField(null=True)
     status_choices = [(-1, "Pending"), (1, "Approved"), (0, "Rejected")]
     status = models.SmallIntegerField(choices=status_choices, default=-1)
     rejection_reason = models.CharField(max_length=100, null=True)
 
     def get_available_rooms(self):
         # TODO: when payment is implemented, filter out rooms with unpaid room_requests
+        # leave date should be a month before start date
+        # rooms that have empty slots
         rooms = (
             Room.objects.filter(
                 branch=self.branch,
@@ -98,11 +106,8 @@ class RoomRequest(models.Model):
         )
         return rooms
     
-    def expires_in(self):
-        return ((self.approval_date + datetime.timedelta(days=5)) - datetime.date.today()).days
-    
     def expired(self):
-        return self.approval_date + datetime.timedelta(days=5) < datetime.date.today()
+        return self.expiry_date < datetime.date.today()
 
 
 class Tenant(models.Model):
@@ -118,15 +123,9 @@ class Tenant(models.Model):
         related_name="tenant",
         related_query_name="tenant",
     )
+    start_date = models.DateField(default=timezone.now)
     lunch_default = models.BooleanField(default=True)
     dinner_default = models.BooleanField(default=True)
-
-    def is_rent_paid(self):
-        pass
-
-    def calculate_payment(self):
-        payment = self.room.calculate_rent()
-        return payment
 
 
 class LeaveRequest(models.Model):
@@ -137,7 +136,15 @@ class LeaveRequest(models.Model):
         related_name="leave_requests",
         related_query_name="leave_request",
     )
-    request_date = models.DateField()
+    date = models.DateField(default=timezone.now)
+    leave_date = models.DateField()
 
     def is_security_refundable(self):
         pass
+
+
+class ArchivedTenant(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="archived_tenants", related_query_name="archived_tenant")
+    room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
+    start_date = models.DateField()
+    end_date = models.DateField()

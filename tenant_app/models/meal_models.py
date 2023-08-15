@@ -11,6 +11,7 @@ class Meal(models.Model):
     meal_time = models.SmallIntegerField(choices=meal_times)
     on = models.BooleanField(default=True)
     extra_meal = models.IntegerField(default=0)
+    # price = models.IntegerField(default=0)
     # TODO: add a unique constraint on tenant, date and meal_time
 
     def get_quantity(self):

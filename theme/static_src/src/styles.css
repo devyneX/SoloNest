@@ -44,7 +44,7 @@ tr:hover {
 }
 
 .sidebar-links {
-    @apply w-11/12 m-2 pl-10 p-4 rounded-lg text-white;
+    @apply w-11/12 m-2 pl-6 p-4 rounded-lg text-white;
 }
 
 .sidebar-links:hover {
@@ -58,3 +58,32 @@ tr:hover {
 .error{
     @apply text-red-500;
 }
+
+/* Add these to your styles.css */
+@layer components {
+    main::-webkit-scrollbar {
+        width: 0;
+        background: transparent; 
+    }
+    
+    main::-moz-scrollbar {
+        width: 0;
+        background: transparent;
+    }
+    
+    main::-o-scrollbar {
+        width: 0;
+        background: transparent;
+    }
+    
+    main::-ms-scrollbar {
+        width: 0;
+        background: transparent;
+    }
+  
+    main {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+  }
+  

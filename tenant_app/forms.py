@@ -14,6 +14,26 @@ class ProfileUpdateForm(forms.ModelForm):
         exclude = ["user"]
 
 
+class RoomRequestForm(forms.ModelForm):
+    error_css_class = "error"
+
+    class Meta:
+        model = models.RoomRequest
+        fields = ["branch", "start_date", "room_type", "ac", "balcony", "attached_bathroom"]
+        widgets = {
+            "start_date": forms.DateInput(attrs={"type": "date", "required": True}),
+        }
+    
+    def clean_start_date(self):
+        start_date = self.cleaned_data["start_date"]
+        if start_date < datetime.date.today():
+            raise ValidationError("You cannot request a room for past dates")
+        
+        if start_date.day != 1:
+            raise ValidationError("You start as a tenant only from the first day of the month")
+        return start_date
+
+
 class TenantProfileUpdateForm(forms.ModelForm):
     error_css_class = "error"
 

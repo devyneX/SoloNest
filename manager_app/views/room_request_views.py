@@ -1,9 +1,11 @@
 from .utils import ManagerRequiredMixin
 from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView
-from manager_app import models, forms
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.conf import settings
+from django.core.mail import send_mail
+from manager_app import models, forms
 import datetime
 
 
@@ -16,7 +18,7 @@ class RoomRequestListView(ManagerRequiredMixin, ListView):
     def get_queryset(self):
         return self.model.objects.filter(
             branch=self.request.user.manager.branch, status=-1
-        )
+        ).order_by("start_date", "date")
 
     def get_context_data(self, **kwargs):
         room_requests = super().get_context_data(**kwargs)["room_requests"]
@@ -50,12 +52,21 @@ class RoomRequestApprovalView(ManagerRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.status = 1
         form.instance.assigned_room = form.cleaned_data["assigned_room"]
-        form.instance.approval_date = datetime.datetime.now()
-        models.BookingFee.objects.create(
+        form.instance.expiry_date = datetime.datetime.now() + datetime.timedelta(days=3)
+
+        booking_fee = models.BookingFee.objects.create(
             room_request=form.instance,
             user=form.instance.user,
         )
-        # TODO: Send email to tenant
+
+        booking_fee.get_amount()
+        booking_fee.save()
+
+        subject = "Room Request Approved"
+        message = f"Your room request has been approved. You have been assigned room no. {form.instance.assigned_room.room_no}. Please pay the booking fee of Rs. {booking_fee.amount} to confirm your booking."
+        from_email = settings.EMAIL_HOST_USER
+        recepient_list = [form.instance.user.email]
+        send_mail(subject, message, from_email, recepient_list)
         return super().form_valid(form)
 
 

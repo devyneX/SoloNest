@@ -12,6 +12,7 @@ from django.views.generic import DetailView
 from .utils import init_gateway
 from django.urls import reverse
 from django.utils.decorators import method_decorator
+from django.contrib import messages
 import datetime
 
 # def item_list(request):
@@ -51,7 +52,14 @@ class BookingFeeView(DetailView):
 class BookingFeePaymentView(View):
     def get(self, request, pk):
         booking_fee = models.BookingFee.objects.get(pk=pk)
-        response = init_gateway(request, booking_fee.get_amount(), "Booking Fee", reverse("payment:booking_fee_payment_success", kwargs={"pk": pk}))
+        if booking_fee.paid:
+            return redirect("tenant:profile")
+        
+        if booking_fee.expired():
+            messages.error(request, "Your booking request has been expired. Please request again.")
+            return redirect("tenant:profile")
+
+        response = init_gateway(request, booking_fee.amount, "Booking Fee", reverse("payment:booking_fee_payment_success", kwargs={"pk": pk}))
         if response["status"] == "SUCCESS":
             return redirect(response["GatewayPageURL"])
         

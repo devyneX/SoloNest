@@ -15,20 +15,30 @@ from manager_app import models
 
 class ManagerDashboardView(ManagerRequiredMixin, TemplateView):
     template_name = "manager_app/manager_dashboard.html"
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(self.request.user.manager.branch)
         context["branch"] = self.request.user.manager.branch
-        context["tenant_count"] = models.Tenant.objects.filter(
+        tenant_count = models.Tenant.objects.filter(
             room__branch=self.request.user.manager.branch
         ).count()
-        context["room_count"] = models.Room.objects.filter(
+        room_count = models.Room.objects.filter(
             branch=self.request.user.manager.branch
         ).count()
-        context["room_request_count"] = models.RoomRequest.objects.filter(
-            branch=self.request.user.manager.branch
+        room_request_count = models.RoomRequest.objects.filter(
+            branch=self.request.user.manager.branch, status=-1
         ).count()
+        repair_count = models.RepairRequest.objects.filter(
+            tenant__room__branch=self.request.user.manager.branch, completed=False
+        ).count()
+        missing_laundry_count = models.LaundryItem.objects.filter(
+            laundry_request__tenant__room__branch=self.request.user.manager.branch, missing=1
+        ).count()
+        context["tenant_count"] = tenant_count
+        context["room_count"] = room_count
+        context["room_request_count"] = room_request_count
+        context["repair_count"] = repair_count
+        context["missing_laundry_count"] = missing_laundry_count
         return context
 
 
@@ -48,4 +58,3 @@ class BranchEditFormView(ManagerRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user.manager.branch
-

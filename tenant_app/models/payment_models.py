@@ -1,7 +1,6 @@
 from django.db import models
 from accounts.models import *
 from .room_request_models import Tenant, RoomRequest
-from django.utils import timezone
 from django.db.models import F, Sum
 
 
@@ -27,6 +26,7 @@ class BookingFee(models.Model):
         related_name="booking_fee",
         related_query_name="booking_fee",
     )
+    amount = models.IntegerField(default=0)
     date = models.DateField(null=True)
     paid = models.BooleanField(default=False)
     method_choices = [(0, "Cash"), (1, "Online")]
@@ -35,8 +35,7 @@ class BookingFee(models.Model):
 
     def get_amount(self):
         # security deposit is 2 times the rent
-        amount = 2 * self.room_request.assigned_room.calculate_rent()
-        return amount
+        self.amount = 2 * self.room_request.assigned_room.calculate_rent()
 
 
 class Payment(models.Model):
@@ -86,7 +85,8 @@ class Payment(models.Model):
         )["total"]
 
         amount = rent + meals_due + laundry_due
-
+        
+        # TODO: if penalty is added
         # if self.date.day < 5:
         #     return amount
         # elif self.date.day < 10:

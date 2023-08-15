@@ -1,4 +1,4 @@
-from tenant_app import models
+from tenant_app import models, forms
 from django.views.generic import (
     CreateView,
     ListView,
@@ -10,18 +10,22 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 
+import datetime
+
 
 class RoomRequestView(LoginRequiredMixin, CreateView):
     model = models.RoomRequest
     template_name = "tenant_app/room_request.html"
     # TODO: create a form for this
-    fields = ["branch", "room_type", "ac", "balcony", "attached_bathroom"]
+    form_class = forms.RoomRequestForm
 
     def form_valid(self, form):
         if self.request.user.profile.is_complete():
             form.instance.user = self.request.user
+            
             return super().form_valid(form)
         else:
+
             return redirect("tenant:profile")
 
     def get_success_url(self):
@@ -43,7 +47,6 @@ class RoomRequestListView(LoginRequiredMixin, ListView):
 class RoomRequestDetailView(LoginRequiredMixin, DetailView):
     model = models.RoomRequest
     template_name = "tenant_app/room_request_detail.html"
-    exclude = ["user", "status", "assigned_room"]
     context_object_name = "room_request"
 
     def get(self, request, *args, **kwargs):
@@ -55,7 +58,7 @@ class RoomRequestDetailView(LoginRequiredMixin, DetailView):
 class RoomRequestUpdateView(LoginRequiredMixin, UpdateView):
     model = models.RoomRequest
     template_name = "tenant_app/room_request.html"
-    fields = ["room_type", "ac", "balcony", "attached_bathroom"]
+    fields = ["branch", "start_date", "room_type", "ac", "balcony", "attached_bathroom"]
     context_object_name = "room_request"
 
     def get(self, request, *args, **kwargs):

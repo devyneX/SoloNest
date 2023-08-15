@@ -27,12 +27,17 @@
         <li class="mb-3">Rejection Reason: {{ room_request.rejection_reason }}</li>
         {% elif room_request.status == 1 and not room_request.expired %}
         <li class="mb-3">Assigned Room: {{ room_request.assigned_room.room_no }}</li>
-        <li class="mb-3">Expires in: {{ room_request.expires_in }} days</li>
+        <li class="mb-3">Expiry Date: {{ room_request.expiry_date }}</li>
+        {% elif room_request.expired %}
+        <li class="mb-3">This room request has expired</li>
         {% endif %}
     </ul>
     {% if room_request.status == 1 and not room_request.expired %}
-    <button onclick="location.href=`{% url 'payment:booking_fee' room_request.booking_fee.pk %}`">Pay Booking
-        Fee</button>
+    <div class="flex justify-center mt-4">
+        <button onclick="location.href=`{% url 'payment:booking_fee' room_request.booking_fee.pk %}`">Pay Booking
+            Fee</button>
+    </div>
+
     {% endif %}
 </div>
 {% endblock %}
