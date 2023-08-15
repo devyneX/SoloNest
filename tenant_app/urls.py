@@ -113,6 +113,6 @@ urlpatterns = [
         views.LaundryRequestDeleteView.as_view(),
         name="laundry_delete",
     ),
-    # path("feedback/<int:pk>/delete/", views.feedback_view.as_view(), name="feedback"),
+    path("leave-request/", views.LeaveRequestView.as_view(), name="leave_request"),
     path("feedback/", views.FeedbackView.as_view(), name="feedback"),
 ]

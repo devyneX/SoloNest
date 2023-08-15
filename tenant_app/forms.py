@@ -1,9 +1,10 @@
 from typing import Any, Dict
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from . import models
-import datetime
 from django.shortcuts import render, redirect
+import datetime
 
 
 class ProfileUpdateForm(forms.ModelForm):
@@ -152,8 +153,18 @@ class LaundryRequestForm(forms.ModelForm):
             "date": forms.DateInput(attrs={"type": "date", "required": True}),
         }
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
+    def __init__(self, *args, **kwargs):
+        self.tenant = kwargs.pop("tenant", None)
+        super().__init__(*args, **kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        laundry_requests = self.tenant.laundryrequests.filter(~Q(status=6))
+
+        if laundry_requests.exists():
+            raise ValidationError("You have a laundry request in progress. Please wait for it to be completed before making another request.")
+        
 
 
 
@@ -163,3 +174,31 @@ class LaundryItemForm(forms.ModelForm):
     class Meta:
         model = models.LaundryItem
         fields = ["item", "color"]
+
+
+class LeaveRequestForm(forms.ModelForm):
+    error_css_class = "error"
+
+    class Meta:
+        model = models.LeaveRequest
+        fields = ["leave_date"]
+        widgets = {
+            "leave_date": forms.DateInput(attrs={"type": "date", "required": True}),
+        }
+    
+    def clean_leave_date(self):
+        leave_date = self.cleaned_data["leave_date"]
+        today = datetime.date.today()
+        # if leave date is before next month
+        if leave_date.month <= today.month:
+            raise ValidationError("Please make sure to send in your leave request by the 5th of the month prior to the month in which you plan to take your leave.")
+        
+        if leave_date.day != 1:
+            raise ValidationError("You can only leave from the first day of the month")
+        
+        last_month = (leave_date - datetime.timedelta(days=1)).month
+
+        if today.month == last_month and today.day > 5:
+            raise ValidationError("Please make sure to send in your leave request by the 5th of the month prior to the month in which you plan to take your leave.")
+
+        return leave_date

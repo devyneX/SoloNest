@@ -1,20 +1,22 @@
-from django.shortcuts import render
+from django.db import models
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.views import View
+from django.shortcuts import redirect
+from django.urls import reverse_lazy, reverse
 from .utils import TenantRequiredMixin
 from tenant_app import models, forms 
 
 
 class LeaveRequestView(TenantRequiredMixin, CreateView):
     model = models.LeaveRequest
-    fields = ["leave_date"]
-    template_name = 'leave_request.html'
-    success_url = reverse_lazy('tenant_app:')
+    form_class = forms.LeaveRequestForm
+    template_name = 'tenant_app/leave_request.html'
+    success_url = reverse_lazy('tenant:profile')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['leave_request'] = models.LeaveRequest.objects.filter(user=self.request.user)
-        return context
+    def get(self, request, *args, **kwargs):
+        if request.user.tenant.leave_request:
+            return redirect(reverse('tenant:profile'))
+        return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.tenant = self.request.user.tenant

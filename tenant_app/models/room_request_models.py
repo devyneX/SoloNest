@@ -130,10 +130,10 @@ class Tenant(models.Model):
 
 class LeaveRequest(models.Model):
     # leave request should be made a month earlier within 5th of the month
-    tenant = models.ForeignKey(
+    tenant = models.OneToOneField(
         Tenant,
         on_delete=models.CASCADE,
-        related_name="leave_requests",
+        related_name="leave_request",
         related_query_name="leave_request",
     )
     date = models.DateField(default=timezone.now)

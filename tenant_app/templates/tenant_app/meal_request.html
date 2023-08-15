@@ -5,53 +5,67 @@
 {% block form_title %}Request Meal{% endblock %}
 
 {% block form_content %}
-    {% for field in form %}
-    {% if field.field.widget.input_type == "checkbox" %}
-    <div class="mx-2 relative inline-block w-24 align-middle select-none transition duration-200 ease-in cursor-pointer" onclick="toggleSlide(this)">
-        <div class="toggle-bg block overflow-hidden h-8 rounded-full bg-blue-500"></div>
-        <span class="toggle-indicator absolute top-0 right-0 transform translate-x-0 w-12 h-8 bg-white rounded-full shadow-inner transition-transform duration-200 flex items-center justify-center">
-            <span class="text-xs text-gray-700 select-none">On</span>
-        </span>
-    </div>
-    <script>
-        function toggleSlide(element) {
-            let indicator = element.querySelector('.toggle-indicator');
-            let text = indicator.querySelector('span');
-            let toggleBg = element.querySelector('.toggle-bg');
-    
-            if (text.textContent === "On") {
-                indicator.style.transform = 'translateX(-100%)';
-                text.textContent = "Off";
-                toggleBg.classList.remove('bg-blue-500');
-                toggleBg.classList.add('bg-gray-300');
-            } else {
-                indicator.style.transform = 'translateX(0%)';
-                text.textContent = "On";
-                toggleBg.classList.remove('bg-gray-300');
-                toggleBg.classList.add('bg-blue-500');
-            }
-        }
-    </script>
-    
-    {% elif field.id_for_label == "extra_meal" %}
-        <div id="hidden_field" class="hidden">
-            <p class="text-start">{{ field.label }}</p> 
-            {{ field }}
-            {{ field.errors }}
-        </div>
-        <button id="hidden_field_button" type="button" class="px-4 py-2 bg-blue-500 text-white rounded">Add Extra Meal</button>
-        <script>
-            document.getElementById('hidden_field_button').addEventListener('click', function() {
-                document.getElementById('hidden_field').classList = "flex flex-col gap-2";
-                document.getElementById('hidden_field_button').classList = "hidden";
-            });
-        </script>
+{% for field in form %}
+{% if field.field.widget.input_type == "checkbox" %}
+<div class="mx-2 relative inline-block w-16 align-middle select-none transition duration-200 ease-in cursor-pointer"
+    onclick="toggleSlide(this)">
+    {% if field.value %}
+    <div class="toggle-bg block overflow-hidden h-8 rounded-full bg-blue-500"></div>
+    <span
+        class="toggle-indicator absolute top-0 right-0 transform translate-x-0 w-12 h-8 bg-white rounded-full shadow-inner transition-transform duration-200 flex items-center justify-center">
+        <span class="text-xs text-gray-700 select-none">On</span>
+    </span>
     {% else %}
-    <div class="flex flex-col gap-2">
-        <p class="text-start">{{ field.label }}</p> 
-        {{ field }}
-        {{ field.errors }}
-    </div>
+    <div class="toggle-bg block overflow-hidden h-8 rounded-full bg-gray-300"></div>
+    <span
+        class="toggle-indicator absolute top-0 right-0 transform -translate-x-1/2 w-12 h-8 bg-white rounded-full shadow-inner transition-transform duration-200 flex items-center justify-center">
+        <span class="text-xs text-gray-700 select-none">Off</span>
+    </span>
     {% endif %}
-    {% endfor %}
+    <div class="hidden">{{ field }}</div>
+</div>
+<script>
+    function toggleSlide(element) {
+        let indicator = element.querySelector('.toggle-indicator');
+        let text = indicator.querySelector('span');
+        let toggleBg = element.querySelector('.toggle-bg');
+        let input = element.querySelector('#id_on');
+
+        if (text.textContent === "On") {
+            indicator.style.transform = 'translateX(-50%)';
+            text.textContent = "Off";
+            toggleBg.classList.remove('bg-blue-500');
+            toggleBg.classList.add('bg-gray-300');
+            input.checked = false
+        } else {
+            indicator.style.transform = 'translateX(0%)';
+            text.textContent = "On";
+            toggleBg.classList.remove('bg-gray-300');
+            toggleBg.classList.add('bg-blue-500');
+            input.checked = true
+        }
+    }
+</script>
+
+{% elif field.id_for_label == "extra_meal" %}
+<div id="hidden_field" class="hidden">
+    <p class="text-start">{{ field.label }}</p>
+    {{ field }}
+    {{ field.errors }}
+</div>
+<button id="hidden_field_button" type="button" class="px-4 py-2 bg-blue-500 text-white rounded">Add Extra Meal</button>
+<script>
+    document.getElementById('hidden_field_button').addEventListener('click', function () {
+        document.getElementById('hidden_field').classList = "flex flex-col gap-2";
+        document.getElementById('hidden_field_button').classList = "hidden";
+    });
+</script>
+{% else %}
+<div class="flex flex-col gap-2">
+    <p class="text-start">{{ field.label }}</p>
+    {{ field }}
+    {{ field.errors }}
+</div>
+{% endif %}
+{% endfor %}
 {% endblock %}
