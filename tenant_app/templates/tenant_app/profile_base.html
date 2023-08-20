@@ -17,6 +17,12 @@
         <ul class="w-full">
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:profile' %}`">Profile</li>
             {% if request.user.is_tenant %}
+            {% if request.user.tenant.is_active %}
+            <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'payment:monthly_rent_list' %}`">
+                Payment
+            </li>
+            <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:menu' %}`">Meal Menu
+            </li>
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:monthly_meal_list' %}`">Meal
             </li>
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:cleaning_request_list' %}`">
@@ -28,6 +34,7 @@
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:missing_laundry_list' %}`">
                 Missing Laundry</li>
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:feedback' %}`">Feedback</li>
+            {% endif %}
             {% else %}
             <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'tenant:room_request_list' %}`">Room
                 Request</li>

@@ -1,0 +1,27 @@
+{% extends "manager_app/manager_dashboard.html" %}
+
+{% block title %}Meal Menu{% endblock %}
+
+{% block manager_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Meal Menu</h1>
+    <div class="flex justify-center">
+        <button onclick="location.href=`{% url 'manager:menu_maker' %}`">Create New Menu</button>
+    </div>
+    <table>
+        <tr>
+            <th class="text-center">Day</th>
+            <th class="text-center">Lunch</th>
+            <th class="text-center">Dinner</th>
+        </tr>
+        {% for day, lunch, dinner in meals %}
+        <tr>
+            <td class="text-center">{{ day }}</td>
+            <td class="text-center">{{ lunch }}</td>
+            <td class="text-center">{{ dinner }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

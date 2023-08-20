@@ -42,6 +42,7 @@ urlpatterns = [
         views.MealRequestDeleteView.as_view(),
         name="meal_delete",
     ),
+    path("menu/", views.MenuView.as_view(), name="menu"),
     path(
         "request-cleaning/",
         views.CleaningRequestView.as_view(),

@@ -16,8 +16,8 @@
         <tr class="text-center">
             <td>{{ item.get_item_display }}</td>
             <td>{{ item.color }}</td>
-            <td>{{ item.calculate_price }}</td>
-            {% if not item.missing %}
+            <td>{{ item.price }}</td>
+            {% if item.laundry_request.status == 6 and not item.missing %}
             <td><button onclick="location.href=`{% url 'tenant:report_missing' item.pk %}`">Report Missing</button></td>
             {% else %}
             <td>{{ item.get_missing_display }}</td>

@@ -1,0 +1,36 @@
+{% extends "tenant_app/profile_base.html" %}
+
+{% block title %}Monthly Bill{% endblock %}
+
+{% block profile_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Monhtly Bill</h1>
+    <table>
+        <tr>
+            <th>Item</th>
+            <th>Price (TK)</th>
+        </tr>
+        <tr class="text-center">
+            <td>Rent</td>
+            <td>{{ payment.rent }}</td>
+        </tr>
+        <tr class="text-center">
+            <td>Meal</td>
+            <td>{{ payment.meal_due }}</td>
+        </tr>
+        <tr class="text-center">
+            <td>Laundry</td>
+            <td>{{ payment.laundry_due }}</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td>{{ payment.amount }}</td>
+        </tr>
+    </table>
+    <div class='flex justify-center'>
+        <button onclick="location.href=`{% url 'payment:monthly_rent_payment' payment.pk %}`">Proceed to
+            Payment</button>
+    </div>
+
+</div>
+{% endblock %}

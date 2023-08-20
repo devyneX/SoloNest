@@ -9,8 +9,8 @@ from django.views.generic import (
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
+from django.contrib import messages
 
-import datetime
 
 
 class RoomRequestView(LoginRequiredMixin, CreateView):
@@ -25,7 +25,7 @@ class RoomRequestView(LoginRequiredMixin, CreateView):
             
             return super().form_valid(form)
         else:
-
+            messages.error(self.request, "Please complete your profile first")
             return redirect("tenant:profile")
 
     def get_success_url(self):

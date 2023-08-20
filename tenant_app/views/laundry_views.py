@@ -21,7 +21,7 @@ class LaundryRequestView(TenantRequiredMixin, View):
         LaundryItemFormSet = modelformset_factory(
             models.LaundryItem, form=forms.LaundryItemForm, extra=1, max_num=10
         )
-        laundry_request_form = forms.LaundryRequestForm()
+        laundry_request_form = forms.LaundryRequestForm(tenant=self.request.user.tenant)
         laundry_item_formset = LaundryItemFormSet(
             queryset=models.LaundryItem.objects.none(), prefix="laundry_item"
         )
@@ -38,7 +38,7 @@ class LaundryRequestView(TenantRequiredMixin, View):
             models.LaundryItem, form=forms.LaundryItemForm, extra=1, max_num=10
         )
 
-        laundry_request_form = forms.LaundryRequestForm(request.POST)
+        laundry_request_form = forms.LaundryRequestForm(request.POST, tenant=self.request.user.tenant)
         laundry_item_formset = LaundryItemFormSet(request.POST, prefix="laundry_item")
 
         if laundry_request_form.is_valid() and laundry_item_formset.is_valid():
@@ -49,8 +49,8 @@ class LaundryRequestView(TenantRequiredMixin, View):
                 # if form is empty, skip
                 if not item_form.cleaned_data:
                     continue
-                print(item_form.cleaned_data)
                 item = item_form.save(commit=False)
+                item.calculate_price()
                 item.laundry_request = laundry_request
                 item.save()
             return redirect("tenant:laundry_request_list")
@@ -66,13 +66,13 @@ class LaundryRequestListView(TenantRequiredMixin, ListView):
     model = models.LaundryRequest
     template_name = "tenant_app/laundry_request_list.html"
     context_object_name = "laundries"
-
+    
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(
             tenant=self.request.user.tenant, date__month=datetime.date.today().month
         )
-        return queryset
+        return queryset.order_by("-date")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -98,7 +98,7 @@ class LaundryRequestDetailView(TenantRequiredMixin, DetailView):
         return context
 
 
-class LaundryRequestUpdateView(TenantRequiredMixin, UpdateView):
+class LaundryRequestUpdateView(TenantRequiredMixin, View):
     model = models.LaundryRequest
     template_name = "tenant_app/laundry_request.html"
     fields = ["laundry_time", "date"]
@@ -106,6 +106,24 @@ class LaundryRequestUpdateView(TenantRequiredMixin, UpdateView):
     def get(self, request, *args, **kwargs):
         if request.user.tenant.pk != self.get_object().tenant.pk:
             return redirect("tenant:laundry_request_list")
+        
+        laundry = models.LaundryRequest.objects.get(pk=self.kwargs.get("pk"))
+    
+        LaundryItemFormSet = modelformset_factory(
+            models.LaundryItem, form=forms.LaundryItemForm, extra=1, max_num=10
+        )
+
+        laundry_request_form = forms.LaundryRequestForm(instance=laundry)
+        laundry_item_formset = LaundryItemFormSet(
+            queryset=laundry.laundry_items.all(), prefix="laundry_item"
+        )
+
+        context = {
+            "laundry_request_form": laundry_request_form,
+            "laundry_item_formset": laundry_item_formset,
+        }
+
+        return render(request, "tenant_app/laundry_request.html", context)
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):

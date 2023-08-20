@@ -20,7 +20,7 @@ class MealDefaultView(TenantRequiredMixin, UpdateView):
     model = models.Tenant
     template_name = "tenant_app/meal_default.html"
     fields = ["lunch_default", "dinner_default"]
-    success_url = reverse_lazy("tenant:monhtly_meal_list")
+    success_url = reverse_lazy("tenant:monthly_meal_list")
 
     def get_object(self):
         return self.request.user.tenant
@@ -44,6 +44,7 @@ class MealRequestView(TenantRequiredMixin, CreateView):
             return redirect("tenant:monthly_meal_list")
 
         form.instance.tenant = self.request.user.tenant
+        form.instance.price = self.request.user.tenant.room.branch.meal_price * form.instance.get_quantity()
         return super().form_valid(form)
 
 
@@ -107,7 +108,7 @@ class MealRequestUpdateView(TenantRequiredMixin, UpdateView):
         return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
-        form.instance.tenant = self.request.user.tenant
+        form.instance.price = self.request.user.tenant.room.branch.meal_price * form.instance.get_quantity()
         return super().form_valid(form)
 
 
@@ -119,3 +120,30 @@ class MealRequestDeleteView(TenantRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy("tenant:monthly_meal_list")
+
+
+class MenuView(TenantRequiredMixin, DetailView):
+    model = models.MealMonthlyMenu
+    template_name = "tenant_app/meal_menu.html"
+    context_object_name = "menu"
+
+    def get_object(self, queryset=None):
+        return models.MealMonthlyMenu.objects.filter(branch=self.request.user.tenant.room.branch).last()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        menu = self.get_object()
+        if menu is None:
+            return context
+        
+        context["meals"] = [
+            ("Saturday", menu.sat_lunch, menu.sat_dinner), 
+            ("Sunday", menu.sun_lunch, menu.sun_dinner), 
+            ("Monday", menu.mon_lunch, menu.mon_dinner), 
+            ("Tuesday", menu.tue_lunch, menu.tue_dinner), 
+            ("Wednesday", menu.wed_lunch, menu.wed_dinner), 
+            ("Thursday", menu.thu_lunch, menu.thu_dinner), 
+            ("Friday", menu.fri_lunch, menu.fri_dinner)
+        ]
+
+        return context

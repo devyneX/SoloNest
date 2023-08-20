@@ -14,4 +14,6 @@ admin.site.register(models.LaundryRequest)
 admin.site.register(models.LaundryItem)
 admin.site.register(models.BookingFee)
 admin.site.register(models.Payment)
-
+admin.site.register(models.LeaveRequest)
+admin.site.register(models.ArchivedTenant)
+admin.site.register(models.Feedback)

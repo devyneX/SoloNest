@@ -58,3 +58,30 @@ class BranchEditFormView(ManagerRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user.manager.branch
+
+
+class SendOutBillsView(ManagerRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        branch = self.request.user.manager.branch
+        today = datetime.date.today()
+        leaving_tenants = models.Tenant.objects.filter(room__branch=branch, leave_request__date__lte=today)
+        for tenant in leaving_tenants:
+            archived = models.ArchivedTenant.objects.create(user=tenant.user, room=tenant.room, start_date=tenant.start_date, end_date=tenant.leave_request.date)
+            models.Payment.objects.filter(tenant=tenant).update(archived=archived)
+            tenant.booking_fee.archived = archived
+            tenant.booking_fee.save()
+
+            tenant.user.is_tenant = False
+
+            tenant.user.save()
+
+            tenant.delete()
+
+        tenants = models.Tenant.objects.filter(room__branch=branch, start_date__lte=today)
+        for tenant in tenants:
+            if models.Payment.objects.filter(tenant=tenant, month=today.month, year=today.year).exists():
+                continue
+            bill = models.Payment.objects.create(tenant=tenant, month=today.month, year=today.year)
+            bill.get_amount()
+            bill.save()
+        return redirect("manager:manager_dashboard")

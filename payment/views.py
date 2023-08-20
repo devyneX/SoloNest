@@ -1,14 +1,12 @@
 # payment_app/views.py
 from django.shortcuts import render, redirect
 from . import models
-from sslcommerz_python.payment import SSLCSession
-# from decimal import Decimal
 from django.http import HttpResponse
-# from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
-# from django.http import JsonResponse
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from tenant_app.views.utils import TenantRequiredMixin
 from .utils import init_gateway
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -43,19 +41,19 @@ def payment_notification(request):
     pass
 
 
-class BookingFeeView(DetailView):
+class BookingFeeView(LoginRequiredMixin, DetailView):
     model = models.BookingFee
     template_name = "payment/booking_fee_detail.html"
     context_object_name = "booking_fee"
     
 
-class BookingFeePaymentView(View):
+class BookingFeePaymentView(LoginRequiredMixin, View):
     def get(self, request, pk):
         booking_fee = models.BookingFee.objects.get(pk=pk)
         if booking_fee.paid:
             return redirect("tenant:profile")
         
-        if booking_fee.expired():
+        if booking_fee.room_request.expired():
             messages.error(request, "Your booking request has been expired. Please request again.")
             return redirect("tenant:profile")
 
@@ -82,22 +80,39 @@ class BookingFeePaymentSuccessView(View):
         
         booking_fee.user.is_tenant = True
         booking_fee.user.save()
-        tenant = models.Tenant.objects.create(user=booking_fee.user, room=booking_fee.room_request.assigned_room)
+        tenant = models.Tenant.objects.create(user=booking_fee.user, room=booking_fee.room_request.assigned_room, start_date=booking_fee.room_request.start_date)
         booking_fee.tenant = tenant
         booking_fee.save()
+
+        messages.success(request, "Payment Successful")
+
         return redirect("tenant:profile")
     
 
-class MonthlyRentView(DetailView):
+class MonthlyRentListView(TenantRequiredMixin, ListView):
     model = models.Payment
-    template_name = "tenant_app/monthly_payment.html"
+    template_name = "payment/payment_list.html"
+    context_object_name = "payments"
+    
+    def get_queryset(self):
+        return models.Payment.objects.filter(tenant=self.request.user.tenant).order_by("-date")
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["booking_fee"] = self.request.user.tenant.booking_fee
+        return context
+
+
+class MonthlyRentView(TenantRequiredMixin, DetailView):
+    model = models.Payment
+    template_name = "payment/payment_detail.html"
     context_object_name = "payment"
 
 
-class MonthlyRentPaymentView(View):
+class MonthlyRentPaymentView(TenantRequiredMixin, View):
     def get(self, request, pk):
         payment = models.Payment.objects.get(pk=pk)
-        response = init_gateway(request, payment.get_amount(), "Monthly Payment", reverse("payment:monthly_rent_payment_success", kwargs={"pk": pk}))
+        response = init_gateway(request, payment.amount, "Monthly Payment", reverse("payment:monthly_rent_payment_success", kwargs={"pk": pk}))
         if response["status"] == "SUCCESS":
             return redirect(response["GatewayPageURL"])
         
@@ -105,11 +120,24 @@ class MonthlyRentPaymentView(View):
 
 @method_decorator(csrf_exempt, name="dispatch")
 class MonthlyRentPaymentSuccessView(View):
-    def get(self, request, pk):
+    def post(self, request, pk):
+        ipn_data = request.POST
+        
+        if ipn_data["status"] == "VALID" and ipn_data["tran_id"]:
+            transaction_id = ipn_data["tran_id"]
+
+
         payment = models.Payment.objects.get(pk=pk)
+        payment.transaction_id = transaction_id
         payment.paid = True
+        payment.date = datetime.datetime.now()
+        payment.method = 1
+
         payment.save()
-        return redirect("tenant:monthly_rent", pk=pk)
+
+        messages.success(request, "Payment Successful")
+        
+        return redirect("payment:monthly_rent_list")
 
 
 

@@ -8,6 +8,7 @@
     <table>
         <tr>
             <th>User</th>
+            <th>Start Date</th>
             <th>Room Type</th>
             <th>AC</th>
             <th>Balcony</th>
@@ -17,6 +18,7 @@
         {% for room_request, available_rooms in room_requests %}
         <tr onclick="location.href=`{% url 'manager:room_request_detail' room_request.pk %}`">
             <td>{{ room_request.user.first_name }} {{ room_request.user.last_name }}</td>
+            <td>{{ room_request.start_date }}</td>
             <td class="text-center">{{ room_request.get_room_type_display }}</td>
             <td class="text-center">{{ room_request.get_ac_display }}</td>
             {% if room_request.balcony %}
@@ -39,16 +41,16 @@
         </div>
         <div class="text-white">
             {% if page_obj.has_previous %}
-                <a href="?page=1"><i class="fa-solid fa-backward"></i></a>
-                <a href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-backward-step"></i></a>
+            <a href="?page=1"><i class="fa-solid fa-backward"></i></a>
+            <a href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-backward-step"></i></a>
             {% endif %}
 
             {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-forward-step"></i></a>
-                <a href="?page={{ page_obj.paginator.num_pages }}"><i class="fa-solid fa-forward"></i></a>
+            <a href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-forward-step"></i></a>
+            <a href="?page={{ page_obj.paginator.num_pages }}"><i class="fa-solid fa-forward"></i></a>
             {% endif %}
         </div>
     </div>
 </div>
-    
+
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models import F, Count
+from django.db.models import F, Count, Q
 from accounts.models import *
 from django.utils import timezone
 import datetime
@@ -83,7 +83,7 @@ class RoomRequest(models.Model):
     attached_bathroom = models.BooleanField()
     
     # manager
-    assigned_room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True)
+    assigned_room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, related_name="room_requests", related_query_name="room_request")
     expiry_date = models.DateField(null=True)
     status_choices = [(-1, "Pending"), (1, "Approved"), (0, "Rejected")]
     status = models.SmallIntegerField(choices=status_choices, default=-1)
@@ -93,21 +93,22 @@ class RoomRequest(models.Model):
         # TODO: when payment is implemented, filter out rooms with unpaid room_requests
         # leave date should be a month before start date
         # rooms that have empty slots
-        rooms = (
-            Room.objects.filter(
-                branch=self.branch,
-                room_type=self.room_type,
-                ac=self.ac,
-                balcony=self.balcony,
-                attached_bathroom=self.attached_bathroom,
-            )
-            .annotate(tenant_count=Count("tenant"))
-            .filter(tenant_count__lt=F("room_type"))
+        rooms = Room.objects.filter(
+            branch=self.branch,
+            room_type=self.room_type,
+            ac=self.ac,
+            balcony=self.balcony,
+            attached_bathroom=self.attached_bathroom,
         )
+
+        rooms = rooms.annotate(tenant_count=Count("tenant"), leaving_tenants=Count("tenant", filter=Q(tenant__leave_request__leave_date__lte=self.start_date)), room_reqs=Count("room_request", filter=Q(room_request__status=1, room_request__expiry_date__gte=datetime.date.today()))) 
+        
+        rooms = rooms.annotate(empty_slots=F("room_type") - F("tenant_count") - F("room_reqs") + F("leaving_tenants")).filter(empty_slots__gt=0)
+        
         return rooms
     
     def expired(self):
-        return self.expiry_date < datetime.date.today()
+        return self.expiry_date and self.expiry_date < datetime.date.today()
 
 
 class Tenant(models.Model):
@@ -123,9 +124,13 @@ class Tenant(models.Model):
         related_name="tenant",
         related_query_name="tenant",
     )
-    start_date = models.DateField(default=timezone.now)
+    start_date = models.DateField()
     lunch_default = models.BooleanField(default=True)
     dinner_default = models.BooleanField(default=True)
+
+
+    def is_active(self):
+        return self.start_date <= datetime.date.today()
 
 
 class LeaveRequest(models.Model):

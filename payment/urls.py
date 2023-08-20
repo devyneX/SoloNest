@@ -17,7 +17,8 @@ urlpatterns = [
     path("booking_fee/<int:pk>/", views.BookingFeeView.as_view(), name="booking_fee"),
     path("booking_fee/<int:pk>/payment/", views.BookingFeePaymentView.as_view(), name="booking_fee_payment"),
     path("booking_fee/<int:pk>/success/", views.BookingFeePaymentSuccessView.as_view(), name="booking_fee_payment_success"),
-    path("monthly_rent/<int:pk>/", views.MonthlyRentView.as_view(), name="monthly_rent"),
-    path("monthly_rent/<int:pk>/payment/", views.MonthlyRentPaymentView.as_view(), name="monthly_rent_payment"),
-    path("monthly_rent/<int:pk>/success/", views.MonthlyRentPaymentSuccessView.as_view(), name="monthly_rent_payment_success"),
+    path("monthly_bills/", views.MonthlyRentListView.as_view(), name="monthly_rent_list"),
+    path("monthly_bills/<int:pk>/", views.MonthlyRentView.as_view(), name="monthly_rent"),
+    path("monthly_bills/<int:pk>/payment/", views.MonthlyRentPaymentView.as_view(), name="monthly_rent_payment"),
+    path("monthly_bills/<int:pk>/success/", views.MonthlyRentPaymentSuccessView.as_view(), name="monthly_rent_payment_success"),
 ]

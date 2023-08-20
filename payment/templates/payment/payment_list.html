@@ -1,0 +1,37 @@
+{% extends "tenant_app/profile_base.html" %}
+
+{% block title %}Monhtly Bills{% endblock %}
+
+{% block profile_content %}
+<div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
+    <h1 class="text-4xl text-center text-white">Monthly Bills</h1>
+    <table>
+        <tr>
+            <th>Month</th>
+            <th>Amount</th>
+            <th>Paid</th>
+            <th>Date of Payment</th>
+        </tr>
+        <tr>
+            <td>Booking Fee</td>
+            <td>{{ booking_fee.amount }}</td>
+            <td>Yes</td>
+            <td>{{ booking_fee.date }}</td>
+        </tr>
+        {% for payment in payments %}
+        <tr class="text-center">
+            <td>{{ payment.month }}, {{ payment.year }}</td>
+            <td>{{ payment.amount }}</td>
+            {% if payment.paid %}
+            <td>Yes</td>
+            <td>{{ payment.date }}</td>
+            {% else %}
+            <td><button onclick="location.href=`{% url 'payment:monthly_rent' payment.pk %}`">Pay</button></td>
+            <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+{% endblock %}

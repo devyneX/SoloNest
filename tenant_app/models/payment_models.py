@@ -1,6 +1,6 @@
 from django.db import models
 from accounts.models import *
-from .room_request_models import Tenant, RoomRequest
+from .room_request_models import Tenant, RoomRequest, ArchivedTenant
 from django.db.models import F, Sum
 
 
@@ -12,7 +12,7 @@ class BookingFee(models.Model):
         related_name="booking_fee",
         related_query_name="booking_fee",
     )
-    tenant = models.ForeignKey(
+    tenant = models.OneToOneField(
         Tenant,
         on_delete=models.SET_NULL,
         null=True,
@@ -26,12 +26,15 @@ class BookingFee(models.Model):
         related_name="booking_fee",
         related_query_name="booking_fee",
     )
+
     amount = models.IntegerField(default=0)
     date = models.DateField(null=True)
     paid = models.BooleanField(default=False)
     method_choices = [(0, "Cash"), (1, "Online")]
     method = models.SmallIntegerField(choices=method_choices, null=True)
     transaction_id = models.CharField(max_length=100, null=True)
+    
+    archived = models.OneToOneField(ArchivedTenant, on_delete=models.SET_NULL, null=True, related_name="booking_fee", related_query_name="booking_fee")
 
     def get_amount(self):
         # security deposit is 2 times the rent
@@ -39,14 +42,13 @@ class BookingFee(models.Model):
 
 
 class Payment(models.Model):
-    tenant = models.ForeignKey(
+    tenant = models.OneToOneField(
         Tenant, 
         on_delete=models.SET_NULL, 
         null=True,
         related_name="payments", 
         related_query_name="payment"
     )
-    date = models.DateField(null=True)
     month_choices = [
         (1, "January"),
         (2, "February"),
@@ -63,28 +65,44 @@ class Payment(models.Model):
     ]
     month = models.SmallIntegerField(choices=month_choices)
     year = models.SmallIntegerField()
+    
+    rent = models.IntegerField(default=0)
+    meal_due = models.IntegerField(default=0)
+    laundry_due = models.IntegerField(default=0)
+    amount = models.IntegerField(default=0)
+    date = models.DateField(null=True)
     paid = models.BooleanField(default=False)
     method_choices = [(0, "Cash"), (1, "Online")]
     method = models.SmallIntegerField(choices=method_choices, null=True)
     transaction_id = models.CharField(max_length=100, null=True)
 
-    def get_amount(self):
-        rent = self.tenant.room.rent
+    archived = models.OneToOneField(ArchivedTenant, on_delete=models.SET_NULL, null=True, related_name="payment", related_query_name="payment")
+
+    def get_rent(self):
+        self.rent = self.tenant.room.calculate_rent()
+
+    def get_meal_due(self):
         meals = self.tenant.meals.filter(date__month=self.month, date__year=self.year)
-        meals_due = (
-            self.tenant.room.branch.meal_price
-            * meals.filter(on=True)
-            .annotate(quantity=1 + F("extra_meals"))
-            .aggregate(total=Sum("quantity"))["total"]
-        )
-        laundry_reqs = self.tenant.laundry.filter(
+        meals_due = meals.filter(on=True).aggregate(total=Sum("price"))["total"]
+        self.meal_due = meals_due if meals_due else 0
+    
+    def get_laundry_due(self):
+        laundry_reqs = self.tenant.laundry_requests.filter(
             date__month=self.month, date__year=self.year
         )
         laundry_due = laundry_reqs.filter(status=6).aggregate(
-            total=Sum("laundry_items__price")
+            total=Sum("laundry_item__price")
         )["total"]
 
-        amount = rent + meals_due + laundry_due
+        self.laundry_due = laundry_due if laundry_due else 0
+
+
+    def get_amount(self):
+        self.get_rent()
+        self.get_meal_due()
+        self.get_laundry_due()
+
+        self.amount = self.rent + self.meals_due + self.laundry_due
         
         # TODO: if penalty is added
         # if self.date.day < 5:
@@ -93,5 +111,3 @@ class Payment(models.Model):
         #     return amount + 0.1 * rent
         # elif self.date < 15:
         #     return amount + 0.2 * rent
-
-        return amount

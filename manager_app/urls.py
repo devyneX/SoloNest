@@ -6,6 +6,7 @@ app_name = "manager"
 urlpatterns = [
     path("", views.ManagerDashboardView.as_view(), name="manager_dashboard"),
     path("branch/edit/", views.BranchEditFormView.as_view(), name="branch_edit"),
+    path("send-bills/", views.SendOutBillsView.as_view(), name="send_bills"),
     path("users/", views.UserListView.as_view(), name="user_list"),
     path("users/<int:pk>/", views.UserDetailView.as_view(), name="user_detail"),
     path(
@@ -68,7 +69,8 @@ urlpatterns = [
     ),
     path("meal/lunch/", views.LunchListView.as_view(), name="lunch_list"),
     path("meals/dinner/", views.DinnerListView.as_view(), name="dinner_list"),
-    # path("menu-maker/>", views.MenuMaker.as_view(), name="menu_maker"),
+    path("menu-maker/>", views.MenuMaker.as_view(), name="menu_maker"),
+    path("meal/menu/", views.MealMenuView.as_view(), name="menu"),
     path("cleaning/", views.CleaningListView.as_view(), name="cleaning_list"),
     path("cleaning/search", views.CleaningSearchView.as_view(), name="cleaning_search"),
     path("cleaning/<int:year>/<int:month>/<int:day>/", views.CleaningListSearchView.as_view(), name="cleaning_list_search"),

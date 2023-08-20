@@ -14,7 +14,7 @@ class LeaveRequestView(TenantRequiredMixin, CreateView):
     success_url = reverse_lazy('tenant:profile')
 
     def get(self, request, *args, **kwargs):
-        if request.user.tenant.leave_request:
+        if models.LeaveRequest.objects.filter(tenant=self.request.user.tenant).exists():
             return redirect(reverse('tenant:profile'))
         return super().get(request, *args, **kwargs)
 

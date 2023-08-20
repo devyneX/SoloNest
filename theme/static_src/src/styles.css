@@ -59,6 +59,10 @@ tr:hover {
     @apply text-red-500;
 }
 
+.success {
+    @apply text-green-500;
+}
+
 /* Add these to your styles.css */
 @layer components {
     main::-webkit-scrollbar {

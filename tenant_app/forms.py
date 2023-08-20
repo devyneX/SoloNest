@@ -55,7 +55,7 @@ class MealRequestForm(forms.ModelForm):
 
     class Meta:
         model = models.Meal
-        exclude = ["tenant"]
+        exclude = ["tenant", "price"]
         widgets = {
             "date": forms.DateInput(attrs={"type": "date", "required": True}),
             "meal_time": forms.Select(
@@ -160,7 +160,7 @@ class LaundryRequestForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
-        laundry_requests = self.tenant.laundryrequests.filter(~Q(status=6))
+        laundry_requests = self.tenant.laundry_requests.filter(~Q(status=6))
 
         if laundry_requests.exists():
             raise ValidationError("You have a laundry request in progress. Please wait for it to be completed before making another request.")

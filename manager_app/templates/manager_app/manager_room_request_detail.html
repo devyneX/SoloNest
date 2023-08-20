@@ -8,6 +8,7 @@
     <ul class="text-lg">
         <li class="mb-1">{{ room_request.user.first_name }} {{ room_request.user.last_name }}</li>
         <li class="mb-1 text-cyan-600 underline">@{{ room_request.user.username }}</li>
+        <li class="mb-1">Start Date: {{ room_request.start_date }}</li>
         <li class="mt-5 mb-2">Room Preferences</li>
         <li class="mb-1">Room Type: {{ room_request.get_room_type_display }}</li>
         <li class="mb-1">AC: {{ room_request.get_ac_display }}</li>
@@ -24,7 +25,7 @@
         <li class="mb-3">{{ available_rooms }}</li>
     </ul>
     <div class="flex gap-3">
-        <button  onclick="location.href=`{% url 'manager:room_request_approve' room_request.pk %}`">Approve</button>
+        <button onclick="location.href=`{% url 'manager:room_request_approve' room_request.pk %}`">Approve</button>
         <button onclick="location.href=`{% url 'manager:room_request_reject' room_request.pk %}`">Reject</button>
     </div>
 </div>

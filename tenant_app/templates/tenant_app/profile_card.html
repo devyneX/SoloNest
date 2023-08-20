@@ -39,9 +39,6 @@
             {% endif %}
             {% if user.tenant.leave_request %}
             <p class="mt-5 text-xl">Leaving on {{ user.tenant.leave_request.leave_date }}</p>
-            {% else %}
-            <button class="mt-4" onclick="location.href=`{% url 'tenant:leave_request' %}`">
-                Leave Request</button>
             {% endif %}
             {% endif %}
 
@@ -91,6 +88,10 @@
         <button onclick="location.href=`{% url 'accounts:update_user' %}`">Update Account</button>
         <button onclick="location.href=`{% url 'accounts:change_password' %}`">Change Password</button>
         <button onclick="location.href=`{% url 'tenant:profile_update' %}`">Update Profile</button>
+        {% if not user.tenant.leave_request %}
+        <button onclick="location.href=`{% url 'tenant:leave_request' %}`">
+            Leave Request</button>
+        {% endif %}
     </div>
     {% endif %}
 </div>

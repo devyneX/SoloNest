@@ -25,7 +25,7 @@ class LaundryRequest(models.Model):
     def calculate_price(self):
         price = 0
         for item in self.laundry_items.all():
-            price += item.calculate_price()
+            price += item.price
         return price
 
 
@@ -46,6 +46,7 @@ class LaundryItem(models.Model):
         ("pillow cover", "Pillow Cover"),
     ]
     item = models.CharField(max_length=20, choices=item_choices)
+    price = models.IntegerField(default=0)
     color = models.CharField(max_length=20)
     missing_choices = [(0, "No"), (1, "Yes"), (2, "Found"), (3, "Returned")]
     missing = models.SmallIntegerField(choices=missing_choices, default=0)
@@ -58,4 +59,4 @@ class LaundryItem(models.Model):
             price = 50
         else:
             price = 10
-        return price
+        self.price = price

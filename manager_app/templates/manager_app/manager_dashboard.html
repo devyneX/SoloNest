@@ -33,6 +33,8 @@
 
                 <!-- Collapsible Content -->
                 <ul id="collapseContent" class="hidden mt-2 indent-4">
+                    <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:menu' %}`">
+                        Menu</li>
                     <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:lunch_list' %}`">
                         Today's Lunch List</li>
                     <li class="sidebar-links cursor-pointer" onclick="location.href=`{% url 'manager:dinner_list' %}`">
@@ -92,8 +94,8 @@
                     <li class="sidebar-links cursor-pointer"
                         onclick="location.href=`{% url 'manager:laundry_list' 'ready' %}`">
                         Laundry Ready</li>
-                    <li class="sidebar-links cursor-pointer"
-                        onclick="location.href=`{% url 'manager:laundry_list' 'returned' %}`">Returned</li>
+                    <!-- <li class="sidebar-links cursor-pointer"
+                        onclick="location.href=`{% url 'manager:laundry_list' 'delivered' %}`">Returned</li> -->
                 </ul>
             </li>
             <li class="">
@@ -122,25 +124,8 @@
     </div>
     <div class="w-full flex flex-col justify-start items-center">
         {% block manager_content %}
-        <!-- <div class="bg-gray-800 text-white mt-10 p-10 border rounded">
-            <h1>Branch Info</h1>
-            <ul class="w-full">
-                <li>{{ branch.name }}</li>
-                <li>{{ branch.address }}</li>
-                <li>Phone no - {{ branch.phone_no }}</li>
-                <li>Single Room Base Rent - {{ branch.single_room_base_rent }}</li>
-                <li>Double Room Base Rent - {{ branch.double_room_base_rent }}</li>
-                <li>AC Rent Addition - {{ branch.ac_rent_addition }}</li>
-                <li>Balcony Rent Addition - {{ branch.balcony_rent_addition }}</li>
-                <li>Attached Bathroom Rent Addition - {{ branch.attached_bathroom_rent_addition }}</li>
-                <li>Meal Price - {{ branch.meal_price }}</li>
-                <li>Cleaning Slot Limit - {{ branch.cleaning_slot_limit }}</li>
-            </ul>
-            <button onclick="location.href=`{% url 'manager:branch_edit' %}`">Edit Branch Info</button>
-        </div> -->
 
-
-        <body class="relative bg-yellow-50 overflow-hidden max-h-screen">
+        <body class="relative bg-gray-800 overflow-hidden max-h-screen">
 
 
             <main class="pt-16 max-h-screen overflow-auto">
@@ -158,7 +143,7 @@
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-x-2">
-                                    <button type="button"
+                                    <button type="button" onclick="location.href=`{% url 'manager:send_bills' %}`"
                                         class="inline-flex items-center justify-center h-9 px-5 rounded-xl hover:text-white text-sm font-semibold transition">
                                         Send Out Bills
                                     </button>
