@@ -58,7 +58,6 @@ class Room(models.Model):
 
 
 class RoomRequest(models.Model):
-    # room request should be a month before start date
     branch = models.ForeignKey(
         Branch,
         on_delete=models.CASCADE,
@@ -90,9 +89,6 @@ class RoomRequest(models.Model):
     rejection_reason = models.CharField(max_length=100, null=True)
 
     def get_available_rooms(self):
-        # TODO: when payment is implemented, filter out rooms with unpaid room_requests
-        # leave date should be a month before start date
-        # rooms that have empty slots
         rooms = Room.objects.filter(
             branch=self.branch,
             room_type=self.room_type,
@@ -134,7 +130,6 @@ class Tenant(models.Model):
 
 
 class LeaveRequest(models.Model):
-    # leave request should be made a month earlier within 5th of the month
     tenant = models.OneToOneField(
         Tenant,
         on_delete=models.CASCADE,
@@ -143,9 +138,6 @@ class LeaveRequest(models.Model):
     )
     date = models.DateField(default=timezone.now)
     leave_date = models.DateField()
-
-    def is_security_refundable(self):
-        pass
 
 
 class ArchivedTenant(models.Model):

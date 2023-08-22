@@ -16,7 +16,6 @@ from django.contrib import messages
 class RoomRequestView(LoginRequiredMixin, CreateView):
     model = models.RoomRequest
     template_name = "tenant_app/room_request.html"
-    # TODO: create a form for this
     form_class = forms.RoomRequestForm
 
     def form_valid(self, form):
@@ -81,24 +80,24 @@ class RoomRequestUpdateView(LoginRequiredMixin, UpdateView):
         return reverse_lazy("tenant:room_request_detail", kwargs={"pk": self.object.pk})
 
 
-class RoomRequestDeleteView(LoginRequiredMixin, DeleteView):
-    model = models.RoomRequest
-    template_name = "tenant_app/room_request_delete.html"
-    context_object_name = "room_request"
+# class RoomRequestDeleteView(LoginRequiredMixin, DeleteView):
+#     model = models.RoomRequest
+#     template_name = "tenant_app/room_request_delete.html"
+#     context_object_name = "room_request"
 
-    def get(self, request, *args, **kwargs):
-        if request.user.pk != self.get_object().user.pk:
-            return redirect("tenant:room_request_list")
-        if self.get_object().status != -1:
-            return redirect("tenant:room_request_detail", pk=self.get_object().pk)
-        return super().get(request, *args, **kwargs)
+#     def get(self, request, *args, **kwargs):
+#         if request.user.pk != self.get_object().user.pk:
+#             return redirect("tenant:room_request_list")
+#         if self.get_object().status != -1:
+#             return redirect("tenant:room_request_detail", pk=self.get_object().pk)
+#         return super().get(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        if request.user.pk != self.get_object().user.pk:
-            return redirect("tenant:room_request_list")
-        if self.get_object().status != -1:
-            return redirect("tenant:room_request_detail", pk=self.get_object().pk)
-        return super().post(request, *args, **kwargs)
+#     def post(self, request, *args, **kwargs):
+#         if request.user.pk != self.get_object().user.pk:
+#             return redirect("tenant:room_request_list")
+#         if self.get_object().status != -1:
+#             return redirect("tenant:room_request_detail", pk=self.get_object().pk)
+#         return super().post(request, *args, **kwargs)
 
-    def get_success_url(self):
-        return reverse_lazy("tenant:room_request_list")
+#     def get_success_url(self):
+#         return reverse_lazy("tenant:room_request_list")

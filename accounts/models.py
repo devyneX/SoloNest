@@ -13,9 +13,6 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     nid = models.CharField(max_length=13, blank=True)
     birth_certificate = models.CharField(max_length=13, blank=True)
-    # TODO: add passport size picture
-    # TODO: add nid picture
-    # TODO: add birth_certificate picture
     phone_no = models.CharField(max_length=11, blank=True)
     blood_group_choices = [
         ("a+", "A+ve"),
