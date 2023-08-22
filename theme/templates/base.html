@@ -49,6 +49,8 @@
         <button onclick="location.href=`{% url 'accounts:logout' %}`">Log Out</button>
         {% if not request.user.is_manager %}
         <button onclick="location.href=`{% url 'tenant:profile' %}`">Profile</button>
+        {% else %}
+        <button onclick="location.href=`{% url 'manager:manager_dashboard' %}`">Dashboard</button>
         {% endif %}
         {% endif %}
         <button data-collapse-toggle="navbar-sticky" type="button"
