@@ -1,27 +1,21 @@
 {% extends "manager_app/manager_dashboard.html" %}
 
-{% block title %}Missing Laundry{% endblock %}
+{% block title %}Monhtly Bills{% endblock %}
 
 {% block manager_content %}
 <div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
-    <h1 class="text-4xl text-center text-white">Missing Laundry List</h1>
+    <h1 class="text-4xl text-center text-white">Monthly Bills</h1>
     <table>
         <tr>
-            <th>Date</th>
             <th>Tenant</th>
-            <th>Item</th>
-            <th>Color</th>
-            <th>Update</th>
+            <th>Month</th>
+            <th>Amount</th>
         </tr>
-        {% for item in laundry_items %}
+        {% for payment in payments %}
         <tr class="text-center">
-            <td>{{ item.laundry_request.date }}</td>
-            <td>{{ item.laundry_request.tenant.user.first_name }} {{ item.laundry_request.tenant.user.last_name }}</td>
-            <td>{{ item.get_item_display }}</td>
-            <td>{{ item.color }}</td>
-            <td><button onclick="location.href=`{% url 'manager:missing_laundry_update' item.pk %}`">
-                    {{ button}}
-                </button></td>
+            <td>{{ payment.tenant.user.first_name }} {{ payment.tenant.user.last_name }}</td>
+            <td>{{ payment.get_month_display }}, {{ payment.year }}</td>
+            <td>{{ payment.amount }}</td>
         </tr>
         {% endfor %}
     </table>
@@ -57,5 +51,6 @@
             {% endif %}
         </div>
     </div>
+
 </div>
 {% endblock %}

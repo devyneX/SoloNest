@@ -16,7 +16,8 @@
             <th>Rent</th>
         </tr>
         {% for room in rooms %}
-        <tr onclick="location.href=`{% url 'manager:room_detail' room.pk %}`">
+        {% comment %}<tr onclick="location.href=`{% url 'manager:room_detail' room.pk %}`">{% endcomment %}
+        <tr>
             <td class="text-center">{{ room.room_no }}</td>
             <td class="text-center">{{ room.get_room_type_display }}</td>
             <td class="text-center">{{ room.get_ac_display }}</td>
@@ -35,22 +36,6 @@
         </tr>
         {% endfor %}
     </table>
-    <!-- <div class="flex flex-col items-center">
-        <div class="text-white">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </div>
-        <div class="text-white">
-            {% if page_obj.has_previous %}
-            <a href="?page=1"><i class="fa-solid fa-backward"></i></a>
-            <a href="?page={{ page_obj.previous_page_number }}"><i class="fa-solid fa-backward-step"></i></a>
-            {% endif %}
-
-            {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}"><i class="fa-solid fa-forward-step"></i></a>
-            <a href="?page={{ page_obj.paginator.num_pages }}"><i class="fa-solid fa-forward"></i></a>
-            {% endif %}
-        </div>
-    </div> -->
 
     <div class="flex flex-col items-center">
         <!-- Help text -->

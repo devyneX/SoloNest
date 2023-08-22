@@ -50,15 +50,15 @@ class CleaningRequestListView(TenantRequiredMixin, ListView):
 
 
 # NOTE: might not need this view
-class CleaningRequestDetailView(TenantRequiredMixin, DetailView):
-    model = models.CleaningRequest
-    template_name = "tenant_app/cleaning_request_detail.html"
-    context_object_name = "cleaning_request"
+# class CleaningRequestDetailView(TenantRequiredMixin, DetailView):
+#     model = models.CleaningRequest
+#     template_name = "tenant_app/cleaning_request_detail.html"
+#     context_object_name = "cleaning_request"
 
-    def get(self, request, *args, **kwargs):
-        if request.user.tenant.pk != self.get_object().tenant.pk:
-            return redirect("tenant:cleaning_request_list")
-        return super().get(request, *args, **kwargs)
+#     def get(self, request, *args, **kwargs):
+#         if request.user.tenant.pk != self.get_object().tenant.pk:
+#             return redirect("tenant:cleaning_request_list")
+#         return super().get(request, *args, **kwargs)
 
 
 class CleaningRequestUpdateView(TenantRequiredMixin, UpdateView):
@@ -78,20 +78,20 @@ class CleaningRequestUpdateView(TenantRequiredMixin, UpdateView):
         return super().post(request, *args, **kwargs)
 
 
-class CleaningRequestDeleteView(TenantRequiredMixin, DeleteView):
-    model = models.CleaningRequest
-    template_name = "tenant_app/cleaning_request_delete.html"
-    context_object_name = "cleaning_request"
+# class CleaningRequestDeleteView(TenantRequiredMixin, DeleteView):
+#     model = models.CleaningRequest
+#     template_name = "tenant_app/cleaning_request_delete.html"
+#     context_object_name = "cleaning_request"
 
-    def get(self, request, *args, **kwargs):
-        if request.user.tenant.pk != self.get_object().tenant.pk:
-            return redirect("tenant:cleaning_request_list")
-        return super().get(request, *args, **kwargs)
+#     def get(self, request, *args, **kwargs):
+#         if request.user.tenant.pk != self.get_object().tenant.pk:
+#             return redirect("tenant:cleaning_request_list")
+#         return super().get(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        if request.user.tenant.pk != self.get_object().tenant.pk:
-            return redirect("tenant:cleaning_request_list")
-        return super().post(request, *args, **kwargs)
+#     def post(self, request, *args, **kwargs):
+#         if request.user.tenant.pk != self.get_object().tenant.pk:
+#             return redirect("tenant:cleaning_request_list")
+#         return super().post(request, *args, **kwargs)
 
-    def get_success_url(self):
-        return reverse_lazy("tenant:cleaning_request_list")
+#     def get_success_url(self):
+#         return reverse_lazy("tenant:cleaning_request_list")

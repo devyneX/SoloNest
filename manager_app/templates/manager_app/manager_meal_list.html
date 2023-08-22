@@ -18,7 +18,12 @@
             <td class="text-center">{{ meal.get_quantity }}</td>
         </tr>
         {% endfor %}
+        <tr>
+            <td class="text-center"></td>
+            <td class="text-center">Total</td>
+            <td class="text-center">{{ total }}</td>
+        </tr>
     </table>
 </div>
-    
+
 {% endblock %}

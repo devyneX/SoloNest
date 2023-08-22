@@ -9,6 +9,7 @@ class RepairListView(ManagerRequiredMixin, ListView):
     model = models.RepairRequest
     template_name = "manager_app/manager_repair_list.html"
     context_object_name = "repair_requests"
+    paginate_by = 20
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -19,10 +20,10 @@ class RepairListView(ManagerRequiredMixin, ListView):
 
 
 # NOTE: this might not be needed
-class RepairDetailView(ManagerRequiredMixin, DetailView):
-    model = models.RepairRequest
-    template_name = "manager_app/manager_repair_detail.html"
-    context_object_name = "repair_request"
+# class RepairDetailView(ManagerRequiredMixin, DetailView):
+#     model = models.RepairRequest
+#     template_name = "manager_app/manager_repair_detail.html"
+#     context_object_name = "repair_request"
 
 
 class RepairComplete(ManagerRequiredMixin, View):

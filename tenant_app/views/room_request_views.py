@@ -36,12 +36,13 @@ class RoomRequestListView(LoginRequiredMixin, ListView):
     model = models.RoomRequest
     template_name = "tenant_app/room_request_list.html"
     context_object_name = "room_requests"
+    paginate_by = 20
 
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(user=self.request.user)
 
-        return queryset
+        return queryset.order_by("-date")
 
 
 class RoomRequestDetailView(LoginRequiredMixin, DetailView):

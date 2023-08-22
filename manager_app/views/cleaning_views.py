@@ -48,10 +48,10 @@ class CleaningSearchView(ManagerRequiredMixin, FormView):
         return redirect("manager:cleaning_list_search", year=form.cleaned_data["date"].year, month=form.cleaned_data["date"].month, day=form.cleaned_data["date"].day)
 
 
-class CleaningDetailView(ManagerRequiredMixin, DetailView):
-    model = models.CleaningRequest
-    template_name = "manager_app/manager_cleaning_detail.html"
-    context_object_name = "cleaning_request"
+# class CleaningDetailView(ManagerRequiredMixin, DetailView):
+#     model = models.CleaningRequest
+#     template_name = "manager_app/manager_cleaning_detail.html"
+#     context_object_name = "cleaning_request"
 
 
 class CleaningComplete(ManagerRequiredMixin, View):

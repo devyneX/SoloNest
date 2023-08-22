@@ -1,9 +1,9 @@
-from typing import Any, Dict, Optional
 from django.db import models
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from .utils import ManagerRequiredMixin
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
+from django.db.models import Sum, F, IntegerField
 from manager_app import models
 import datetime
 
@@ -21,9 +21,12 @@ class LunchListView(ManagerRequiredMixin, ListView):
             if not models.Meal.objects.filter(
                 tenant=tenant, date=datetime.date.today(), meal_time=0
             ).exists():
-                models.Meal.objects.create(
+                meal = models.Meal.objects.create(
                     tenant=tenant, date=datetime.date.today(), meal_time=0, on=tenant.lunch_default
                 )
+                meal.get_price()
+                meal.save()
+
         queryset = super().get_queryset()
         queryset = queryset.filter(
             on=True,
@@ -35,6 +38,8 @@ class LunchListView(ManagerRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["total"] = self.get_queryset().filter(meal_time=0, on=True).annotate(quantity=1 + F("extra_meal")).aggregate(total=Sum("quantity", output_field=IntegerField()))["total"]
+        context["total"] = 0 if not context["total"] else context["total"]
         context["meal_time"] = "Lunch"
         return context
 
@@ -52,9 +57,11 @@ class DinnerListView(ManagerRequiredMixin, ListView):
             if not models.Meal.objects.filter(
                 tenant=tenant, date=datetime.date.today(), meal_time=1
             ).exists():
-                models.Meal.objects.create(
+                meal = models.Meal.objects.create(
                     tenant=tenant, date=datetime.date.today(), meal_time=1, on=tenant.dinner_default
                 )
+                meal.get_price()
+                meal.save()
 
         queryset = super().get_queryset()
 
@@ -69,6 +76,8 @@ class DinnerListView(ManagerRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["total"] = self.get_queryset().filter(meal_time=1, on=True).annotate(quantity=1 + F("extra_meal")).aggregate(total=Sum("quantity", output_field=IntegerField()))["total"]
+        context["total"] = 0 if not context["total"] else context["total"]
         context["meal_time"] = "Dinner"
         return context
 

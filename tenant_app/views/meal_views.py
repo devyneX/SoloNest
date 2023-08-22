@@ -39,8 +39,11 @@ class MealRequestView(TenantRequiredMixin, CreateView):
             meal_time=form.cleaned_data["meal_time"],
         )
         if meal_request.exists():
-            meal_request[0].on = form.cleaned_data["on"]
-            meal_request[0].extra_meal = form.cleaned_data["extra_meal"]
+            meal_request = meal_request.first()
+            meal_request.on = form.cleaned_data["on"]
+            meal_request.extra_meal = form.cleaned_data["extra_meal"]
+            meal_request.price = self.request.user.tenant.room.branch.meal_price * form.instance.get_quantity()
+            meal_request.save()
             return redirect("tenant:monthly_meal_list")
 
         form.instance.tenant = self.request.user.tenant
@@ -80,20 +83,20 @@ class MonthlyMealListView(TenantRequiredMixin, ListView):
             context["total_dinner"] = 0
         context["total_meal"] = context["total_lunch"] + context["total_dinner"]
         context["meal_price"] = self.request.user.tenant.room.branch.meal_price
-        context["total_price"] = context["meal_price"] * context["total_meal"]
+        context["total_price"] = queryset.aggregate(price=Sum("price"))["price"]
         return context
 
 
 # NOTE: this might not be needed
-class MealRequestDetailView(TenantRequiredMixin, DetailView):
-    model = models.Meal
-    template_name = "tenant_app/meal_request_detail.html"
-    context_object_name = "meal"
+# class MealRequestDetailView(TenantRequiredMixin, DetailView):
+#     model = models.Meal
+#     template_name = "tenant_app/meal_request_detail.html"
+#     context_object_name = "meal"
 
-    def get(self, request, *args, **kwargs):
-        if request.user.tenant.pk != self.get_object().tenant.pk:
-            return redirect("tenant:monthly_meal_list")
-        return super().get(request, *args, **kwargs)
+#     def get(self, request, *args, **kwargs):
+#         if request.user.tenant.pk != self.get_object().tenant.pk:
+#             return redirect("tenant:monthly_meal_list")
+#         return super().get(request, *args, **kwargs)
 
 
 class MealRequestUpdateView(TenantRequiredMixin, UpdateView):
@@ -113,13 +116,13 @@ class MealRequestUpdateView(TenantRequiredMixin, UpdateView):
 
 
 # NOTE: this might not be needed
-class MealRequestDeleteView(TenantRequiredMixin, DeleteView):
-    model = models.Meal
-    template_name = "tenant_app/meal_request_delete.html"
-    context_object_name = "meal"
+# class MealRequestDeleteView(TenantRequiredMixin, DeleteView):
+#     model = models.Meal
+#     template_name = "tenant_app/meal_request_delete.html"
+#     context_object_name = "meal"
 
-    def get_success_url(self):
-        return reverse_lazy("tenant:monthly_meal_list")
+#     def get_success_url(self):
+#         return reverse_lazy("tenant:monthly_meal_list")
 
 
 class MenuView(TenantRequiredMixin, DetailView):

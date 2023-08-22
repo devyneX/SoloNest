@@ -1,10 +1,10 @@
 {% extends "manager_app/manager_dashboard.html" %}
 
-{% block title %}Today's Meal{% endblock %}
+{% block title %}Repair Requests{% endblock %}
 
 {% block manager_content %}
 <div class="w-5/6 bg-slate-800 rounded-xl my-10 p-10 flex flex-col justify-center gap-5">
-    <h1 class="text-4xl text-center text-white">{{ meal_time }}</h1>
+    <h1 class="text-4xl text-center text-white">Repair Requests</h1>
     <table>
         <tr>
             <th class="text-center">Tenant Name</th>
@@ -22,11 +22,44 @@
             {% if repair.completed %}
             <td class="text-center">Yes</td>
             {% else %}
-            <td class="text-center"><button onclick="location.href=`{% url 'manager:repair_complete' repair.pk %}`">Complete</button></td>
+            <td class="text-center"><button
+                    onclick="location.href=`{% url 'manager:repair_complete' repair.pk %}`">Complete</button></td>
             {% endif %}
         </tr>
         {% endfor %}
     </table>
+    <div class="flex flex-col items-center">
+        <!-- Help text -->
+        <span class="text-sm text-gray-700 dark:text-gray-400">
+            Page <span class="font-semibold text-gray-900 dark:text-white">{{ page_obj.number }}</span> of <span
+                class="font-semibold text-gray-900 dark:text-white">{{ page_obj.paginator.num_pages }}</span>
+        </span>
+        <div class="inline-flex mt-2 xs:mt-0">
+            <!-- Buttons -->
+            {% if page_obj.has_previous %}
+            <button onclick="location.href='?page={{ page_obj.previous_page_number }}'"
+                class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                <svg class="w-3.5 h-3.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 5H1m0 0 4 4M1 5l4-4" />
+                </svg>
+                Prev
+            </button>
+            {% endif %}
+            {% if page_obj.has_next %}
+            <button onclick="location.href='?page={{ page_obj.next_page_number }}'"
+                class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-l border-gray-700 rounded-r hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Next
+                <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M1 5h12m0 0L9 1m4 4L9 9" />
+                </svg>
+            </button>
+            {% endif %}
+        </div>
+    </div>
 </div>
-    
+
 {% endblock %}

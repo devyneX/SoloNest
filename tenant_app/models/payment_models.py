@@ -102,7 +102,7 @@ class Payment(models.Model):
         self.get_meal_due()
         self.get_laundry_due()
 
-        self.amount = self.rent + self.meals_due + self.laundry_due
+        self.amount = self.rent + self.meal_due + self.laundry_due
         
         # TODO: if penalty is added
         # if self.date.day < 5:

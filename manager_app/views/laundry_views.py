@@ -1,10 +1,10 @@
-from typing import Any, Dict
 from .utils import ManagerRequiredMixin
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView
 from django.views import View
 from django.forms import modelformset_factory
 from django.shortcuts import redirect
 from manager_app import models, forms
+from django.http import Http404
 
 
 
@@ -12,6 +12,18 @@ class LaundryListView(ManagerRequiredMixin, ListView):
     model = models.LaundryRequest
     template_name = "manager_app/manager_laundry_list.html"
     context_object_name = "laundry_requests"
+    paginate_by = 20
+
+
+    def get(self, request, status, *args, **kwargs):
+        d = [k.lower() for v, k in models.LaundryRequest.status_choices]
+
+        if status not in d:
+            # return 404
+            raise Http404
+        
+        return super().get(request, *args, **kwargs)
+
 
 
     def get_queryset(self):
@@ -26,11 +38,12 @@ class LaundryListView(ManagerRequiredMixin, ListView):
     def get_context_data(self):
         LaundrySelectionFormSet = modelformset_factory(models.LaundryRequest, form=forms.LaundrySelectionFrom, extra=0)
         formset = LaundrySelectionFormSet(queryset=self.get_queryset())
-        context = {
+        context = super().get_context_data()
+        context.update({
             "objects_and_forms": zip(self.get_queryset(), formset), 
             "formset": formset,
             "status": self.kwargs["status"],
-            }
+        })
         return context
 
 
@@ -70,6 +83,12 @@ class MissingLaundryListView(ManagerRequiredMixin, ListView):
     model = models.LaundryItem
     template_name = "manager_app/manager_missing_laundry.html"
     context_object_name = "laundry_items"
+    paginate_by = 20
+
+    def get(self, request, missing, *args, **kwargs):
+        if missing not in ["missing", "found"]:
+            raise Http404
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         missing = 1 if self.kwargs["missing"] == "missing" else 2

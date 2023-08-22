@@ -160,6 +160,11 @@ class LaundryRequestForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
 
+        if cleaned_data["date"] <= datetime.date.today():
+            raise ValidationError(
+                "You have to request laundry at least one day in advance"
+            )
+
         laundry_requests = self.tenant.laundry_requests.filter(~Q(status=6))
 
         if laundry_requests.exists():

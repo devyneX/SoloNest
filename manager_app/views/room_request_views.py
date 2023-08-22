@@ -13,7 +13,7 @@ class RoomRequestListView(ManagerRequiredMixin, ListView):
     model = models.RoomRequest
     template_name = "manager_app/manager_room_request_list.html"
     context_object_name = "room_requests"
-    paginate_by = 10
+    paginate_by = 20
 
     def get_queryset(self):
         return self.model.objects.filter(
@@ -21,8 +21,9 @@ class RoomRequestListView(ManagerRequiredMixin, ListView):
         ).order_by("start_date", "date")
 
     def get_context_data(self, **kwargs):
-        room_requests = super().get_context_data(**kwargs)["room_requests"]
-        context = {"room_requests": []}
+        context = super().get_context_data(**kwargs)
+        room_requests = context["room_requests"]
+        context["room_requests"] = []
         for room_request in room_requests:
             context["room_requests"].append(
                 (room_request, room_request.get_available_rooms().count())

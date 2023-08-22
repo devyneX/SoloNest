@@ -12,17 +12,17 @@ from manager_app import models
 
 
 # NOTE: might use
-class RoomCreateView(ManagerRequiredMixin, CreateView):
-    model = models.Room
-    template_name = "manager_app/manager_room_create.html"
-    context_object_name = "room"
+# class RoomCreateView(ManagerRequiredMixin, CreateView):
+#     model = models.Room
+#     template_name = "manager_app/manager_room_create.html"
+#     context_object_name = "room"
 
 
 class RoomListView(ManagerRequiredMixin, ListView):
-    paginate_by = 10
     model = models.Room
     template_name = "manager_app/manager_room_list.html"
     context_object_name = "rooms"
+    paginate_by = 20
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -30,20 +30,20 @@ class RoomListView(ManagerRequiredMixin, ListView):
         return queryset
 
 
-class RoomDetailView(ManagerRequiredMixin, DetailView):
-    model = models.Room
-    template_name = "manager_app/manager_room_detail.html"
-    context_object_name = "room"
+# class RoomDetailView(ManagerRequiredMixin, DetailView):
+#     model = models.Room
+#     template_name = "manager_app/manager_room_detail.html"
+#     context_object_name = "room"
 
 
-class RoomUpdateView(ManagerRequiredMixin, UpdateView):
-    model = models.Room
-    template_name = "manager_app/manager_room_update.html"
-    context_object_name = "room"
-    success_url = reverse_lazy("manager:room_list")
+# class RoomUpdateView(ManagerRequiredMixin, UpdateView):
+#     model = models.Room
+#     template_name = "manager_app/manager_room_update.html"
+#     context_object_name = "room"
+#     success_url = reverse_lazy("manager:room_list")
 
 
-class RoomDeleteView(ManagerRequiredMixin, DeleteView):
-    model = models.Room
-    template_name = "manager_app/manager_room_delete.html"
-    context_object_name = "room"
+# class RoomDeleteView(ManagerRequiredMixin, DeleteView):
+#     model = models.Room
+#     template_name = "manager_app/manager_room_delete.html"
+#     context_object_name = "room"

@@ -67,33 +67,7 @@
   </nav>
 
   <div class="mb-auto">
-    {% if messages %}
-    <div class="flex flex-col items-center m-3">
-      {% for message in messages %}
-      <div {% if message.tags %}
-        class="flex items-center p-4 mb-4 text-red-800 border-t-4 rounded-xl border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
-        role="alert" {% else %}
-        class="flex items-center p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
-        {% endif %}>
-
-        <i class="fas fa-info-circle flex-shrink-0 w-4 h-4" aria-hidden="true"></i>
-
-        <div class="ml-3 text-sm font-medium {{ message.tags }}">{{ message }}</div>
-        <button type="button"
-          class="ml-auto bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-3 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700"
-          aria-label="Close">
-          <span class="sr-only">Dismiss</span>
-          <i class="fas fa-times w-3 h-3" aria-hidden="true"></i>
-        </button>
-      </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-
-    {% block content %}
-
-
-    {% endblock %}
+    {% block content %}{% endblock %}
   </div>
   <footer class="bg-gray-800 border border-gray-700">
     <div class="w-full p-4 py-6 lg:py-8">
@@ -195,19 +169,6 @@
       </div>
     </div>
   </footer>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const closeButtons = document.querySelectorAll('button[aria-label="Close"]');
-
-      closeButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-          // Hide the parent div (which is the message)
-          button.parentElement.style.display = 'none';
-        });
-      });
-    });
-
-  </script>
 </body>
 
 </html>

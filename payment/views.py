@@ -93,6 +93,7 @@ class MonthlyRentListView(TenantRequiredMixin, ListView):
     model = models.Payment
     template_name = "payment/payment_list.html"
     context_object_name = "payments"
+    paginate_by = 20
     
     def get_queryset(self):
         return models.Payment.objects.filter(tenant=self.request.user.tenant).order_by("-date")
@@ -117,6 +118,7 @@ class MonthlyRentPaymentView(TenantRequiredMixin, View):
             return redirect(response["GatewayPageURL"])
         
         return redirect("payment:monthly_rent", pk=pk)
+
 
 @method_decorator(csrf_exempt, name="dispatch")
 class MonthlyRentPaymentSuccessView(View):
