@@ -14,9 +14,7 @@
             <th>Description</th>
         </tr>
         {% for repair_request in repairs %}
-        {% comment %}<tr class="text-center"
-            onclick="location.href=`{% url 'tenant:repair_request_detail' repair_request.pk %}`">{% endcomment %}
-        <tr class="text-center">
+        <tr class="text-center" onclick="location.href=`{% url 'tenant:repair_request_update' repair_request.pk %}`">
             <td>{{ repair_request.date }}</td>
             <td>{{ repair_request.description }}</td>
         </tr>

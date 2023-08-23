@@ -54,7 +54,7 @@ class BranchEditFormView(ManagerRequiredMixin, UpdateView):
         "cleaning_slot_limit",
     ]
     template_name = "manager_app/branch_edit.html"
-    success_url = "/manager/dashboard/"
+    success_url = reverse_lazy("manager:manager_dashboard")
 
     def get_object(self, queryset=None):
         return self.request.user.manager.branch

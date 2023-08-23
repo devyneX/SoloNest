@@ -26,8 +26,6 @@ class CleaningListSearchView(ManagerRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        # TOOD: add validation for date
-
         date = datetime.date(year=self.kwargs["year"], month=self.kwargs["month"], day=self.kwargs["day"])
 
         queryset = queryset.filter(status=0, date=date, tenant__room__branch=self.request.user.manager.branch)
