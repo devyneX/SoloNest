@@ -48,7 +48,6 @@ class LaundryRequestView(TenantRequiredMixin, View):
             laundry_request.save()
             count = 0
             for item_form in laundry_item_formset:
-                # if form is empty, skip
                 if not item_form.cleaned_data:
                     continue
                 count += 1
@@ -94,7 +93,6 @@ class LaundryRequestDetailView(TenantRequiredMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         if request.user.tenant.pk != self.get_object().tenant.pk:
-            # TODO: return Bad Request
             return redirect("tenant:laundry_request_list")
             
         return super().get(request, *args, **kwargs)

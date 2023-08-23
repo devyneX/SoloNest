@@ -30,7 +30,6 @@ class LaundryListView(ManagerRequiredMixin, ListView):
         d = {k.lower(): v for v, k in models.LaundryRequest.status_choices}
         status = d.get(self.kwargs["status"], None)
         if status is None:
-            # TODO: add error handling
             pass
 
         return models.LaundryRequest.objects.filter(status=status, tenant__room__branch=self.request.user.manager.branch).order_by("date")
@@ -49,7 +48,6 @@ class LaundryListView(ManagerRequiredMixin, ListView):
 
 class LaundryNextStepView(ManagerRequiredMixin, View):
     def post(self, request, status):
-        
         LaundrySelectionFormSet = modelformset_factory(models.LaundryRequest, form=forms.LaundrySelectionFrom, extra=0)
         formset = LaundrySelectionFormSet(request.POST)
         if formset.is_valid():
@@ -71,12 +69,12 @@ class LaundryDetailView(ManagerRequiredMixin, DetailView):
         return context
 
 
-class LaundryUpdateView(ManagerRequiredMixin, UpdateView):
-    model = models.LaundryRequest
-    template_name = "manager_app/manager_laundry_update.html"
-    context_object_name = "laundry_request"
-    fields = ["status"]
-    success_url = "/manager/laundry"
+# class LaundryUpdateView(ManagerRequiredMixin, UpdateView):
+#     model = models.LaundryRequest
+#     template_name = "manager_app/manager_laundry_update.html"
+#     context_object_name = "laundry_request"
+#     fields = ["status"]
+#     success_url = "/manager/laundry"
 
 
 class MissingLaundryListView(ManagerRequiredMixin, ListView):

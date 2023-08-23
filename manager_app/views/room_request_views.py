@@ -64,7 +64,7 @@ class RoomRequestApprovalView(ManagerRequiredMixin, UpdateView):
         booking_fee.save()
 
         subject = "Room Request Approved"
-        message = f"Your room request has been approved. You have been assigned room no. {form.instance.assigned_room.room_no}. Please pay the booking fee of Rs. {booking_fee.amount} to confirm your booking."
+        message = f"Your room request has been approved. You have been assigned room no. {form.instance.assigned_room.room_no}. Please pay the booking fee of TK. {booking_fee.amount} to confirm your booking."
         from_email = settings.EMAIL_HOST_USER
         recepient_list = [form.instance.user.email]
         send_mail(subject, message, from_email, recepient_list)

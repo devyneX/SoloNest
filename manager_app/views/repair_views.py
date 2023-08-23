@@ -19,7 +19,6 @@ class RepairListView(ManagerRequiredMixin, ListView):
         return queryset.order_by("date")
 
 
-# NOTE: this might not be needed
 # class RepairDetailView(ManagerRequiredMixin, DetailView):
 #     model = models.RepairRequest
 #     template_name = "manager_app/manager_repair_detail.html"
